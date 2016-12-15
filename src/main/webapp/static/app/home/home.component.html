@@ -1,0 +1,29 @@
+<div>
+  <form [formGroup]="reportForm" (ngSubmit)="save(reportForm)">
+    <div  id="user_report_form" >
+      <div id="user_report_block">
+        <div>
+            <select_model [select_model]="select_model"></select_model>
+        </div>
+        <div>
+            <div class="text_area_model" fz-elastic >
+                <label>Review</label>
+                <textarea formControlName='review'></textarea>
+            </div>
+            <div class="text_area_model" fz-elastic >
+                <label>Issues/Questions</label>
+                <textarea formControlName='issues'></textarea>
+            </div>
+            <div class="text_area_model" fz-elastic >
+                <label>Plans</label>
+                <textarea formControlName='plans'></textarea>
+            </div>
+        </div>
+        <div>
+          <button_model *ngFor="let button_model of button_models" [button_model]="button_model" ></button_model>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+

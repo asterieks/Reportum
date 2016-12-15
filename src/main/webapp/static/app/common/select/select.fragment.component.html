@@ -1,0 +1,6 @@
+<div class="select_block">
+    <label>{{ select_model.name }}</label>
+    <select [ngModel]="option" disabled>
+        <option *ngFor="let option of options" [ngValue]="option">{{option.label}}</option>
+    </select>
+</div>
