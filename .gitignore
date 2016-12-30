@@ -1,1 +1,5 @@
 .idea
+.src/lib/node
+.src/main/webapp/static/build
+.src/main/webapp/static/node_modules
+CurrencyAnalizer.iml

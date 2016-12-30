@@ -1,10 +1,10 @@
 {
-  "name": "fem-ng2-simple-app",
+  "name": "Reportum",
   "version": "0.0.1",
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/onehungrymind/fem-ng2-simple-app/"
+    "url": "https://github.com/asterieks/Reportum/"
   },
   "scripts": {
     "start": "webpack-dev-server --inline --colors --watch --display-error-details --display-cached  --port 3001 --hot",
@@ -22,15 +22,15 @@
     "@angular/upgrade": "2.2.1",
     "core-js": "2.4.1",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "0.6.26"
-  },
-  "devDependencies": {
+    "zone.js": "0.6.26",
     "reflect-metadata": "0.1.8",
     "systemjs": "^0.19.27",
     "@ng-bootstrap/ng-bootstrap":"1.0.0-alpha.14",
     "angular2-elastic":"0.10.0",
     "awesome-typescript-loader": "^0.17.0",
-    "core-js": "^2.4.0",
+    "core-js": "^2.4.0"
+  },
+  "devDependencies": {
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-coverage": "^1.0.0",
@@ -43,7 +43,6 @@
     "raw-loader": "^0.5.1",
     "source-map-loader": "^0.1.5",
     "typescript": "^1.8.10",
-    "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^1.14.0"
   }
 }

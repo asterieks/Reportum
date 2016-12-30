@@ -1,4 +1,4 @@
-export interface ButtonModel {
+export class Button {
   name: string;
   id: string;
 }

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ButtonModel } from './button.model';
+
+import { Button }           from './button.model';
 
 @Component ({
     selector: 'button_model',
@@ -8,6 +9,6 @@ import { ButtonModel } from './button.model';
 })
 
 export class ButtonComponent {
-    @Input() button_model: ButtonModel;
+    @Input() button_model: Button;
 
 }

@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { SelectModel } from './select.fragment.model';
-import { ProjectService } from '../project.service';
-import { Project }  from '../models/project.model';
-import { HttpModule } from '@angular/http';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { HttpModule }     from '@angular/http';
+
+import { ProjectService } from '../project/project.service';
+
+import { SelectLabel }    from './select.label.model';
+import { Project }        from '../project/project.model';
 
 @Component ({
     selector: 'select_model',
@@ -11,12 +13,10 @@ import { HttpModule } from '@angular/http';
 })
 
 export class SelectComponent implements OnInit {
-    errorMessage: string;
-    multiple: boolean = false;
-    options: Array<any> = [];
-    options1: Array<any> = [];
-    option;
-    mode = 'Observable';
+    projects: Array<Project> = [];
+
+    @Input() select_model: SelectLabel;
+    @Output() binder: EventEmitter<number> = new EventEmitter<number>();
 
     constructor (private projectService: ProjectService) {}
 
@@ -25,29 +25,17 @@ export class SelectComponent implements OnInit {
     }
 
     getUserProjects() {
-        this.projectService.getUserProjects().
-            map((tasks: Array<any>) =>
-                {
-                    if (tasks)
-                        {
-                            let numOptions = tasks.length;
-                            let opts = new Array(numOptions);
-                            for (let i = 0; i < numOptions; i++) {
-                                opts[i] = {
-                                        value: tasks[i].projectName.toString(),
-                                        label: tasks[i].projectName.toString()
-                                };
-                            }
-                            this.options = opts.slice(0);
-                            this.option=this.options[0];
-
-                        }
-                    return tasks;
+        this.projectService.getUserProjects().map((projects: Array<Project>) =>
+            {
+                if (projects) {
+                    this.projects = projects;
+                    this.binder.emit(projects[0].projectId);
                 }
-            ).subscribe(result => this.options1 = result);
-
+            }
+        ).subscribe();
     }
 
-
-    @Input() select_model: SelectModel;
+    onChange(selectedProjectId:number) {
+        this.binder.emit(selectedProjectId);
+    }
 }

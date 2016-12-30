@@ -1,20 +1,20 @@
 import { Injectable }    from '@angular/core';
 
-import { SelectModel }   from '../common/select/select.fragment.model';
-import { ButtonModel }   from '../common/button/button.model';
+import { SelectLabel }   from '../common/select/select.label.model';
+import { Button }        from '../common/button/button.model';
 
 @Injectable()
 export class HomeService {
-  private select_model: SelectModel = { name: 'Project name' };
-  private button_models: ButtonModel [] = [
+  private select_model: SelectLabel = { name: 'Project name' };
+  private button_models: Button[] = [
     {name: 'Save', id:'user_send_button'}
   ];
 
-  getSelect(): SelectModel {
+  getSelect(): SelectLabel {
     return this.select_model;
   };
 
-  getButton(): ButtonModel[]{
+  getButton(): Button[]{
     return this.button_models;
   };
 }

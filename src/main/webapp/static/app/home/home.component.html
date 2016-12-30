@@ -3,7 +3,7 @@
     <div  id="user_report_form" >
       <div id="user_report_block">
         <div>
-            <select_model [select_model]="select_model"></select_model>
+            <select_model [select_model]="select_model" (binder)='onChange($event)'></select_model>
         </div>
         <div>
             <div class="text_area_model" fz-elastic >

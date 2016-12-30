@@ -1,6 +1,6 @@
 <div class="select_block">
     <label>{{ select_model.name }}</label>
-    <select [ngModel]="option" disabled>
-        <option *ngFor="let option of options" [ngValue]="option">{{option.label}}</option>
+    <select  (change)='onChange($event.target.value)'>
+        <option *ngFor="let project of projects" value={{project.projectId}}>{{project.projectName}}</option>
     </select>
 </div>

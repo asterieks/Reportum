@@ -5,12 +5,11 @@ import { HttpModule }          from '@angular/http';
 import { Elastic }             from 'angular2-elastic';
 
 import { HomeService }         from './home.service';
-import { ProjectService }      from '../common/project.service';
-import { ReportService }       from '../common/report.service';
+import { ProjectService }      from '../common/project/project.service';
+import { ReportService }       from '../common/report/report.service';
 
 import { HomeComponent }       from './home.component';
 import { SelectComponent }     from '../common/select/select.fragment.component';
-
 import { ButtonComponent }     from '../common/button/button.component';
 
 

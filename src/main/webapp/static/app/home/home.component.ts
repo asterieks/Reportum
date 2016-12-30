@@ -6,12 +6,11 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { SelectComponent }   from '../common/select/select.fragment.component';
 
 import { HomeService }       from './home.service';
-import { ReportService }     from '../common/report.service';
+import { ReportService }     from '../common/report/report.service';
 
-import { ButtonModel }       from '../common/button/button.model';
-import { SelectModel }       from '../common/select/select.fragment.model';
-import { ReportModel }       from '../common/models/report.model';
-
+import { Button }            from '../common/button/button.model';
+import { SelectLabel }       from '../common/select/select.label.model';
+import { Report }            from '../common/report/report.model';
 
 @Component({
     selector: 'home',
@@ -20,9 +19,10 @@ import { ReportModel }       from '../common/models/report.model';
 })
 
 export class HomeComponent implements OnInit {
-    select_model: SelectModel;
-    button_models: ButtonModel[];
     public reportForm: FormGroup;
+    select_model: SelectLabel;
+    button_models: Button[];
+    selectedProjectId: number;
 
     constructor(private _homeService: HomeService, private _fb: FormBuilder, private _reportService: ReportService){}
 
@@ -37,19 +37,20 @@ export class HomeComponent implements OnInit {
     }
 
     save(model: any) {
-        console.log("save");
         let report= {
             review: model.value.review,
             issues: model.value.issues,
             plans: model.value.plans,
-            reporter: 'asterieks@gmail.com'
+            project: this.selectedProjectId
         };
         this.addReport(report);
     }
 
-    addReport(report: ReportModel){
-        this._reportService.addReport(report).subscribe((dataResponse) => {
-            console.log("exec");
-        });
+    addReport(report: Report){
+        this._reportService.addReport(report).subscribe();
+    }
+
+    onChange(selectedProjectId:number):void {
+        this.selectedProjectId=selectedProjectId;
     }
 }
