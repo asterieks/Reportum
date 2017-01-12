@@ -10,25 +10,18 @@ export class ProjectService{
     constructor(private http : Http){}
 
     getUserProjects(): Observable<Project[]>{
-        let projects$ = this.http.get(`/projects/reporter/asterieks@gmail.com`, {headers: this.getHeaders()})
-                                 .map(mapProjects)
-                                 .catch(handleError);
-        return projects$;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.get(`/projects/reporter/asterieks@gmail.com`, {headers: headers})
+                                 .map((res:Response) => res.json())
+                                 .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    private getHeaders(){
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        return headers;
+    getManagerProjects(): Observable<Project[]>{
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.get(`/projects/lead/lead@gmail.com`, {headers: headers})
+                                 .map((res:Response) => res.json())
+                                 .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
-}
-
-function mapProjects(response:Response): Project[]{
-    return response.json();
-}
-
-function handleError (error: any) {
-    let errorMsg = error.message || `Yikes! There was was a problem with our hyperdrive device and we couldn't retrieve your data!`
-    return Observable.throw(errorMsg);
+    //    headers.append('Accept', 'application/json');
 }
 

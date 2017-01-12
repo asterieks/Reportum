@@ -1,6 +1,6 @@
 package com.reportum.angular2.springmvc.utils.beans;
 
-public class UserReportBean {
+public class ReportBean {
     private String review;
     private String issues;
     private String plans;

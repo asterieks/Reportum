@@ -1,0 +1,26 @@
+#user_report_form{
+    text-align:-webkit-center;
+    display:-webkit-inline-box;
+    width:40vw;
+}
+
+text_area_model{
+    width:100%;
+}
+
+#user_report_block{
+    width:100%;
+}
+
+textarea{
+    width:100% !important;
+    margin-bottom:10px;
+    padding:4px 0px 4px 0px;
+    min-height:110px;
+}
+
+label{
+    display:block;
+    float:left;
+    font-weight:normal;
+}

@@ -3,7 +3,7 @@
     <div  id="user_report_form" >
       <div id="user_report_block">
         <div>
-            <select_model [select_model]="select_model" (binder)='onChange($event)'></select_model>
+            <select_component [select_label]="select_label" (binder)='onChange($event)'></select_component>
         </div>
         <div>
             <div class="text_area_model" fz-elastic >
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div>
-          <button_model *ngFor="let button_model of button_models" [button_model]="button_model" ></button_model>
+          <button_component *ngFor="let button_model of button_models" [button_model]="button_model" ></button_component>
         </div>
       </div>
     </div>

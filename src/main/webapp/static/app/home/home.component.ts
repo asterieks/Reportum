@@ -3,13 +3,11 @@ import { NgFor }             from '@angular/common';
 import { HttpModule }        from '@angular/http'
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
-import { SelectComponent }   from '../common/select/select.fragment.component';
-
 import { HomeService }       from './home.service';
 import { ReportService }     from '../common/report/report.service';
 
 import { Button }            from '../common/button/button.model';
-import { SelectLabel }       from '../common/select/select.label.model';
+import { SelectLabel }       from '../common/select/select_label.model';
 import { Report }            from '../common/report/report.model';
 
 @Component({
@@ -20,14 +18,14 @@ import { Report }            from '../common/report/report.model';
 
 export class HomeComponent implements OnInit {
     public reportForm: FormGroup;
-    select_model: SelectLabel;
+    select_label: SelectLabel;
     button_models: Button[];
     selectedProjectId: number;
 
     constructor(private _homeService: HomeService, private _fb: FormBuilder, private _reportService: ReportService){}
 
     ngOnInit() {
-        this.select_model = this._homeService.getSelect();
+        this.select_label = this._homeService.getSelect();
         this.button_models = this._homeService.getButton();
         this.reportForm = this._fb.group({
              review: ['', [<any>Validators.required, <any>Validators.minLength(5)]],

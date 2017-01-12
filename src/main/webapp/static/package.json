@@ -28,7 +28,9 @@
     "@ng-bootstrap/ng-bootstrap":"1.0.0-alpha.14",
     "angular2-elastic":"0.10.0",
     "awesome-typescript-loader": "^0.17.0",
-    "core-js": "^2.4.0"
+    "core-js": "^2.4.0",
+    "ag-grid": "6.2.x",
+    "ag-grid-ng2": "6.2.x"
   },
   "devDependencies": {
     "jasmine-core": "^2.4.1",

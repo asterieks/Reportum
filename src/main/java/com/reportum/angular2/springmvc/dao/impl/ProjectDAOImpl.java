@@ -22,13 +22,23 @@ public class ProjectDAOImpl implements IProjectDAO{
     private EntityManager em;
 
     @Override
-    public List<Project> getProjectsByUser(User user) {
+    public List<Project> getProjectsByReporter(User reporter) {
         CriteriaQuery<Project> criteria=getCriteriaBuilder().createQuery(Project.class);
         Root<Project> root=criteria.from(Project.class);
-        criteria.where(getCriteriaBuilder().equal(root.get(Project_.reporter),user));
+        criteria.where(getCriteriaBuilder().equal(root.get(Project_.reporter),reporter));
         criteria.select(root);
         return em.createQuery(criteria).getResultList();
     }
+
+    @Override
+    public List<Project> getProjectsByTeamLead(User teamLeader) {
+        CriteriaQuery<Project> criteria=getCriteriaBuilder().createQuery(Project.class);
+        Root<Project> root=criteria.from(Project.class);
+        criteria.where(getCriteriaBuilder().equal(root.get(Project_.teamLeader),teamLeader));
+        criteria.select(root);
+        return em.createQuery(criteria).getResultList();
+    }
+
 
     @Override
     public Project getProjectsByProjectId(Long id) {

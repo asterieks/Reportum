@@ -2,21 +2,17 @@ import { NgModule }            from '@angular/core';
 import { BrowserModule }       from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule }          from '@angular/http';
-import { Elastic }             from 'angular2-elastic';
+import { SharedModule }       from '../common/shared.module';
 
 import { HomeService }         from './home.service';
 import { ProjectService }      from '../common/project/project.service';
 import { ReportService }       from '../common/report/report.service';
 
 import { HomeComponent }       from './home.component';
-import { SelectComponent }     from '../common/select/select.fragment.component';
-import { ButtonComponent }     from '../common/button/button.component';
-
-
 
 @NgModule({
-  imports:      [ BrowserModule, Elastic, HttpModule, ReactiveFormsModule, FormsModule ],
-  declarations: [ HomeComponent, SelectComponent, ButtonComponent ],
+  imports:      [ BrowserModule, HttpModule, ReactiveFormsModule, FormsModule, SharedModule ],
+  declarations: [ HomeComponent ],
   bootstrap:    [ HomeComponent ],
   providers:    [ HomeService, ProjectService, ReportService ]                         // services
 })

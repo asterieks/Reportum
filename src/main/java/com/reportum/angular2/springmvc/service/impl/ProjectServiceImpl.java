@@ -16,8 +16,13 @@ public class ProjectServiceImpl implements IProjectService{
     private IProjectDAO projectDAO;
 
     @Override
-    public List<Project> getProjectsByUser(User user) {
-        return projectDAO.getProjectsByUser(user);
+    public List<Project> getProjectsByReporter(User reporter) {
+        return projectDAO.getProjectsByReporter(reporter);
+    }
+
+    @Override
+    public List<Project> getProjectsByTeamLead(User teamLeader) {
+        return projectDAO.getProjectsByTeamLead(teamLeader);
     }
 
     @Override

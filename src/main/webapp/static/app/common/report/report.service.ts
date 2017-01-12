@@ -13,8 +13,24 @@ export class ReportService{
         let bodyString = JSON.stringify(body);
         let headers      = new Headers({ 'Content-Type': 'application/json' });
         let options       = new RequestOptions({ headers: headers });
-        return this.http.post(`/report`, bodyString, options)
+        return this.http.post(`/reporter/report`, bodyString, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    addLeadReport (body: Report): Observable<Report[]> {
+        let bodyString = JSON.stringify(body);
+        let headers      = new Headers({ 'Content-Type': 'application/json' });
+        let options       = new RequestOptions({ headers: headers });
+        return this.http.post(`/lead/report`, bodyString, options)
+                        .map((res:Response) => res.json())
+                        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    getReporterReport(id:number): Observable<Report[]>{
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.get(`/reporter/report/`+id, {headers: headers})
+                                 .map((res:Response) => res.json())
+                                 .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 }
