@@ -5,20 +5,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "USER_REPORTS")
-public class UserReport implements Serializable {
+@Table(name = "REPORTS")
+public class Report implements Serializable {
     @Id
     @Column (name = "report_id", nullable = false, unique=true)
     @SequenceGenerator(name = "user_report_seq_gen", sequenceName = "user_report_id_seq")
     @GeneratedValue (strategy = GenerationType.AUTO, generator = "user_report_seq_gen")
     private Long reportId;
-
-    @Id
-    @Column (name = "record_id", nullable=false, unique=true)
-    @SequenceGenerator(name = "user_report_record_seq_gen", sequenceName = "user_report_record_id_seq")
-    @GeneratedValue (strategy = GenerationType.AUTO, generator = "user_report_record_seq_gen")
-    //@Generated(GenerationTime.INSERT)
-    private Long recordId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
@@ -36,7 +29,7 @@ public class UserReport implements Serializable {
     @Column (name="creation_date")
     private Date date;
 
-    public UserReport(){}
+    public Report(){}
 
     public Long getReportId() {
         return reportId;
@@ -44,14 +37,6 @@ public class UserReport implements Serializable {
 
     public void setReportId(Long reportId) {
         this.reportId = reportId;
-    }
-
-    public Long getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(Long recordId) {
-        this.recordId = recordId;
     }
 
     public Project getProjectId() {

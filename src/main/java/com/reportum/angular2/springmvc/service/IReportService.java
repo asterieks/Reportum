@@ -1,16 +1,18 @@
 package com.reportum.angular2.springmvc.service;
 
 import com.reportum.angular2.springmvc.persistence.entities.Project;
-import com.reportum.angular2.springmvc.persistence.entities.UserReport;
+import com.reportum.angular2.springmvc.persistence.entities.Report;
 import com.reportum.angular2.springmvc.utils.beans.ProjectBean;
 
 import java.util.List;
 
 public interface IReportService {
 
-    void saveReporterReport(UserReport report);
+    Report saveReport(Report report);
 
     List<ProjectBean> getProjectBeans(List<Project> projects);
 
-    UserReport getReport(String reportId);
+    Report getReport(String reportId);
+
+    List<Report> getReportByProject(Long id);
 }

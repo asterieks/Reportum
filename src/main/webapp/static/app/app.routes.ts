@@ -2,14 +2,14 @@
 // - RouterModule instead of provideRoutes
 import { Routes, RouterModule } from '@angular/router';
 
-import {ManagerComponent} from './manager/manager.component';
-import {HomeComponent}    from './home/home.component';
+import { ManagerComponent }     from './manager/manager.component';
+import { ReporterComponent }    from './reporter/reporter.component';
 
 const routes: Routes = [
-{path: '',            component: HomeComponent },
-{path: 'home',        component: HomeComponent },
+{path: '',            component: ReporterComponent },
+{path: 'reporter',    component: ReporterComponent },
 {path: 'manager',     component: ManagerComponent },
-{path: '*',           component: HomeComponent }
+{path: '*',           component: ReporterComponent }
 ];
 
 // - Updated Export

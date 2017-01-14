@@ -1,8 +1,8 @@
 package com.reportum.angular2.springmvc.dao.impl;
 
 import com.reportum.angular2.springmvc.dao.IReportDAO;
-import com.reportum.angular2.springmvc.persistence.entities.UserReport;
-import com.reportum.angular2.springmvc.persistence.entities.UserReport_;
+import com.reportum.angular2.springmvc.persistence.entities.Report;
+import com.reportum.angular2.springmvc.persistence.entities.Report_;
 import com.reportum.angular2.springmvc.utils.DateUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,18 +25,18 @@ public class ReportDAOImpl implements IReportDAO {
     private EntityManager em;
 
     @Override
-    public void saveReporterReport(UserReport reporterReport) {
-        em.merge(reporterReport);
+    public Report saveReport(Report report) {
+        return em.merge(report);
     }
 
-    public List<UserReport> getActualReport(Long projectId){
-        CriteriaQuery<UserReport> criteria=getCriteriaBuilder().createQuery(UserReport.class);
-        Root<UserReport> root=criteria.from(UserReport.class);
+    public List<Report> getActualReport(Long projectId){
+        CriteriaQuery<Report> criteria=getCriteriaBuilder().createQuery(Report.class);
+        Root<Report> root=criteria.from(Report.class);
 
         Date thisWeekMonday = DateUtils.getThisWeekMondayDate();
 
-        Predicate byId=getCriteriaBuilder().equal(root.get(UserReport_.projectId),projectId);
-        Predicate byDate=getCriteriaBuilder().greaterThanOrEqualTo(root.get(UserReport_.date), thisWeekMonday);
+        Predicate byId=getCriteriaBuilder().equal(root.get(Report_.projectId),projectId);
+        Predicate byDate=getCriteriaBuilder().greaterThanOrEqualTo(root.get(Report_.date), thisWeekMonday);
 
         List<Predicate> predicates=new ArrayList<>();
         predicates.add(byId);
@@ -49,14 +49,25 @@ public class ReportDAOImpl implements IReportDAO {
     }
 
     @Override
-    public UserReport getReport(String reportId) {
-        CriteriaQuery<UserReport> criteria=getCriteriaBuilder().createQuery(UserReport.class);
-        Root<UserReport> root=criteria.from(UserReport.class);
+    public Report getReport(String reportId) {
+        CriteriaQuery<Report> criteria=getCriteriaBuilder().createQuery(Report.class);
+        Root<Report> root=criteria.from(Report.class);
 
         criteria.select(root)
-                .where(getCriteriaBuilder().equal(root.get(UserReport_.reportId),reportId));
+                .where(getCriteriaBuilder().equal(root.get(Report_.reportId),reportId));
 
         return em.createQuery(criteria).getSingleResult();
+    }
+
+    @Override
+    public List<Report> getReportByProject(Long id) {
+        CriteriaQuery<Report> criteria=getCriteriaBuilder().createQuery(Report.class);
+        Root<Report> root=criteria.from(Report.class);
+
+        criteria.select(root)
+                .where(getCriteriaBuilder().equal(root.get(Report_.projectId),id));
+
+        return em.createQuery(criteria).getResultList();
     }
 
     private CriteriaBuilder getCriteriaBuilder(){

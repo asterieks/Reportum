@@ -28,7 +28,7 @@ public class Project {
     private User manager;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "projectId")
-    private List<UserReport> projectIdList = new ArrayList<>();
+    private List<Report> projectIdList = new ArrayList<>();
 
     public Project (){}
 
@@ -72,11 +72,11 @@ public class Project {
         this.manager = manager;
     }
 
-    public List<UserReport> getProjectIdList() {
+    public List<Report> getProjectIdList() {
         return projectIdList;
     }
 
-    public void setProjectIdList(List<UserReport> projectIdList) {
+    public void setProjectIdList(List<Report> projectIdList) {
         this.projectIdList = projectIdList;
     }
 }

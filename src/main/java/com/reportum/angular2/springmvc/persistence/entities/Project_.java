@@ -11,5 +11,5 @@ public class Project_ {
     public static volatile SingularAttribute<Project, User> reporter;
     public static volatile SingularAttribute<Project, User> teamLeader;
     public static volatile SingularAttribute<Project, User> manager;
-    public static volatile ListAttribute<User, UserReport> projectIdList;
+    public static volatile ListAttribute<User, Report> projectIdList;
 }

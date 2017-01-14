@@ -3,7 +3,7 @@ import { NgFor }             from '@angular/common';
 import { HttpModule }        from '@angular/http'
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
-import { HomeService }       from './home.service';
+import { ReporterService }   from './reporter.service';
 import { ReportService }     from '../common/report/report.service';
 
 import { Button }            from '../common/button/button.model';
@@ -11,41 +11,43 @@ import { SelectLabel }       from '../common/select/select_label.model';
 import { Report }            from '../common/report/report.model';
 
 @Component({
-    selector: 'home',
-    template: require('./home.component.html'),
-    styles: [require('./home.component.css')]
+    selector: 'reporter',
+    template: require('./reporter.component.html'),
+    styles: [require('./reporter.component.css')]
 })
 
-export class HomeComponent implements OnInit {
+export class ReporterComponent implements OnInit {
     public reportForm: FormGroup;
     select_label: SelectLabel;
     button_models: Button[];
     selectedProjectId: number;
 
-    constructor(private _homeService: HomeService, private _fb: FormBuilder, private _reportService: ReportService){}
+    constructor(private reporterService: ReporterService,
+                private fb: FormBuilder,
+                private reportService: ReportService){}
 
     ngOnInit() {
-        this.select_label = this._homeService.getSelect();
-        this.button_models = this._homeService.getButton();
-        this.reportForm = this._fb.group({
+        this.select_label = this.reporterService.getSelect();
+        this.button_models = this.reporterService.getButton();
+        this.reportForm = this.fb.group({
              review: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
              issues: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
               plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]]
         });
     }
 
-    save(model: any) {
+    onSubmit(form: any) {
         let report= {
-            review: model.value.review,
-            issues: model.value.issues,
-            plans: model.value.plans,
+            review: form.value.review,
+            issues: form.value.issues,
+            plans: form.value.plans,
             project: this.selectedProjectId
         };
         this.addReport(report);
     }
 
     addReport(report: Report){
-        this._reportService.addReport(report).subscribe();
+        this.reportService.addReport(report).subscribe();
     }
 
     onChange(selectedProjectId:number):void {

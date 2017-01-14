@@ -1,7 +1,7 @@
 <div>
-  <form [formGroup]="reportForm" (ngSubmit)="save(reportForm)">
-    <div  id="user_report_form" >
-      <div id="user_report_block">
+  <form [formGroup]="reportForm" (ngSubmit)="onSubmit(reportForm)">
+    <div  id="reporter_report_form" >
+      <div id="reporter_report_block">
         <div>
             <select_component [select_label]="select_label" (binder)='onChange($event)'></select_component>
         </div>

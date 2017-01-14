@@ -24,15 +24,15 @@ export class ManagerComponent implements OnInit {
     selectedProjectId: number;
     selectedReportId: number;
 
-    constructor(private _managerService: ManagerService,
-                private _fb: FormBuilder,
-                private _reportService: ReportService,
+    constructor(private managerService: ManagerService,
+                private fb: FormBuilder,
+                private reportService: ReportService,
                 private sharedService:SharedService){}
 
     ngOnInit() {
-        this.grid_label = this._managerService.getGridLabel();
-        this.button_models = this._managerService.getButton();
-        this.reportForm = this._fb.group({
+        this.grid_label = this.managerService.getGridLabel();
+        this.button_models = this.managerService.getButton();
+        this.reportForm = this.fb.group({
              review: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
              issues: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
               plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]]
@@ -40,18 +40,18 @@ export class ManagerComponent implements OnInit {
         this.sharedService.reportLoadedEvent.subscribe(data => this.loadForm(data));
     }
 
-    private onSubmit(model: any) {
+    onSubmit(form: any) {
         let report= {
-            review: model.value.review,
-            issues: model.value.issues,
-            plans:  model.value.plans,
+            review: form.value.review,
+            issues: form.value.issues,
+            plans:  form.value.plans,
             project:this.selectedProjectId
         };
-        this.addReport(report);
+        this.updateReport(report);
     }
 
-    addReport(report: Report){
-        this._reportService.addLeadReport(report).subscribe();
+    updateReport(report: Report){
+        this.reportService.updateReport(report).subscribe();
     }
 
     loadForm(report: any){

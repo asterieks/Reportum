@@ -11,18 +11,20 @@ export class ReportService{
 
     addReport (body: Report): Observable<Report[]> {
         let bodyString = JSON.stringify(body);
-        let headers      = new Headers({ 'Content-Type': 'application/json' });
-        let options       = new RequestOptions({ headers: headers });
-        return this.http.post(`/reporter/report`, bodyString, options)
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(`/report`, bodyString, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    addLeadReport (body: Report): Observable<Report[]> {
+    updateReport (body: Report): Observable<Report[]> {
         let bodyString = JSON.stringify(body);
-        let headers      = new Headers({ 'Content-Type': 'application/json' });
-        let options       = new RequestOptions({ headers: headers });
-        return this.http.post(`/lead/report`, bodyString, options)
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(`/report`, bodyString, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }

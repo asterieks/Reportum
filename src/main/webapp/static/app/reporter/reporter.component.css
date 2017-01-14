@@ -1,4 +1,4 @@
-#user_report_form{
+#reporter_report_form{
     text-align:-webkit-center;
     display:-webkit-inline-box;
     width:40vw;
@@ -8,7 +8,7 @@ text_area_model{
     width:100%;
 }
 
-#user_report_block{
+#reporter_report_block{
     width:100%;
 }
 
