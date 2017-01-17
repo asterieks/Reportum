@@ -51,7 +51,7 @@ export class ManagerComponent implements OnInit {
     }
 
     updateReport(report: Report){
-        this.reportService.updateReport(report).subscribe();
+        this.reportService.update(report).subscribe();
     }
 
     loadForm(report: any){

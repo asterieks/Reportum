@@ -13,4 +13,6 @@ public interface IProjectDAO {
     List<Project> getProjectsByTeamLead(User teamLeader);
 
     Project getProjectsByProjectId(Long id);
+
+    void save(Project project);
 }

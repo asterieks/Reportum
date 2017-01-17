@@ -2,6 +2,7 @@ package com.reportum.angular2.springmvc.persistence.entities;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,12 @@ public class Project {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "manager")
     private User manager;
+
+    @Column(name = "state")
+    private String state;
+
+    @Column(name = "state_date")
+    private Date stateDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "projectId")
     private List<Report> projectIdList = new ArrayList<>();
@@ -78,5 +85,21 @@ public class Project {
 
     public void setProjectIdList(List<Report> projectIdList) {
         this.projectIdList = projectIdList;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Date getStateDate() {
+        return stateDate;
+    }
+
+    public void setStateDate(Date stateDate) {
+        this.stateDate = stateDate;
     }
 }

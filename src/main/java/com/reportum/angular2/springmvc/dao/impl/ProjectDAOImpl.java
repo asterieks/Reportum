@@ -45,6 +45,12 @@ public class ProjectDAOImpl implements IProjectDAO{
         return em.find(Project.class,id);
     }
 
+    @Override
+    public void save(Project project) {
+        em.merge(project);
+    }
+
+
     private CriteriaBuilder getCriteriaBuilder(){
         return em.getCriteriaBuilder();
     }

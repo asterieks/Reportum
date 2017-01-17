@@ -13,4 +13,5 @@ public interface IProjectService {
 
     Project getProjectsByProjectId(Long id);
 
+    void save(Project project);
 }

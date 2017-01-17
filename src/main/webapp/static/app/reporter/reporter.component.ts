@@ -9,6 +9,7 @@ import { ReportService }     from '../common/report/report.service';
 import { Button }            from '../common/button/button.model';
 import { SelectLabel }       from '../common/select/select_label.model';
 import { Report }            from '../common/report/report.model';
+import { Project }           from '../common/project/project.model';
 
 @Component({
     selector: 'reporter',
@@ -20,7 +21,8 @@ export class ReporterComponent implements OnInit {
     public reportForm: FormGroup;
     select_label: SelectLabel;
     button_models: Button[];
-    selectedProjectId: number;
+    project: Project;
+    projectState: string;
 
     constructor(private reporterService: ReporterService,
                 private fb: FormBuilder,
@@ -37,20 +39,29 @@ export class ReporterComponent implements OnInit {
     }
 
     onSubmit(form: any) {
-        let report= {
-            review: form.value.review,
-            issues: form.value.issues,
-            plans: form.value.plans,
-            project: this.selectedProjectId
+        let report = {
+                review: form.value.review,
+                issues: form.value.issues,
+                plans: form.value.plans,
+                project: this.project.projectId
         };
-        this.addReport(report);
+        if(this.projectState==="Updated"){
+            this.updateReport(report);
+        } else {
+            this.addReport(report);
+        }
     }
 
     addReport(report: Report){
-        this.reportService.addReport(report).subscribe();
+        this.reportService.add(report).subscribe(data=>this.projectState="Updated");
     }
 
-    onChange(selectedProjectId:number):void {
-        this.selectedProjectId=selectedProjectId;
+    updateReport(report: Report){
+        this.reportService.update(report).subscribe();
+    }
+
+    onChange(project:Project):void {
+        this.project=project;
+        this.projectState=project.state;
     }
 }

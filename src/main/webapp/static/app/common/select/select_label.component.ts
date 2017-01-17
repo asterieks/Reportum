@@ -15,7 +15,7 @@ export class SelectComponent implements OnInit {
     projects: Array<Project> = [];
 
     @Input() select_label: SelectLabel;
-    @Output() binder: EventEmitter<number> = new EventEmitter<number>();
+    @Output() binder: EventEmitter<Project> = new EventEmitter<Project>();
 
     constructor (private _projectService: ProjectService) {}
 
@@ -24,17 +24,19 @@ export class SelectComponent implements OnInit {
     }
 
     getUserProjects() {
-        this._projectService.getUserProjects().map((projects: Array<Project>) =>
-            {
-                if (projects) {
-                    this.projects = projects;
-                    this.binder.emit(projects[0].projectId);
-                }
+        this._projectService.getUserProjects().subscribe(data => {
+            if (data) {
+                this.projects = data;
+                this.binder.emit(data[0]);
             }
-        ).subscribe();
+        });
     }
 
     onChange(selectedProjectId:number) {
-        this.binder.emit(selectedProjectId);
+        for (let project of this.projects) {
+            if(project.projectId==selectedProjectId){
+                this.binder.emit(project);
+            }
+        }
     }
 }

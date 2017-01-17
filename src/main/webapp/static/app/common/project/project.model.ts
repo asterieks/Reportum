@@ -4,4 +4,6 @@ export class Project{
     reporter: string;
     teamLeader: string;
     manager: string;
+    state: string;
+    stateDate: Date;
 }

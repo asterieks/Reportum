@@ -9,7 +9,7 @@ export class ReportService{
 
     constructor(private http : Http){}
 
-    addReport (body: Report): Observable<Report[]> {
+    add (body: Report): Observable<Report[]> {
         let bodyString = JSON.stringify(body);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
@@ -19,7 +19,7 @@ export class ReportService{
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    updateReport (body: Report): Observable<Report[]> {
+    update (body: Report): Observable<Report[]> {
         let bodyString = JSON.stringify(body);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });

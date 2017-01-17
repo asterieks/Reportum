@@ -29,4 +29,9 @@ public class ProjectServiceImpl implements IProjectService{
     public Project getProjectsByProjectId(Long id) {
         return projectDAO.getProjectsByProjectId(id);
     }
+
+    @Override
+    public void save(Project project) {
+        projectDAO.save(project);
+    }
 }
