@@ -70,6 +70,16 @@ public class ReportDAOImpl implements IReportDAO {
         return em.createQuery(criteria).getResultList();
     }
 
+    @Override
+    public List<Report> findAll() {
+        CriteriaQuery<Report> criteria=getCriteriaBuilder().createQuery(Report.class);
+        Root<Report> root=criteria.from(Report.class);
+
+        criteria.select(root);
+
+        return em.createQuery(criteria).getResultList();
+    }
+
     private CriteriaBuilder getCriteriaBuilder(){
         return em.getCriteriaBuilder();
     }

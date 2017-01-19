@@ -41,6 +41,12 @@ public class ReportController {
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/reports/lead/{leadId}", method = RequestMethod.GET)
+    public ResponseEntity<List<Report>> getReports(@PathVariable String leadId) {
+        List<Report> reportsList =reportService.findAll();
+        return new ResponseEntity<>(reportsList, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/report", method = RequestMethod.PUT)
     public ResponseEntity<Report> updateReport(@RequestBody ReportBean reportBean) {
         List<Report> reports = reportService.getReportByProject(reportBean.getProject());

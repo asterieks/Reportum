@@ -35,4 +35,11 @@ export class ReportService{
                                  .map((res:Response) => res.json())
                                  .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
+
+    get(id:string):Observable<any[]>{
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.get(`/reports/lead/`+id, {headers: headers})
+                                 .map((res:Response) => res.json())
+                                 .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
 }

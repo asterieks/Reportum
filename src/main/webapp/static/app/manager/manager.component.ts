@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { NgFor }             from '@angular/common';
+import { NgFor, NgIf }       from '@angular/common';
 import { HttpModule }        from '@angular/http'
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
@@ -23,6 +23,9 @@ export class ManagerComponent implements OnInit {
     button_models: Button[];
     selectedProjectId: number;
     selectedReportId: number;
+    show = true;
+    showAggregated=false;
+    agregated_report: string;
 
     constructor(private managerService: ManagerService,
                 private fb: FormBuilder,
@@ -38,6 +41,7 @@ export class ManagerComponent implements OnInit {
               plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]]
         });
         this.sharedService.reportLoadedEvent.subscribe(data => this.loadForm(data));
+        this.sharedService.aggregateEvent.subscribe(data => this.aggregateReports(data));
     }
 
     onSubmit(form: any) {
@@ -63,4 +67,24 @@ export class ManagerComponent implements OnInit {
         this.selectedProjectId=report.project;
         this.selectedReportId =report.reportId;
     }
+
+    aggregateReports(show:boolean){
+        this.reportService.get('lead@gmail.com').subscribe(data => this.showAggregatedReport(data));
+        this.show=show;
+        this.showAggregated=!show;
+    }
+
+    showAggregatedReport(reports:any[]){
+        let temp='';
+        for (let report of reports) {
+            let name='--'+report.projectId.projectName+'--'+'\r\n';
+            let review='Review:\r\n'+report.reviewPart+'\r\n';
+            let issues='Issues:\r\n'+report.issuePart+'\r\n';
+            let plans='Plans:\r\n'+report.planPart+'\r\n';
+            let end='\r\n';
+            temp=temp+name+review+issues+plans+end;
+        }
+        this.agregated_report=temp;
+    }
 }
+

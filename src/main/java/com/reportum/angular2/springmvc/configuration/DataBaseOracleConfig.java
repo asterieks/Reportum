@@ -38,8 +38,10 @@ public class DataBaseOracleConfig {
         driverManagerDataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
         driverManagerDataSource.setUrl("jdbc:oracle:thin:@93.180.186.147:11521:XE");
         //driverManagerDataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
-        driverManagerDataSource.setUsername("REPORTUM_REPOS");
-        driverManagerDataSource.setPassword("Password1");
+        //driverManagerDataSource.setUsername("REPORTUM_REPOS");
+        //driverManagerDataSource.setPassword("Password1");
+        driverManagerDataSource.setUsername("REPORT");
+        driverManagerDataSource.setPassword("REPORTUM");
         return driverManagerDataSource;
     }
 

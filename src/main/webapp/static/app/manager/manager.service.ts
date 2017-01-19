@@ -11,7 +11,10 @@ import {ClickableParentComponent} from "../common/grid/clickable/clickable.paren
 @Injectable()
 export class ManagerService {
     private grid_label: GridLabel = { name: 'Actual projects' };
-    private button_models: Button[] = [{name: 'Save', id:'manager_save_button'}];
+    private button_models: Button[] = [
+                                        {name: 'Save', id:'manager_save_button'},
+                                        {name: 'Aggregate', id:'manager_aggregate_button'}
+                                       ];
     private projectsTableColumnDef = [
         {headerName: "Project name", valueGetter: 'data.projectName',  width: 210},
         {headerName: "Date",         valueGetter: 'data.actualDate',   width: 210},

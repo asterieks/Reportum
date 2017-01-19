@@ -6,6 +6,7 @@ import { Report }      from './report/report.model';
 export class SharedService {
 
     @Output() reportLoadedEvent: EventEmitter<any> = new EventEmitter(true);
+    @Output() aggregateEvent: EventEmitter<any> = new EventEmitter(true);
 
     loadReport(model:any) {
        let report= {
@@ -16,5 +17,9 @@ export class SharedService {
             reportId:model.reportId,
         };
         this.reportLoadedEvent.emit(report);
+    }
+
+    changeVisibility(show:boolean){
+        this.aggregateEvent.emit(show);
     }
 }

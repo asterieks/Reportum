@@ -13,4 +13,6 @@ public interface IReportDAO {
     Report getReport(String reportId);
 
     List<Report> getReportByProject(Long id);
+
+    List<Report> findAll();
 }
