@@ -2,7 +2,7 @@
 This is weekly report
 
 #Bug fix
-1.Oracle database issue ORA-12505 (Oracle Database 11g Express):
+1.Oracle database issue ORA-12505 (Windows 7/Oracle Database 11g Express):
 >oracle.net.ns.NetException: Listener refused the connection with the following error:
 >ORA-12505, TNS:listener does not currently know of SID given in connect descriptor
 
