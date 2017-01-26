@@ -3,8 +3,8 @@ This is weekly report
 
 #Bug fix
 1.Oracle database issue ORA-12505:
-oracle.net.ns.NetException: Listener refused the connection with the following error:
-ORA-12505, TNS:listener does not currently know of SID given in connect descriptor
+>oracle.net.ns.NetException: Listener refused the connection with the following error:
+>ORA-12505, TNS:listener does not currently know of SID given in connect descriptor
 
 >Sotution:
 >Go to the windows machine that hosts the Oracle database server
