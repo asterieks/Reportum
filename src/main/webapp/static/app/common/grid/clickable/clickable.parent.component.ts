@@ -1,9 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-
-import { ReportService }       from '../../report/report.service';
-import { SharedService }       from '../../shared.service';
-
-import { AgRendererComponent } from 'ag-grid-ng2/main';
+import {Component} from "@angular/core";
+import {ReportService} from "../../report/report.service";
+import {SharedService} from "../../shared.service";
+import {AgRendererComponent} from "ag-grid-ng2/main";
 
 @Component({
     selector: 'clickable-cell',
@@ -16,15 +14,16 @@ export class ClickableParentComponent implements AgRendererComponent {
     private params:any;
     public cell:any;
 
-    constructor(private reportService: ReportService, private sharedService: SharedService){}
+    constructor(private reportService: ReportService,
+                private sharedService: SharedService){}
 
     agInit(params:any):void {
         this.params = params;
-        this.cell = {reportId: params.data.reportId, date: params.data.actualDate};
+        this.cell = {reportId: params.data.reportId, date: params.data.project.stateDate};
     }
 
     onClick(reportId:number):void {
-        this.reportService.getReporterReport(reportId).subscribe(data => this.load(data));
+        this.reportService.getReport(reportId).subscribe(data => this.load(data));
     }
 
     load(report:any){

@@ -43,8 +43,8 @@ CREATE SEQUENCE user_report_id_seq
 commit;
 
 --test instances
-INSERT INTO USERS (USER_ID, FULL_NAME, ROLE) VALUES ('asterieks@gmail.com', 'Maksym Sokil', '');
-INSERT INTO USERS (USER_ID, FULL_NAME, ROLE) VALUES ('lead@gmail.com', 'Yevhenii Reva', '');
+INSERT INTO USERS (USER_ID, FULL_NAME, ROLE) VALUES ('asterieks@gmail.com', 'Maksym Sokil', 'REPORTER');
+INSERT INTO USERS (USER_ID, FULL_NAME, ROLE) VALUES ('lead@gmail.com', 'Yevhenii Reva', 'LEAD');
 INSERT INTO USERS (USER_ID, FULL_NAME, ROLE) VALUES ('tester@gmail.com', 'A Person', '');
 
 INSERT INTO PROJECTS (PROJECT_ID, PROJECT_NAME, RESPONSIBLE_TEAM_LEADER,MANAGER,REPORTER,STATE,STATE_DATE) VALUES ('1', 'Reportum Test',  'lead@gmail.com', '', 'asterieks@gmail.com','','');

@@ -16,22 +16,27 @@ public class ProjectServiceImpl implements IProjectService{
     private IProjectDAO projectDAO;
 
     @Override
-    public List<Project> getProjectsByReporter(User reporter) {
-        return projectDAO.getProjectsByReporter(reporter);
+    public List<Project> findProjects(User user) {
+        return projectDAO.findProjects(user);
     }
 
     @Override
-    public List<Project> getProjectsByTeamLead(User teamLeader) {
-        return projectDAO.getProjectsByTeamLead(teamLeader);
+    public Project findProject(Long id) {
+        return projectDAO.findProject(id);
     }
 
     @Override
-    public Project getProjectsByProjectId(Long id) {
-        return projectDAO.getProjectsByProjectId(id);
+    public void saveProject(Project project) {
+        projectDAO.saveProject(project);
     }
 
     @Override
-    public void save(Project project) {
-        projectDAO.save(project);
+    public void saveProjects(List<Project> projects) {
+        projectDAO.saveProjects(projects);
+    }
+
+    @Override
+    public List<Project> findAllProjects() {
+        return projectDAO.findAllProjects();
     }
 }

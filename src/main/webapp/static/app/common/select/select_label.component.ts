@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-
-import { ProjectService } from '../project/project.service';
-
-import { SelectLabel }    from './select_label.model';
-import { Project }        from '../project/project.model';
+import {Component, Input, OnInit, Output, EventEmitter} from "@angular/core";
+import {ProjectService} from "../project/project.service";
+import {ReportService} from "../report/report.service";
+import {SelectLabel} from "./select_label.model";
+import {Project} from "../project/project.model";
 
 @Component ({
     selector: 'select_component',
@@ -15,19 +14,32 @@ export class SelectComponent implements OnInit {
     projects: Array<Project> = [];
 
     @Input() select_label: SelectLabel;
-    @Output() binder: EventEmitter<Project> = new EventEmitter<Project>();
+    @Output() project_binder: EventEmitter<Project> = new EventEmitter<Project>();
+    @Output() report_binder: EventEmitter<any> = new EventEmitter<any>();
 
-    constructor (private _projectService: ProjectService) {}
+    constructor (
+        private projectService: ProjectService,
+        private reportService: ReportService
+    ) {}
 
     ngOnInit() {
-        this.getUserProjects();
+        this.loadUserProjects();
+        this.loadUserReports();
     }
 
-    getUserProjects() {
-        this._projectService.getUserProjects().subscribe(data => {
+    private loadUserProjects() {
+        this.projectService.getProjects("asterieks@gmail.com").subscribe(data => {
             if (data) {
                 this.projects = data;
-                this.binder.emit(data[0]);
+                this.project_binder.emit(data[0]);
+            }
+        });
+    }
+
+    private loadUserReports() {
+        this.reportService.getReports("asterieks@gmail.com").subscribe(data => {
+            if (data) {
+                this.report_binder.emit(data);
             }
         });
     }
@@ -35,7 +47,7 @@ export class SelectComponent implements OnInit {
     onChange(selectedProjectId:number) {
         for (let project of this.projects) {
             if(project.projectId==selectedProjectId){
-                this.binder.emit(project);
+                this.project_binder.emit(project);
             }
         }
     }

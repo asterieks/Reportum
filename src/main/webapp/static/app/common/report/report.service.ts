@@ -1,45 +1,44 @@
-import { Injectable }  from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable }  from 'rxjs/Rx';
-
-import { Report }      from './report.model';
+import {Injectable} from "@angular/core";
+import {Http, Response, Headers, RequestOptions} from "@angular/http";
+import {Observable} from "rxjs/Rx";
+import {Report} from "./report.model";
 
 @Injectable()
 export class ReportService{
 
     constructor(private http : Http){}
 
-    add (body: Report): Observable<Report[]> {
+    addReports (body: any): Observable<number> {
         let bodyString = JSON.stringify(body);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(`/report`, bodyString, options)
-                        .map((res:Response) => res.json())
+        return this.http.post(`/reports`, bodyString, options)
+                        .map((res:Response) => res.status)
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    update (body: Report): Observable<Report[]> {
+    updateReports (reportId: number, body: any): Observable<Report[]> {
         let bodyString = JSON.stringify(body);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.put(`/report`, bodyString, options)
+        return this.http.put(`/reports/`+reportId, bodyString, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    getReporterReport(id:number): Observable<Report[]>{
+    getReport(id:number): Observable<Report[]>{
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.get(`/reporter/report/`+id, {headers: headers})
+        return this.http.get(`/reports/`+id, {headers: headers})
                                  .map((res:Response) => res.json())
                                  .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    get(id:string):Observable<any[]>{
+    getReports(userId:string): Observable<any[]>{
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.get(`/reports/lead/`+id, {headers: headers})
-                                 .map((res:Response) => res.json())
-                                 .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+        return this.http.get(`/users/`+userId+`/reports`, {headers: headers})
+                        .map((res:Response) => res.json())
+                        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 }

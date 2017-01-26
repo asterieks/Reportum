@@ -1,5 +1,6 @@
 package com.reportum.angular2.springmvc.dao;
 
+import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.Report;
 
 import java.util.List;
@@ -8,11 +9,9 @@ public interface IReportDAO {
 
     Report saveReport(Report report);
 
-    List<Report> getActualReport(Long projectId);
+    List<Report> findReports(List<Project> projects);
 
-    Report getReport(String reportId);
+    Report findReport(Long reportId);
 
-    List<Report> getReportByProject(Long id);
-
-    List<Report> findAll();
+    List<Report> findAllActualReports();
 }

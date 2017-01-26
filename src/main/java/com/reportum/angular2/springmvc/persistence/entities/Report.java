@@ -15,7 +15,7 @@ public class Report implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
-    private Project projectId;
+    private Project project;
 
     @Column (name = "review_part")
     private String reviewPart;
@@ -39,12 +39,12 @@ public class Report implements Serializable {
         this.reportId = reportId;
     }
 
-    public Project getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(Project projectId) {
-        this.projectId = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public String getReviewPart() {

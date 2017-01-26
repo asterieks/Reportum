@@ -1,8 +1,6 @@
-import { Component, Input, AfterViewInit, ElementRef } from '@angular/core';
-
-import { Button }              from './button.model';
-
-import { SharedService }       from '../shared.service';
+import {Component, Input, ElementRef} from "@angular/core";
+import {Button} from "./button.model";
+import {SharedService} from "../shared.service";
 
 @Component ({
     selector: 'button_component',

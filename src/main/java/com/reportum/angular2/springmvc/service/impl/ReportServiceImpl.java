@@ -4,13 +4,9 @@ import com.reportum.angular2.springmvc.dao.IReportDAO;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.Report;
 import com.reportum.angular2.springmvc.service.IReportService;
-import com.reportum.angular2.springmvc.utils.EntityUtils;
-import com.reportum.angular2.springmvc.utils.beans.ProjectBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,30 +21,17 @@ public class ReportServiceImpl implements IReportService {
     }
 
     @Override
-    public List<ProjectBean> getProjectBeans(List<Project> projects) {
-        List<ProjectBean> projectBeanList=new ArrayList<>();
-        for (Project project: projects){
-            List<Report> reports=reportDAO.getActualReport(project.getProjectId());
-            //TODO
-            Collections.reverse(reports);
-            ProjectBean projectBean= EntityUtils.createAndReturnProjectBean(project, reports);
-            projectBeanList.add(projectBean);
-        }
-        return projectBeanList;
+    public Report findReport(Long reportId) {
+        return reportDAO.findReport(reportId);
     }
 
     @Override
-    public Report getReport(String reportId) {
-        return reportDAO.getReport(reportId);
+    public List<Report> findReports(List<Project> projects) {
+        return reportDAO.findReports(projects);
     }
 
     @Override
-    public List<Report> getReportByProject(Long id) {
-        return reportDAO.getReportByProject(id);
-    }
-
-    @Override
-    public List<Report> findAll() {
-        return reportDAO.findAll();
+    public List<Report> findAllActualReports() {
+        return reportDAO.findAllActualReports();
     }
 }

@@ -11,7 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,34 +24,63 @@ public class ProjectDAOImpl implements IProjectDAO{
     private EntityManager em;
 
     @Override
-    public List<Project> getProjectsByReporter(User reporter) {
+    public List<Project> findProjects(User user) {
         CriteriaQuery<Project> criteria=getCriteriaBuilder().createQuery(Project.class);
         Root<Project> root=criteria.from(Project.class);
-        criteria.where(getCriteriaBuilder().equal(root.get(Project_.reporter),reporter));
-        criteria.select(root);
+
+        List<Predicate> predicates=new ArrayList<>();
+        switch(user.getRole()) {
+            case REPORTER : addReporterPredicate(predicates, root, user);
+                            break;
+                case LEAD : addLeadPredicate(predicates, root, user);
+                            break;
+                  default : addManagerPredicate(predicates, root, user);
+        }
+        criteria.select(root)
+                .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
         return em.createQuery(criteria).getResultList();
     }
 
     @Override
-    public List<Project> getProjectsByTeamLead(User teamLeader) {
-        CriteriaQuery<Project> criteria=getCriteriaBuilder().createQuery(Project.class);
-        Root<Project> root=criteria.from(Project.class);
-        criteria.where(getCriteriaBuilder().equal(root.get(Project_.teamLeader),teamLeader));
-        criteria.select(root);
-        return em.createQuery(criteria).getResultList();
-    }
-
-
-    @Override
-    public Project getProjectsByProjectId(Long id) {
+    public Project findProject(Long id) {
         return em.find(Project.class,id);
     }
 
     @Override
-    public void save(Project project) {
+    public void saveProject(Project project) {
         em.merge(project);
     }
 
+
+
+    @Override
+    public List<Project> findAllProjects() {
+        CriteriaQuery<Project> criteria=getCriteriaBuilder().createQuery(Project.class);
+        Root<Project> root=criteria.from(Project.class);
+        criteria.select(root);
+        return em.createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public void saveProjects(List<Project> projects) {
+        projects.forEach(project -> {
+            em.merge(project);
+        });
+    }
+
+    private void addReporterPredicate(List<Predicate> predicates, Root<Project> root, User user) {
+        Predicate predicate=getCriteriaBuilder().equal(root.get(Project_.reporter),user);
+        predicates.add(predicate);
+    }
+    private void addLeadPredicate(List<Predicate> predicates, Root<Project> root, User user) {
+        Predicate predicate=getCriteriaBuilder().equal(root.get(Project_.teamLeader),user);
+        predicates.add(predicate);
+    }
+
+    private void addManagerPredicate(List<Predicate> predicates, Root<Project> root, User user) {
+        Predicate predicate=getCriteriaBuilder().equal(root.get(Project_.manager),user);
+        predicates.add(predicate);
+    }
 
     private CriteriaBuilder getCriteriaBuilder(){
         return em.getCriteriaBuilder();

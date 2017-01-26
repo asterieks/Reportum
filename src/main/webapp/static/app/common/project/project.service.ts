@@ -1,24 +1,16 @@
-import { Injectable }             from '@angular/core';
-import { Http, Response, Headers} from '@angular/http';
-import { Observable }             from 'rxjs/Rx';
-
-import { Project }                from './project.model';
+import {Injectable} from "@angular/core";
+import {Http, Response, Headers} from "@angular/http";
+import {Observable} from "rxjs/Rx";
+import {Project} from "./project.model";
 
 @Injectable()
 export class ProjectService{
 
     constructor(private http : Http){}
 
-    getUserProjects(): Observable<Project[]>{
+    getProjects(userId:string): Observable<Project[]>{
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.get(`/projects/reporter/asterieks@gmail.com`, {headers: headers})
-                                 .map((res:Response) => res.json())
-                                 .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
-    }
-
-    getManagerProjects(): Observable<Project[]>{
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.get(`/projects/lead/lead@gmail.com`, {headers: headers})
+        return this.http.get(`/users/`+userId+`/projects`, {headers: headers}) //asterieks@gmail.com
                                  .map((res:Response) => res.json())
                                  .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }

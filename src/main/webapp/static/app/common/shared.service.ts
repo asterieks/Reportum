@@ -1,6 +1,4 @@
-import { Injectable, Output, EventEmitter }  from '@angular/core';
-
-import { Report }      from './report/report.model';
+import {Injectable, Output, EventEmitter} from "@angular/core";
 
 @Injectable()
 export class SharedService {
@@ -13,7 +11,7 @@ export class SharedService {
             review: model.reviewPart,
             issues: model.issuePart,
             plans: model.planPart,
-            project: model.projectId.projectId,
+            project: model.project,
             reportId:model.reportId,
         };
         this.reportLoadedEvent.emit(report);

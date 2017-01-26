@@ -4,6 +4,6 @@ import com.reportum.angular2.springmvc.persistence.entities.User;
 
 public interface IUserDAO {
 
-    User findUserById(String id);
+    User findUser(String id);
 
 }

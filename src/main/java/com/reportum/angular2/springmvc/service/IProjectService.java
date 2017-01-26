@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface IProjectService {
 
-    List<Project> getProjectsByReporter(User reporter);
+    List<Project> findProjects(User user);
 
-    List<Project> getProjectsByTeamLead(User teamLeader);
+    Project findProject(Long id);
 
-    Project getProjectsByProjectId(Long id);
+    void saveProject(Project project);
 
-    void save(Project project);
+    void saveProjects(List<Project> projects);
+
+    List<Project> findAllProjects();
 }

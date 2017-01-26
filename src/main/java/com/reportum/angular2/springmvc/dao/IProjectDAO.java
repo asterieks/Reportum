@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface IProjectDAO {
 
-    List<Project> getProjectsByReporter(User reporter);
+    List<Project> findProjects(User user);
 
-    List<Project> getProjectsByTeamLead(User teamLeader);
+    Project findProject(Long id);
 
-    Project getProjectsByProjectId(Long id);
+    void saveProject(Project project);
 
-    void save(Project project);
+    List<Project> findAllProjects();
+
+    void saveProjects(List<Project> projects);
 }

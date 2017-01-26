@@ -1,10 +1,8 @@
-import { Component, Input, Output, EventEmitter }  from '@angular/core';
-
-import { ProjectService }    from '../project/project.service';
-import { ManagerService }    from '../../manager/manager.service';
-
-import { GridOptions }       from 'ag-grid/main';
-import { GridLabel }         from './grid_label.model';
+import {Component, Input} from "@angular/core";
+import {ManagerService} from "../../manager/manager.service";
+import {GridOptions} from "ag-grid/main";
+import {GridLabel} from "./grid_label.model";
+import {ReportService} from "../report/report.service";
 
 
 @Component({
@@ -17,16 +15,17 @@ export class GridComponent {
 
     @Input() grid_label: GridLabel;
 
-    constructor ( private _projectService: ProjectService, private _managerService: ManagerService ) {}
+    constructor ( private reportService: ReportService,
+                  private managerService: ManagerService ) {}
 
     ngOnInit() {
         this.gridOptions = <GridOptions>{};
-        this.gridOptions.columnDefs = this._managerService.createColumnDefs();
-        this.getManagerProjects();
+        this.gridOptions.columnDefs = this.managerService.createColumnDefs();
+        this.getReports();
     }
 
-    getManagerProjects() {
-        this._projectService.getManagerProjects()
+    private getReports() {
+        this.reportService.getReports("lead@gmail.com")
             .subscribe(data => this.gridOptions.api.setRowData(data));
     }
 }

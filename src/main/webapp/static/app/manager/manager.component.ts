@@ -1,15 +1,10 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { NgFor, NgIf }       from '@angular/common';
-import { HttpModule }        from '@angular/http'
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-
-import { ManagerService }    from './manager.service';
-import { ReportService }     from '../common/report/report.service';
-import { SharedService }     from "../common/shared.service";
-
-import { Button }            from '../common/button/button.model';
-import { GridLabel }         from '../common/grid/grid_label.model';
-import { Report }            from '../common/report/report.model';
+import {Component, OnInit} from "@angular/core";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {ManagerService} from "./manager.service";
+import {ReportService} from "../common/report/report.service";
+import {SharedService} from "../common/shared.service";
+import {Button} from "../common/button/button.model";
+import {GridLabel} from "../common/grid/grid_label.model";
 
 @Component({
     selector: 'manager',
@@ -21,7 +16,7 @@ export class ManagerComponent implements OnInit {
     public reportForm: FormGroup;
     grid_label: GridLabel;
     button_models: Button[];
-    selectedProjectId: number;
+    selectedProject: any;
     selectedReportId: number;
     show = true;
     showAggregated=false;
@@ -45,39 +40,39 @@ export class ManagerComponent implements OnInit {
     }
 
     onSubmit(form: any) {
-        let report= {
-            review: form.value.review,
-            issues: form.value.issues,
-            plans:  form.value.plans,
-            project:this.selectedProjectId
+        let report = {
+                reviewPart: form.value.review,
+                issuePart: form.value.issues,
+                planPart:  form.value.plans,
+                project: this.selectedProject
         };
-        this.updateReport(report);
+        this.updateReport(this.selectedReportId,report);
     }
 
-    updateReport(report: Report){
-        this.reportService.update(report).subscribe();
+    private updateReport(reportId:number, report: any){
+        this.reportService.updateReports(reportId, report).subscribe();
     }
 
-    loadForm(report: any){
+    private loadForm(report: any){
         this.reportForm.patchValue({
             review : report.review,
             issues : report.issues,
             plans  : report.plans
         });
-        this.selectedProjectId=report.project;
+        this.selectedProject=report.project;
         this.selectedReportId =report.reportId;
     }
 
-    aggregateReports(show:boolean){
-        this.reportService.get('lead@gmail.com').subscribe(data => this.showAggregatedReport(data));
+    private aggregateReports(show:boolean){
+        this.reportService.getReports("lead@gmail.com").subscribe(data => this.showAggregatedReport(data));
         this.show=show;
         this.showAggregated=!show;
     }
 
-    showAggregatedReport(reports:any[]){
+    private showAggregatedReport(reports:any[]){
         let temp='';
         for (let report of reports) {
-            let name='--'+report.projectId.projectName+'--'+'\r\n';
+            let name='--'+report.project.projectName+'--'+'\r\n';
             let review='Review:\r\n'+report.reviewPart+'\r\n';
             let issues='Issues:\r\n'+report.issuePart+'\r\n';
             let plans='Plans:\r\n'+report.planPart+'\r\n';

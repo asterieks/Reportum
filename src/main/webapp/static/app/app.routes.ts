@@ -1,9 +1,8 @@
 // - Routes instead of RouteConfig
 // - RouterModule instead of provideRoutes
-import { Routes, RouterModule } from '@angular/router';
-
-import { ManagerComponent }     from './manager/manager.component';
-import { ReporterComponent }    from './reporter/reporter.component';
+import {Routes, RouterModule} from "@angular/router";
+import {ManagerComponent} from "./manager/manager.component";
+import {ReporterComponent} from "./reporter/reporter.component";
 
 const routes: Routes = [
 {path: '',            component: ReporterComponent },

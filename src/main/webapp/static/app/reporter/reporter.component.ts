@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { NgFor }             from '@angular/common';
-import { HttpModule }        from '@angular/http'
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-
-import { ReporterService }   from './reporter.service';
-import { ReportService }     from '../common/report/report.service';
-
-import { Button }            from '../common/button/button.model';
-import { SelectLabel }       from '../common/select/select_label.model';
-import { Report }            from '../common/report/report.model';
-import { Project }           from '../common/project/project.model';
+import {Component, OnInit} from "@angular/core";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {ReporterService} from "./reporter.service";
+import {ReportService} from "../common/report/report.service";
+import {Button} from "../common/button/button.model";
+import {SelectLabel} from "../common/select/select_label.model";
+import {Project} from "../common/project/project.model";
 
 @Component({
     selector: 'reporter',
@@ -23,6 +18,7 @@ export class ReporterComponent implements OnInit {
     button_models: Button[];
     project: Project;
     projectState: string;
+    private reports: any[];
 
     constructor(private reporterService: ReporterService,
                 private fb: FormBuilder,
@@ -40,28 +36,45 @@ export class ReporterComponent implements OnInit {
 
     onSubmit(form: any) {
         let report = {
-                review: form.value.review,
-                issues: form.value.issues,
-                plans: form.value.plans,
-                project: this.project.projectId
+                reviewPart: form.value.review,
+                issuePart: form.value.issues,
+                planPart:  form.value.plans,
+                project: this.project
         };
         if(this.projectState==="Updated"){
-            this.updateReport(report);
+            let reportId=this.findReport(this.project);
+            this.updateReport(reportId,report);
         } else {
             this.addReport(report);
         }
     }
 
-    addReport(report: Report){
-        this.reportService.add(report).subscribe(data=>this.projectState="Updated");
+    private addReport(report: any){
+        this.reportService.addReports(report).subscribe(data=>{
+            if(data===201){
+                this.projectState="Updated";
+            }
+        });
     }
 
-    updateReport(report: Report){
-        this.reportService.update(report).subscribe();
+    private updateReport(reportId:number, report: any){
+        this.reportService.updateReports(reportId, report).subscribe();
     }
 
-    onChange(project:Project):void {
+    onSelectChange(project:Project):void {
         this.project=project;
         this.projectState=project.state;
+    }
+
+    onReportLoad(reports:any):void {
+        this.reports=reports;
+    }
+
+    private findReport(project:Project) {
+        for (let report of this.reports) {
+            if(report.project.projectId===project.projectId){
+                return report.reportId;
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ public class UserDAOImpl implements IUserDAO{
     private EntityManager em;
 
     @Override
-    public User findUserById(String id) {
+    public User findUser(String id) {
         return em.find(User.class,id);
     }
 }

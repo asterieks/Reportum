@@ -1,5 +1,7 @@
 package com.reportum.angular2.springmvc.persistence.entities;
 
+import com.reportum.angular2.springmvc.utils.enums.Role;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,8 @@ public class User {
     @Column (name = "full_name", nullable = false)
     private String fullName;
     @Column (name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "reporter")
     private List<Project> reporterList = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teamLeader")
@@ -39,11 +42,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

@@ -1,13 +1,14 @@
 package com.reportum.angular2.springmvc.persistence.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "PROJECTS")
-public class Project {
+public class Project implements Serializable{
     @Id
     @Column(name = "project_id", nullable = false)
     private Long projectId;
@@ -34,8 +35,8 @@ public class Project {
     @Column(name = "state_date")
     private Date stateDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "projectId")
-    private List<Report> projectIdList = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+    private List<Report> projectList = new ArrayList<>();
 
     public Project (){}
 
@@ -79,12 +80,12 @@ public class Project {
         this.manager = manager;
     }
 
-    public List<Report> getProjectIdList() {
-        return projectIdList;
+    public List<Report> getProjectList() {
+        return projectList;
     }
 
-    public void setProjectIdList(List<Report> projectIdList) {
-        this.projectIdList = projectIdList;
+    public void setProjectList(List<Report> projectIdList) {
+        this.projectList = projectIdList;
     }
 
     public String getState() {
