@@ -1,10 +1,12 @@
 <div>
-  <form [formGroup]="reportForm" (ngSubmit)="onSubmit(reportForm)">
-    <div  id="user_report_form" >
-      <div id="user_report_block">
+  <form [formGroup]="reportForm" (ngSubmit)="onSubmit(reportForm)" style="display:inline-flex;">
+ <!--   <div  id="user_report_form" >-->
+      <div id="manager_grid">
         <div>
           <grid_component [grid_label]="grid_label"></grid_component>
         </div>
+      </div>
+      <div id="user_report_block">
         <div *ngIf="show">
           <div class="text_area_model" fz-elastic >
             <label>Review</label>
@@ -27,6 +29,6 @@
           <button_component *ngFor="let button_model of button_models" [button_model]="button_model" ></button_component>
         </div>
       </div>
-    </div>
+  <!--  </div>-->
   </form>
 </div>

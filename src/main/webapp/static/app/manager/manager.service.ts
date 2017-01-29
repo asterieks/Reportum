@@ -13,13 +13,13 @@ export class ManagerService {
                                         {name: 'Aggregate', id:'manager_aggregate_button'}
                                        ];
     private projectsTableColumnDef = [
-        {headerName: "Project name", valueGetter: 'data.project.projectName',  width: 210},
-        {headerName: "Actual state",         valueGetter: 'data.project.state',   width: 210},
+        {headerName: "Project name", valueGetter: 'data.project.projectName',  width: 150},
+   /*     {headerName: "Actual state",         valueGetter: 'data.project.state',   width: 210},*/
         {   headerName: "State",
             cellRendererFramework: {component: ClickableParentComponent,dependencies: [ClickableComponent]},
-            width: 90,
+            width: 70,
             cellStyle:{
-                border:0
+                border:`1px`
             }
         }
     ];

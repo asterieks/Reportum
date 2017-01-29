@@ -1,7 +1,6 @@
-#user_report_form{
+#manager_report_form{
     text-align:-webkit-center;
-    display:-webkit-inline-box;
-    width:40vw;
+    width:70vw;
 }
 
 text_area_model{
@@ -9,7 +8,8 @@ text_area_model{
 }
 
 #user_report_block{
-    width:100%;
+    width:48vw;
+    display: inline-block;
 }
 
 textarea{
@@ -23,4 +23,9 @@ label{
     display:block;
     float:left;
     font-weight:normal;
+}
+#manager_grid{
+    width: 250px;
+    display: inline-block;
+    margin-right: 40px;
 }

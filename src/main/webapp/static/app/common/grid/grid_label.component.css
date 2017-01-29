@@ -1,6 +1,6 @@
 .grid_block{
     text-align:left;
-    margin-bottom:20px;
+ /*   margin-bottom:20px;*/
 }
 
 label{
@@ -12,6 +12,6 @@ label{
 ag-grid-ng2 {
     position: relative;
     width: 100%;
-    height: 130px;
+    height: 470px;
 }
 
