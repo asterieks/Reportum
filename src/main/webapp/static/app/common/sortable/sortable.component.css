@@ -1,0 +1,38 @@
+.col-sm-3{
+    width:100%;
+}
+
+.panel-heading{
+    background-color:#63B175;
+    color:white;
+    font-weight:600;
+}
+
+.panel-body{
+    padding-top:40px;
+    font-weight: 600;
+    text-align: left;
+    border-color: black;
+    border-style: solid;
+    border: 1px;
+}
+
+li{
+    border: 1px solid;
+}
+
+.selected {
+    background-color: lavender !important;
+    color: #607D8B;
+}
+
+li.selected:hover {
+    background-color: grey !important;
+    color: white;
+}
+
+li:hover {
+    color: #607D8B;
+    background-color: #EEE;
+    left: .1em;
+}

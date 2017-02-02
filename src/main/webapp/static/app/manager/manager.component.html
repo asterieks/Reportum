@@ -1,13 +1,15 @@
 <div>
-  <form [formGroup]="reportForm" (ngSubmit)="onSubmit(reportForm)" style="display:inline-flex;">
- <!--   <div  id="user_report_form" >-->
+  <form [formGroup]="reportForm" (ngSubmit)="onSubmit(reportForm)">
       <div id="manager_grid">
-        <div>
-          <grid_component [grid_label]="grid_label"></grid_component>
-        </div>
+          <sortable_component (project_binder)='onProjectSelect($event)' (project_order_binder)='onProjectDrop($event)'></sortable_component>
       </div>
-      <div id="user_report_block">
-        <div *ngIf="show">
+      <div class="panel panel-success">
+          <div class="panel-heading">
+              Report details
+          </div>
+          <div class="panel-body">
+      <div id="manager_report_block">
+        <div disabled *ngIf="show">
           <div class="text_area_model" fz-elastic >
             <label>Review</label>
             <textarea formControlName='review'></textarea>
@@ -23,12 +25,14 @@
         </div>
         <div *ngIf="showAggregated" style="width:100%;">
           <label>Aggregated report</label>
-          <textarea disabled style="min-height:410px; background-color:white">{{agregated_report}}</textarea>
+          <div class="aggregated" [innerHtml]="htmlVariable"></div>
         </div>
         <div>
-          <button_component *ngFor="let button_model of button_models" [button_model]="button_model" ></button_component>
+            <button type="submit" class="btn btn-default" id="manager_save_button" [disabled]="isValidSaveButton()">Save</button>
+            <button class="btn btn-default" id="manager_aggregate_button" (click)="onAggregateButtonClick($event)">Aggregate</button>
         </div>
       </div>
-  <!--  </div>-->
+          </div>
+      </div>
   </form>
 </div>

@@ -1,85 +1,242 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ElementRef} from "@angular/core";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {ManagerService} from "./manager.service";
 import {ReportService} from "../common/report/report.service";
-import {SharedService} from "../common/shared.service";
-import {Button} from "../common/button/button.model";
-import {GridLabel} from "../common/grid/grid_label.model";
+import {Project} from "../common/project/project.model";
+import {ProjectService} from "../common/project/project.service";
 
 @Component({
     selector: 'manager',
     template: require('./manager.component.html'),
     styles: [require('./manager.component.css')]
 })
-
+//refactored!!!
 export class ManagerComponent implements OnInit {
     public reportForm: FormGroup;
-    grid_label: GridLabel;
-    button_models: Button[];
     selectedProject: any;
-    selectedReportId: number;
-    show = true;
-    showAggregated=false;
-    agregated_report: string;
+    projectState: string;
+    show = false;
+    showAggregated=true;
+    reports:any;
+    htmlVariable: string
+    isSaveButtonValid:boolean=false;
+    templateForProjectSorting: number[]=[];
 
-    constructor(private managerService: ManagerService,
-                private fb: FormBuilder,
+    constructor(private fb: FormBuilder,
                 private reportService: ReportService,
-                private sharedService:SharedService){}
+                private projectService: ProjectService,
+                private elementRef:ElementRef){}
 
     ngOnInit() {
-        this.grid_label = this.managerService.getGridLabel();
-        this.button_models = this.managerService.getButton();
-        this.reportForm = this.fb.group({
-             review: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
-             issues: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
-              plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]]
-        });
-        this.sharedService.reportLoadedEvent.subscribe(data => this.loadForm(data));
-        this.sharedService.aggregateEvent.subscribe(data => this.aggregateReports(data));
+        this.initForm();
+        this.getReportsAndShow();
     }
 
     onSubmit(form: any) {
-        let report = {
+        let reportToUpdate = {
                 reviewPart: form.value.review,
                 issuePart: form.value.issues,
                 planPart:  form.value.plans,
                 project: this.selectedProject
         };
-        this.updateReport(this.selectedReportId,report);
+        this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
     }
 
-    private updateReport(reportId:number, report: any){
-        this.reportService.updateReports(reportId, report).subscribe();
+    onProjectSelect(project: Project){
+        this.selectedProject=project;
+        this.reportService.getReports("lead@gmail.com")
+            .subscribe(data => {
+                this.reports=data;
+                this.isSaveButtonValid=true;
+
+                this.findSpecificReportAndShow(data);
+            });
     }
 
-    private loadForm(report: any){
-        this.reportForm.patchValue({
-            review : report.review,
-            issues : report.issues,
-            plans  : report.plans
+    onProjectDrop(templateForSorting: number[]){
+        this.templateForProjectSorting = templateForSorting;
+    }
+
+    onAggregateButtonClick(event){
+        event.preventDefault();
+        this.getReportsAndShow()
+        this.isSaveButtonValid=false;
+        this.unselectProjectButton();
+    }
+
+    isValidSaveButton(): boolean{
+        return !this.isSaveButtonValid;
+    }
+
+
+
+    //---------methods---------------------------------------------------
+    //related to initialization
+    private initForm() {
+        this.reportForm = this.fb.group({
+            review: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
+            issues: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
+            plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]]
         });
-        this.selectedProject=report.project;
-        this.selectedReportId =report.reportId;
     }
 
-    private aggregateReports(show:boolean){
-        this.reportService.getReports("lead@gmail.com").subscribe(data => this.showAggregatedReport(data));
-        this.show=show;
-        this.showAggregated=!show;
+    private getReportsAndShow() {
+        this.reportService.getReports("lead@gmail.com")
+            .subscribe(data => {
+                this.reports=data;
+                this.aggregateAndShowReports(data);
+            });
     }
 
-    private showAggregatedReport(reports:any[]){
-        let temp='';
-        for (let report of reports) {
-            let name='--'+report.project.projectName+'--'+'\r\n';
-            let review='Review:\r\n'+report.reviewPart+'\r\n';
-            let issues='Issues:\r\n'+report.issuePart+'\r\n';
-            let plans='Plans:\r\n'+report.planPart+'\r\n';
-            let end='\r\n';
-            temp=temp+name+review+issues+plans+end;
+    private aggregateAndShowReports(reports:any[]){
+        let sortedReports=reports;
+
+        if(this.templateForProjectSorting.length>0){
+            sortedReports=this.sortReports(reports, this.templateForProjectSorting);
         }
-        this.agregated_report=temp;
+
+        let aggregatedReport = this.aggregateReports(sortedReports);
+        this.showAggregatedReports(aggregatedReport);
+    }
+
+    private aggregateReports(reports:any[]): string{
+        let aggregatedReport='<br><br>';
+        for (let report of reports) {
+            aggregatedReport=aggregatedReport+this.wrapEachReportInTags(report);
+        }
+        return aggregatedReport;
+    }
+
+    private showAggregatedReports(aggregatedReport:string) {
+        this.htmlVariable=aggregatedReport;
+        this.show=false;
+        this.showAggregated=!this.show;
+    }
+
+    private wrapEachReportInTags(report:any): string {
+        let name = '<h5><b><u>Project '+report.project.projectName+'</u></b></h5>';
+        let review='<p><b><u>Review:</u></b></p>' +
+            '<p>'+report.reviewPart+'</p>';
+        let issues='<p><b><u>Issues:</u></b></p>' +
+            '<p>'+report.issuePart+'</p>';
+        let plans= '<p><b><u>Plans:</u></b></p>' +
+            '<p>'+report.planPart+'</p>'+
+            '<br>';
+        return name+review+issues+plans;
+    }
+
+    private sortReports(reports:any[], templateForProjectSorting:number[]): any[] {
+        let sortedReports=[];
+        for (let id of templateForProjectSorting) {
+            for (let report of reports) {
+                if (id===report.project.projectId) {
+                    sortedReports.push(report);
+                    break;
+                }
+            }
+        }
+        return sortedReports;
+    }
+
+    //related to projectSelect event
+    private findSpecificReportAndShow(reports:any[]) {
+        let report=this.findSpecificReport(this.selectedProject);
+        this.hideAggregatedReports();
+        if(report){
+            this.showSpecificReport(report);
+        } else{
+            this.showEmptyReport();
+        }
+    }
+
+    private findSpecificReport(project:Project): any {
+        for (let report of this.reports) {
+            if(report.project.projectId===project.projectId){
+                return report;
+            }
+        }
+        return null;
+    }
+
+    private hideAggregatedReports() {
+        this.show=true;
+        this.showAggregated=!this.show;
+    }
+
+    private showSpecificReport(report: any){
+        this.reportForm.patchValue({
+            review : report.reviewPart,
+            issues : report.issuePart,
+            plans  : report.planPart
+        });
+    }
+
+    private showEmptyReport() {
+        this.reportForm.patchValue({
+            review : '',
+            issues : '',
+            plans  : ''
+        });
+    }
+
+    // related to submit
+    private checkProjectIfUpdatedAndSaveReport(reportToUpdate: any) {
+        if(this.selectedProject.state){
+            this.saveReport(this.selectedProject,reportToUpdate);
+        } else{
+            this.refreshDataAndSaveReport(reportToUpdate);
+        }
+    }
+
+    private refreshDataAndSaveReport(reportToUpdate:any) {
+        this.projectService.getProject(this.selectedProject.projectId).subscribe(project => {
+                if (project) {
+                    this.selectedProject = project;
+
+                    if(project.state){
+                        this.refreshReportsAndSaveReport(reportToUpdate);
+                    } else {
+                        this.addReport(reportToUpdate);
+                    }
+                }
+            });
+    }
+
+    private refreshReportsAndSaveReport(reportToUpdate:any) {
+        this.reportService.getReports("lead@gmail.com").subscribe(reports => {
+                if(reports){
+                    this.reports=reports;
+
+                    this.saveReport(this.selectedProject,reportToUpdate);
+                }
+            });
+    }
+
+    private saveReport(project:Project, reportToUpdate: any){
+        let prevReportVersion=this.findSpecificReport(project);
+        if(prevReportVersion) {
+            this.reportService.updateReports(prevReportVersion.reportId, reportToUpdate).subscribe();
+        } else {
+            console.log("Error: transaction aborted");
+            console.log("Error: can't find report after update");
+            this.addReport(reportToUpdate);
+        }
+    }
+
+    private addReport(report: any){
+        this.reportService.addReports(report).subscribe(data=>{
+            if(data===201){
+                //TODO check if it's necessary
+                this.projectState="Updated";
+            }
+        });
+    }
+
+    //related to aggregate button click
+    private unselectProjectButton() {
+        let el=this.elementRef.nativeElement.getElementsByClassName('list-group-item selected');
+        if(el[0]){
+            el[0].setAttribute('class','list-group-item');
+        }
     }
 }
 

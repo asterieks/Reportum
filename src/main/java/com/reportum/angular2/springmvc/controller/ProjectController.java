@@ -36,4 +36,14 @@ public class ProjectController {
         }
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
+
+    //GET specific
+    @RequestMapping(value = "/projects/{projectId}", method = RequestMethod.GET)
+    public ResponseEntity<Project> getSpecificReport(@PathVariable long projectId) {
+        Project project =projectService.findProject(projectId);
+        if(project==null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(project, HttpStatus.OK);
+    }
 }
