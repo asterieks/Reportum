@@ -57,6 +57,9 @@ public class ReportController {
     @RequestMapping(value = "/reports/{reportId}", method = RequestMethod.GET)
     public ResponseEntity<Report> getSpecificReport(@PathVariable long reportId) {
         Report report =reportService.findReport(reportId);
+        if(report==null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
 
