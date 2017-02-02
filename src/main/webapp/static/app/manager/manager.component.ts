@@ -36,7 +36,8 @@ export class ManagerComponent implements OnInit {
                 reviewPart: form.value.review,
                 issuePart: form.value.issues,
                 planPart:  form.value.plans,
-                project: this.selectedProject
+                project: this.selectedProject,
+                reportedBy: 'lead@gmail.com'
         };
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
     }

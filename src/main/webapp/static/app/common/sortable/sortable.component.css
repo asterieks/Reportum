@@ -36,3 +36,20 @@ li:hover {
     background-color: #EEE;
     left: .1em;
 }
+
+span.project_name{
+    display: inline-block;
+}
+
+div.project_state_wrapper{
+    display: inline-block;
+    float: right;
+    color:white;
+  /* background-color: rgba(39,194,76,0.7);*/
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+div.project_state{
+    padding: 2px 8px;
+}

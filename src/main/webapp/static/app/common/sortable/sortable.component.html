@@ -8,7 +8,12 @@
                         dnd-sortable [sortableIndex]="i"
                         (click)="onSelect(project)"
                         [class.selected]="project === selectedProject"
-                        (onDropSuccess)="onDrop($event)">{{project.projectName}}</li>
+                        (onDropSuccess)="onDrop($event)">
+                            <span class="project_name">{{project.projectName}}</span>
+                            <div class="project_state_wrapper" [ngStyle]="defineColorBy(project.state)">
+                                <div class="project_state">{{project.state}}</div>
+                            </div>
+                    </li>
                 </ul>
             </div>
         </div>

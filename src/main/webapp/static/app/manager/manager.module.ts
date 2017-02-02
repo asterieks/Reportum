@@ -7,7 +7,7 @@ import {SharedModule} from "../common/shared.module";
 import {ProjectService} from "../common/project/project.service";
 import {ReportService} from "../common/report/report.service";
 import {ManagerComponent} from "./manager.component";
-import {SortableComponent} from "../common/sortable/sorttable.component";
+import {SortableComponent} from "../common/sortable/sortable.component";
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, ReactiveFormsModule, FormsModule, SharedModule,  DndModule.forRoot()],

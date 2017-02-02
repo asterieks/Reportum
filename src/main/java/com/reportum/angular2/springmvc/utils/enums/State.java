@@ -1,7 +1,9 @@
 package com.reportum.angular2.springmvc.utils.enums;
 
 public enum State {
-    UPDATED("Updated");
+    REPORTED("Reported"),
+    REVIEWED("Reviewed"),
+    DELAYED("Delayed");
 
     private String value;
 
