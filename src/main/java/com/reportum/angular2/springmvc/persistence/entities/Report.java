@@ -29,6 +29,9 @@ public class Report implements Serializable {
     @Column (name="creation_date")
     private Date date;
 
+    @Column (name="reported_by")
+    private String reportedBy;
+
     public Report(){}
 
     public Long getReportId() {
@@ -77,5 +80,13 @@ public class Report implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getReportedBy() {
+        return reportedBy;
+    }
+
+    public void setReportedBy(String reportedBy) {
+        this.reportedBy = reportedBy;
     }
 }

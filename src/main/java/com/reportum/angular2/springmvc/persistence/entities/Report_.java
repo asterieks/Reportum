@@ -12,4 +12,5 @@ public class Report_ {
     public static volatile SingularAttribute<Report, String> issuePart;
     public static volatile SingularAttribute<Report, String> planPart;
     public static volatile SingularAttribute<Report, Date> date;
+    public static volatile SingularAttribute<Report, String> reportedBy;
 }

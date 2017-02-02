@@ -6,6 +6,7 @@ import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IProjectService;
 import com.reportum.angular2.springmvc.service.IReportService;
 import com.reportum.angular2.springmvc.service.IUserService;
+import com.reportum.angular2.springmvc.utils.enums.Role;
 import com.reportum.angular2.springmvc.utils.enums.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,12 @@ public class ReportController {
         Project project=projectService.findProject(newReport.getProject().getProjectId());
 
         Report report=createReport(newReport, project);
-
         reportService.saveReport(report);
-        projectService.saveProject(updateProject(project));
+
+        User reportedBy=userService.findUser(report.getReportedBy());
+        project=updateProject(project,reportedBy);
+        projectService.saveProject(project);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -50,6 +54,10 @@ public class ReportController {
         Report report=updateReport(prevReport, newReport);
 
         reportService.saveReport(report);
+
+        User reportedBy=userService.findUser(report.getReportedBy());
+        Project project=updateProject(report.getProject(),reportedBy);
+        projectService.saveProject(project);
         return new ResponseEntity<>(report, HttpStatus.CREATED);
     }
 
@@ -81,8 +89,12 @@ public class ReportController {
         return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
-    private Project updateProject(Project project) {
-        project.setState(State.UPDATED.getValue());
+    private Project updateProject(Project project, User reportedBy) {
+        if(Role.REPORTER==reportedBy.getRole()){
+            project.setState(State.REPORTED.getValue());
+        } else {
+            project.setState(State.REVIEWED.getValue());
+        }
         project.setStateDate(new Date());
         return project;
     }
@@ -94,6 +106,7 @@ public class ReportController {
         report.setPlanPart(newReport.getPlanPart());
         report.setProject(project);
         report.setDate(new Date());
+        report.setReportedBy(newReport.getReportedBy());
         return  report;
     }
 
@@ -102,6 +115,7 @@ public class ReportController {
         prevReport.setIssuePart(newReport.getIssuePart());
         prevReport.setPlanPart(newReport.getPlanPart());
         prevReport.setDate(new Date());
+        prevReport.setReportedBy(newReport.getReportedBy());
         return  prevReport;
     }
 }

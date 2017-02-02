@@ -55,7 +55,7 @@ public class JobSchedulerServiceImpl implements JobSchedulerService {
         divideInTwo(projects, reports, updatedList, notUpdatedList);
 
         updateState(notUpdatedList);
-        updateState(updatedList,reports, State.UPDATED.getValue());
+        updateState(updatedList,reports, State.DELAYED.getValue());
 
         resultList.addAll(notUpdatedList);
         resultList.addAll(updatedList);

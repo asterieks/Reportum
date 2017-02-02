@@ -39,7 +39,8 @@ export class ReporterComponent implements OnInit {
                 reviewPart: form.value.review,
                 issuePart: form.value.issues,
                 planPart:  form.value.plans,
-                project: this.project
+                project: this.project,
+                reportedBy: 'asterieks@gmail.com'
         };
         if(this.projectState==="Updated"){
             let reportId=this.findReport(this.project);

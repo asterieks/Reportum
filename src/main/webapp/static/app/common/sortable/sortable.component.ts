@@ -31,6 +31,15 @@ export class SortableComponent implements OnInit{
         this.createTemplateAndSend();
     }
 
+    defineColorBy(projectState: string): any {
+        if(projectState==='Reported'){
+            return {'background-color': 'rgba(255,144,43,0.7)'};
+        } else if (projectState==='Reviewed'){
+            return {'background-color': 'rgba(39,194,76,0.7)'};
+        }
+        return {'background-color': 'rgba(240,80,80,0.7)'};
+    }
+
     private createTemplateAndSend() {
         let template=this.createTemplateForSorting();
         this.project_order_binder.emit(template);
@@ -54,8 +63,4 @@ export class SortableComponent implements OnInit{
                 }
         });
     }
-
-
-
-
 }
