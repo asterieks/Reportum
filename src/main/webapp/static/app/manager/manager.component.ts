@@ -3,6 +3,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {ReportService} from "../common/report/report.service";
 import {Project} from "../common/project/project.model";
 import {ProjectService} from "../common/project/project.service";
+import {DataService} from "../common/data/data.service";
 
 @Component({
     selector: 'manager',
@@ -24,7 +25,8 @@ export class ManagerComponent implements OnInit {
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
                 private projectService: ProjectService,
-                private elementRef:ElementRef){}
+                private elementRef:ElementRef,
+                private dataService: DataService){}
 
     ngOnInit() {
         this.initForm();
@@ -37,18 +39,17 @@ export class ManagerComponent implements OnInit {
                 issuePart: form.value.issues,
                 planPart:  form.value.plans,
                 project: this.selectedProject,
-                reportedBy: 'lead@gmail.com'
+                reportedBy: this.dataService.loginData.email
         };
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
     }
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        this.reportService.getReports("lead@gmail.com")
+        this.reportService.getReports(this.dataService.loginData.email)
             .subscribe(data => {
                 this.reports=data;
                 this.isSaveButtonValid=true;
-
                 this.findSpecificReportAndShow(data);
             });
     }
@@ -81,7 +82,7 @@ export class ManagerComponent implements OnInit {
     }
 
     private getReportsAndShow() {
-        this.reportService.getReports("lead@gmail.com")
+        this.reportService.getReports(this.dataService.loginData.email)
             .subscribe(data => {
                 this.reports=data;
                 this.aggregateAndShowReports(data);
@@ -203,7 +204,7 @@ export class ManagerComponent implements OnInit {
     }
 
     private refreshReportsAndSaveReport(reportToUpdate:any) {
-        this.reportService.getReports("lead@gmail.com").subscribe(reports => {
+        this.reportService.getReports(this.dataService.loginData.email).subscribe(reports => {
                 if(reports){
                     this.reports=reports;
 
@@ -217,8 +218,6 @@ export class ManagerComponent implements OnInit {
         if(prevReportVersion) {
             this.reportService.updateReports(prevReportVersion.reportId, reportToUpdate).subscribe();
         } else {
-            console.log("Error: transaction aborted");
-            console.log("Error: can't find report after update");
             this.addReport(reportToUpdate);
         }
     }

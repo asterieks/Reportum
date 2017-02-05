@@ -1,0 +1,25 @@
+<div id="account">
+<div id="createAccount">
+    <button class="btn btn-default" style="background-color:#F7A968;" (click)="onCreateAccount($event)">Create Account</button>
+</div>
+</div>
+
+<div class="login jumbotron center-block">
+  <div id="loginForm">
+  <h2>Login</h2>
+  <form role="form" (submit)="login($event, username.value, password.value)">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+    <input type="text" #username class="form-control" id="username" placeholder="Username">
+  </div>
+
+   <div class="input-group" style="padding-top: 25px;">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+    <input type="password" #password class="form-control" id="password" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-default" style="background-color:#F7A968; margin-top: 25px;">Log in</button>
+</form>
+ </div>
+</div>
+
+

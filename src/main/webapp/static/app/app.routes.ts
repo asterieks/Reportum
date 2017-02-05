@@ -3,12 +3,14 @@
 import {Routes, RouterModule} from "@angular/router";
 import {ManagerComponent} from "./manager/manager.component";
 import {ReporterComponent} from "./reporter/reporter.component";
+import {LoginComponent} from "./login/login.component";
 
 const routes: Routes = [
-{path: '',            component: ReporterComponent },
+{ path: '',       component: LoginComponent },
+{ path: 'login',  component: LoginComponent },
 {path: 'reporter',    component: ReporterComponent },
 {path: 'manager',     component: ManagerComponent },
-{path: '*',           component: ReporterComponent }
+{path: '*',           component: LoginComponent }
 ];
 
 // - Updated Export

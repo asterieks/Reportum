@@ -4,6 +4,7 @@ import com.reportum.angular2.springmvc.dao.IProjectDAO;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.Project_;
 import com.reportum.angular2.springmvc.persistence.entities.User;
+import com.reportum.angular2.springmvc.utils.enums.UserRole;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +30,12 @@ public class ProjectDAOImpl implements IProjectDAO{
         Root<Project> root=criteria.from(Project.class);
 
         List<Predicate> predicates=new ArrayList<>();
-        switch(user.getRole()) {
-            case REPORTER : addReporterPredicate(predicates, root, user);
-                            break;
-                case LEAD : addLeadPredicate(predicates, root, user);
-                            break;
-                  default : addManagerPredicate(predicates, root, user);
+        if(user.getRole().getRoleName().equals(UserRole.REPORTER.getValue().toString())) {
+            addReporterPredicate(predicates, root, user);
+        } else if(user.getRole().getRoleName().equals(UserRole.LEAD.getValue().toString())) {
+            addLeadPredicate(predicates, root, user);
+        } else{
+            addManagerPredicate(predicates, root, user);
         }
         criteria.select(root)
                 .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
