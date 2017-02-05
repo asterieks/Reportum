@@ -1,0 +1,22 @@
+.login {
+  width: 40%;
+}
+
+#account{
+ position:relative
+ }
+
+ div#createAccount{
+ position: absolute;
+ top:-37px;
+ left: 1100px;
+  margin: auto;
+ }
+
+ #loginForm{
+  width:320px;
+   margin: auto;
+ }
+
+
+
