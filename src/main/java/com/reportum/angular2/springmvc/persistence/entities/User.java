@@ -1,5 +1,7 @@
 package com.reportum.angular2.springmvc.persistence.entities;
 
+import com.reportum.angular2.springmvc.utils.enums.Role;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +14,9 @@ public class User {
     private String id;
     @Column (name = "full_name", nullable = false)
     private String fullName;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role")
+    @Column (name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
-
-    @Column (name = "password", nullable = false)
-    private String password;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "reporter")
     private List<Project> reporterList = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teamLeader")
@@ -75,13 +72,5 @@ public class User {
 
     public void setManagerList(List<Project> managerList) {
         this.managerList = managerList;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

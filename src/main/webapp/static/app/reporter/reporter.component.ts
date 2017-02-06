@@ -5,7 +5,6 @@ import {ReportService} from "../common/report/report.service";
 import {Button} from "../common/button/button.model";
 import {SelectLabel} from "../common/select/select_label.model";
 import {Project} from "../common/project/project.model";
-import {DataService} from "../common/data/data.service";
 
 @Component({
     selector: 'reporter',
@@ -23,8 +22,7 @@ export class ReporterComponent implements OnInit {
 
     constructor(private reporterService: ReporterService,
                 private fb: FormBuilder,
-                private reportService: ReportService,
-                private dataService: DataService){}
+                private reportService: ReportService){}
 
     ngOnInit() {
         this.select_label = this.reporterService.getSelect();
@@ -42,7 +40,7 @@ export class ReporterComponent implements OnInit {
                 issuePart: form.value.issues,
                 planPart:  form.value.plans,
                 project: this.project,
-                reportedBy: this.dataService.loginData.email
+                reportedBy: 'asterieks@gmail.com'
         };
         if(this.projectState==="Updated"){
             let reportId=this.findReport(this.project);

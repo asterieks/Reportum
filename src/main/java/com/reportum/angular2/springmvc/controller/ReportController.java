@@ -6,8 +6,8 @@ import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IProjectService;
 import com.reportum.angular2.springmvc.service.IReportService;
 import com.reportum.angular2.springmvc.service.IUserService;
+import com.reportum.angular2.springmvc.utils.enums.Role;
 import com.reportum.angular2.springmvc.utils.enums.State;
-import com.reportum.angular2.springmvc.utils.enums.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +90,7 @@ public class ReportController {
     }
 
     private Project updateProject(Project project, User reportedBy) {
-        if(UserRole.REPORTER.getValue().equals(reportedBy.getRole().getRoleName())){
+        if(Role.REPORTER==reportedBy.getRole()){
             project.setState(State.REPORTED.getValue());
         } else {
             project.setState(State.REVIEWED.getValue());

@@ -8,13 +8,12 @@ import {ProjectService} from "../common/project/project.service";
 import {ReportService} from "../common/report/report.service";
 import {ManagerComponent} from "./manager.component";
 import {SortableComponent} from "../common/sortable/sortable.component";
-import {DataService} from "../common/data/data.service";
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, ReactiveFormsModule, FormsModule, SharedModule,  DndModule.forRoot()],
   declarations: [ ManagerComponent, SortableComponent ],
   bootstrap:    [ ManagerComponent ],
-  providers:    [ ProjectService, ReportService, DataService ]                         // services
+  providers:    [ ProjectService, ReportService ]                         // services
 })
 
 export class ManagerModule { }
