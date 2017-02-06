@@ -83,8 +83,10 @@ export class ManagerComponent implements OnInit {
     private getReportsAndShow() {
         this.reportService.getReports("lead@gmail.com")
             .subscribe(data => {
-                this.reports=data;
-                this.aggregateAndShowReports(data);
+                if(data){
+                    this.reports=data;
+                    this.aggregateAndShowReports(data);
+                }
             });
     }
 

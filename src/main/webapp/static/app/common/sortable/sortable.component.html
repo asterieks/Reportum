@@ -1,21 +1,12 @@
-<div class="row">
-    <div class="col-sm-3">
-        <div class="panel panel-success">
-            <div class="panel-heading">Actual projects</div>
-            <div class="panel-body">
-                <ul class="list-group" dnd-sortable-container [sortableData]="projects">
-                    <li *ngFor="let project of projects; let i = index" class="list-group-item"
-                        dnd-sortable [sortableIndex]="i"
-                        (click)="onSelect(project)"
-                        [class.selected]="project === selectedProject"
-                        (onDropSuccess)="onDrop($event)">
-                            <span class="project_name">{{project.projectName}}</span>
-                            <div class="project_state_wrapper" [ngStyle]="defineColorBy(project.state)">
-                                <div class="project_state">{{project.state}}</div>
-                            </div>
-                    </li>
-                </ul>
+<ul class="list-group" dnd-sortable-container [sortableData]="projects">
+    <li *ngFor="let project of projects; let i = index" class="list-group-item"
+        dnd-sortable [sortableIndex]="i"
+        (click)="onSelect(project)"
+        [class.selected]="project === selectedProject"
+        (onDropSuccess)="onDrop($event)">
+            <span class="project_name">{{project.projectName}}</span>
+            <div class="project_state_wrapper" [ngStyle]="defineColorBy(project.state)">
+                <div class="project_state">{{project.state}}</div>
             </div>
-        </div>
-    </div>
-</div>
+    </li>
+</ul>

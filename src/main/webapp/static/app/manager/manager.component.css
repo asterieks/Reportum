@@ -8,6 +8,17 @@ form{
     margin-right: 40px;
 }
 
+.col-sm-3{
+    width:100%;
+}
+
+.aggregate_button_wrapper{
+    height: 34px;
+    margin-top: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
 .panel-heading {
     background-color:#63B175;
     color:white;
@@ -48,6 +59,10 @@ textarea{
     font-family:Raleway !important;
 }
 
+.aggregated_report_block{
+    width:100%;
+}
+
 .aggregated{
     font-size:14px;
     font-weight:500;
@@ -58,7 +73,5 @@ textarea{
 
 .btn-default{
     float:right;
-    margin-left:20px;
-    margin-top:10px;
     background-color:lavender; /*lavenderblush*/
 }
