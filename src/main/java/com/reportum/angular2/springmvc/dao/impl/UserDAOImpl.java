@@ -20,4 +20,9 @@ public class UserDAOImpl implements IUserDAO{
     public User findUser(String id) {
         return em.find(User.class,id);
     }
+
+    //for test only
+    public void setEm(EntityManager em){
+        this.em=em;
+    }
 }
