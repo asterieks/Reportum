@@ -86,4 +86,9 @@ public class ProjectDAOImpl implements IProjectDAO{
         return em.getCriteriaBuilder();
     }
 
+    //for test only
+    public void setEm(EntityManager em){
+        this.em=em;
+    }
+
 }

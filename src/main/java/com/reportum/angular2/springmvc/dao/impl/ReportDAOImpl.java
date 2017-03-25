@@ -89,4 +89,9 @@ public class ReportDAOImpl implements IReportDAO {
     private CriteriaBuilder getCriteriaBuilder(){
         return em.getCriteriaBuilder();
     }
+
+    //for test only
+    public void setEm(EntityManager em){
+        this.em=em;
+    }
 }
