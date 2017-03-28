@@ -1,6 +1,0 @@
-<div class="select_block">
-    <label>{{ select_label.name }}</label>
-    <select  (change)='onChange($event.target.value)'>
-        <option *ngFor="let project of projects" value={{project.projectId}}>{{project.projectName}}</option>
-    </select>
-</div>

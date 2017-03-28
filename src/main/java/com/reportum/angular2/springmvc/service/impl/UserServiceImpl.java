@@ -6,6 +6,8 @@ import com.reportum.angular2.springmvc.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("userService")
 public class UserServiceImpl implements IUserService {
 
@@ -15,5 +17,15 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User findUser(String id) {
 		return userDAO.findUser(id);
+	}
+
+	@Override
+	public List<User> findAllUsers() {
+		return userDAO.findAllUsers();
+	}
+
+	@Override
+	public void saveUser(User user) {
+		userDAO.saveUser(user);
 	}
 }

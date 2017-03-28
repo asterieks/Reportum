@@ -1,7 +1,7 @@
 package com.reportum.angular2.springmvc.utils.enums;
 
 
-public enum Role {
+public enum Profile {
     REPORTER,
     LEAD,
     MANAGER;

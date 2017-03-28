@@ -29,7 +29,7 @@ public class ProjectDAOImpl implements IProjectDAO{
         Root<Project> root=criteria.from(Project.class);
 
         List<Predicate> predicates=new ArrayList<>();
-        switch(user.getRole()) {
+        switch(user.getProfile()) {
             case REPORTER : addReporterPredicate(predicates, root, user);
                             break;
                 case LEAD : addLeadPredicate(predicates, root, user);

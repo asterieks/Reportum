@@ -1,7 +1,8 @@
 import {Component, OnInit, EventEmitter, Output} from "@angular/core";
 import {ProjectService} from "../project/project.service";
-import {ReportService} from "../report/report.service";
 import {Project} from "../project/project.model";
+import {Account} from "../../account/account";
+import * as AppUtils from "../../utils/app.utils";
 
 @Component ({
     selector: 'sortable_component',
@@ -54,7 +55,9 @@ export class SortableComponent implements OnInit{
     }
 
     private loadManagerProjects() {
-        this.projectService.getProjects("lead@gmail.com")
+        let currentAccount = this.getCurrentAccount();
+        console.log('+SortableComponent: try to load projects for user '+ currentAccount.id);
+        this.projectService.getProjects(currentAccount.id)
             .subscribe(data => {
                 if (data) {
                     this.projects = data;
@@ -62,5 +65,9 @@ export class SortableComponent implements OnInit{
                     this.createTemplateAndSend();
                 }
         });
+    }
+
+    private getCurrentAccount(){
+        return new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN)));
     }
 }
