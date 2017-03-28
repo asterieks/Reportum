@@ -2,6 +2,7 @@ package com.reportum.angular2.springmvc.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.reportum.angular2.springmvc.configuration.security.SecurityConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.reportum.angular2.springmvc")
-@Import(DataBaseOracleConfig.class)
+@Import({DataBaseOracleConfig.class, SecurityConfiguration.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 
 	@Bean

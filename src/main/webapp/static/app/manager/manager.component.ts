@@ -3,13 +3,15 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {ReportService} from "../common/report/report.service";
 import {Project} from "../common/project/project.model";
 import {ProjectService} from "../common/project/project.service";
+import * as AppUtils from "../utils/app.utils";
+import {Account} from "../account/account";
 
 @Component({
     selector: 'manager',
     template: require('./manager.component.html'),
     styles: [require('./manager.component.css')]
 })
-//refactored!!!
+
 export class ManagerComponent implements OnInit {
     public reportForm: FormGroup;
     selectedProject: any;
@@ -17,7 +19,7 @@ export class ManagerComponent implements OnInit {
     show = false;
     showAggregated=true;
     reports:any;
-    htmlVariable: string
+    htmlVariable: string;
     isSaveButtonValid:boolean=false;
     templateForProjectSorting: number[]=[];
 
@@ -27,24 +29,27 @@ export class ManagerComponent implements OnInit {
                 private elementRef:ElementRef){}
 
     ngOnInit() {
+        console.log('+ManagerComponent: init');
         this.initForm();
         this.getReportsAndShow();
     }
 
     onSubmit(form: any) {
+        let currentAccount = this.getCurrentAccount();
         let reportToUpdate = {
                 reviewPart: form.value.review,
                 issuePart: form.value.issues,
                 planPart:  form.value.plans,
                 project: this.selectedProject,
-                reportedBy: 'lead@gmail.com'
+                reportedBy: currentAccount.id
         };
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
     }
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        this.reportService.getReports("lead@gmail.com")
+        let currentAccount = this.getCurrentAccount();
+        this.reportService.getReports(currentAccount.id)
             .subscribe(data => {
                 this.reports=data;
                 this.isSaveButtonValid=true;
@@ -81,7 +86,8 @@ export class ManagerComponent implements OnInit {
     }
 
     private getReportsAndShow() {
-        this.reportService.getReports("lead@gmail.com")
+        let currentAccount = this.getCurrentAccount();
+        this.reportService.getReports(currentAccount.id)
             .subscribe(data => {
                 if(data){
                     this.reports=data;
@@ -152,9 +158,11 @@ export class ManagerComponent implements OnInit {
     }
 
     private findSpecificReport(project:Project): any {
-        for (let report of this.reports) {
-            if(report.project.projectId===project.projectId){
-                return report;
+        if (this.reports) {
+            for (let report of this.reports) {
+                if(report.project.projectId===project.projectId){
+                    return report;
+                }
             }
         }
         return null;
@@ -205,13 +213,14 @@ export class ManagerComponent implements OnInit {
     }
 
     private refreshReportsAndSaveReport(reportToUpdate:any) {
-        this.reportService.getReports("lead@gmail.com").subscribe(reports => {
+        let currentAccount = this.getCurrentAccount();
+        this.reportService.getReports(currentAccount.id).subscribe(reports => {
                 if(reports){
                     this.reports=reports;
 
                     this.saveReport(this.selectedProject,reportToUpdate);
                 }
-            });
+        });
     }
 
     private saveReport(project:Project, reportToUpdate: any){
@@ -240,6 +249,10 @@ export class ManagerComponent implements OnInit {
         if(el[0]){
             el[0].setAttribute('class','list-group-item');
         }
+    }
+
+    private getCurrentAccount(){
+        return new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN)));
     }
 }
 
