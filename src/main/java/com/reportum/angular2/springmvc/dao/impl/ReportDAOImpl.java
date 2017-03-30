@@ -2,6 +2,7 @@ package com.reportum.angular2.springmvc.dao.impl;
 
 import com.reportum.angular2.springmvc.dao.IReportDAO;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
+import com.reportum.angular2.springmvc.persistence.entities.Project_;
 import com.reportum.angular2.springmvc.persistence.entities.Report;
 import com.reportum.angular2.springmvc.persistence.entities.Report_;
 import com.reportum.angular2.springmvc.utils.DateUtils;
@@ -17,6 +18,8 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
 @Repository
 @Transactional
@@ -71,6 +74,21 @@ public class ReportDAOImpl implements IReportDAO {
         return em.createQuery(criteria).getResultList();
     }
 
+    @Override
+    public Report findReportByProjectId(Long projectId) {
+        CriteriaQuery<Report> criteria=getCriteriaBuilder().createQuery(Report.class);
+        Root<Report> root=criteria.from(Report.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        addProjectIdPredicate(predicates, root, projectId);
+        addTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
+
+        criteria.select(root)
+                .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
+        List<Report> reports = em.createQuery(criteria).getResultList();
+        return !isEmpty(reports)? reports.get(0) : null;
+    }
+
     private void addTimePredicate(List<Predicate> predicates, Root<Report> root, Date thisWeekMondayDate) {
         Predicate predicate=getCriteriaBuilder().greaterThanOrEqualTo(root.get(Report_.date), thisWeekMondayDate);
         predicates.add(predicate);
@@ -83,6 +101,11 @@ public class ReportDAOImpl implements IReportDAO {
 
     private void addProjectPredicate(List<Predicate> predicates, Root<Report> root, List<Project> projects) {
         Predicate predicate=root.get(Report_.project).in(projects);
+        predicates.add(predicate);
+    }
+
+    private void addProjectIdPredicate(List<Predicate> predicates, Root<Report> root, Long projectId) {
+        Predicate predicate=getCriteriaBuilder().equal(root.get(Report_.project).get(Project_.projectId),projectId);
         predicates.add(predicate);
     }
 

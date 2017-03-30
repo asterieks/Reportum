@@ -27,9 +27,7 @@ export class Login {
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
-        console.log('+Login: init');
         accountEventService.subscribe((account) => {
-            console.log('subscribe in Login', account);
             if(!account.authenticated) {
                 if(account.error) {
                     if(account.error.indexOf('BadCredentialsException') !== -1) {

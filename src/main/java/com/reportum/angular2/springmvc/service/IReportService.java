@@ -14,4 +14,6 @@ public interface IReportService {
     Report findReport(Long reportId);
 
     List<Report> findAllActualReports();
+
+    Report findReportByProjectId(Long projectId);
 }

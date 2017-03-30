@@ -43,13 +43,14 @@ export class ReporterComponent implements OnInit {
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        let currentAccount = this.getCurrentAccount();
-        this.reportService.getReports(currentAccount.id)
+        //TODO check this
+        //let currentAccount = this.getCurrentAccount();
+        this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
                 this.reports=data;
                 this.isSaveButtonValid=true;
 
-                this.findSpecificReportAndShow(data);
+                this.displayReport(data);
             });
     }
 
@@ -72,27 +73,15 @@ export class ReporterComponent implements OnInit {
     }
 
     //related to projectSelect event
-    private findSpecificReportAndShow(reports:any[]) {
-        let report=this.findSpecificReport(this.selectedProject);
+    private displayReport(report:any) {
         if(report){
-            this.showSpecificReport(report);
+            this.showThisReport(report);
         } else{
             this.showEmptyReport();
         }
     }
 
-    private findSpecificReport(project:Project): any {
-        if(this.reports){
-            for (let report of this.reports) {
-                if(report.project.projectId===project.projectId){
-                    return report;
-                }
-            }
-        }
-        return null;
-    }
-
-    private showSpecificReport(report: any){
+    private showThisReport(report: any){
         this.reportForm.patchValue({
             review : report.reviewPart,
             issues : report.issuePart,
@@ -110,7 +99,7 @@ export class ReporterComponent implements OnInit {
 
     // related to submit
     private checkProjectIfUpdatedAndSaveReport(reportToUpdate: any) {
-        if(this.selectedProject.state){
+        if(this.selectedProject.state != 'Delayed'){
             this.saveReport(this.selectedProject,reportToUpdate);
         } else{
             this.refreshDataAndSaveReport(reportToUpdate);
@@ -122,8 +111,8 @@ export class ReporterComponent implements OnInit {
             if (project) {
                 this.selectedProject = project;
 
-                if(project.state){
-                    this.refreshReportsAndSaveReport(reportToUpdate);
+                if(this.selectedProject.state != 'Delayed'){
+                    this.saveReport( this.selectedProject.projectId,reportToUpdate);
                 } else {
                     this.addReport(reportToUpdate);
                 }
@@ -131,26 +120,8 @@ export class ReporterComponent implements OnInit {
         });
     }
 
-    private refreshReportsAndSaveReport(reportToUpdate:any) {
-        let currentAccount = this.getCurrentAccount();
-        this.reportService.getReports(currentAccount.id).subscribe(reports => {
-            if(reports){
-                this.reports=reports;
-
-                this.saveReport(this.selectedProject,reportToUpdate);
-            }
-        });
-    }
-
     private saveReport(project:Project, reportToUpdate: any){
-        let prevReportVersion=this.findSpecificReport(project);
-        if(prevReportVersion) {
-            this.reportService.updateReports(prevReportVersion.reportId, reportToUpdate).subscribe();
-        } else {
-            console.log("Error: transaction aborted");
-            console.log("Error: can't find report after update");
-            this.addReport(reportToUpdate);
-        }
+        this.reportService.updateReports(project.projectId, reportToUpdate).subscribe();
     }
 
     private addReport(report: any){
@@ -158,6 +129,7 @@ export class ReporterComponent implements OnInit {
             if(data===201){
                 //TODO check if it's necessary
                 this.projectState="Updated";
+                console.log("Report posted!");
             }
         });
     }

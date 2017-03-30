@@ -29,7 +29,6 @@ export class ManagerComponent implements OnInit {
                 private elementRef:ElementRef){}
 
     ngOnInit() {
-        console.log('+ManagerComponent: init');
         this.initForm();
         this.getReportsAndShow();
     }
@@ -48,13 +47,14 @@ export class ManagerComponent implements OnInit {
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        let currentAccount = this.getCurrentAccount();
-        this.reportService.getReports(currentAccount.id)
+        //TODO check this
+        //let currentAccount = this.getCurrentAccount();
+        this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
                 this.reports=data;
                 this.isSaveButtonValid=true;
 
-                this.findSpecificReportAndShow(data);
+                this.displayReport(data);
             });
     }
 
@@ -122,12 +122,12 @@ export class ManagerComponent implements OnInit {
     }
 
     private wrapEachReportInTags(report:any): string {
-        let name = '<h5><b><u>Project '+report.project.projectName+'</u></b></h5>';
-        let review='<p><b><u>Review:</u></b></p>' +
+        let name = '<h5><b>'+report.project.projectName+'</u></b></h5>';
+        let review='<p>Review:</p>' +
             '<p>'+report.reviewPart+'</p>';
-        let issues='<p><b><u>Issues:</u></b></p>' +
+        let issues='<p>Issues:</p>' +
             '<p>'+report.issuePart+'</p>';
-        let plans= '<p><b><u>Plans:</u></b></p>' +
+        let plans= '<p>Plans:</p>' +
             '<p>'+report.planPart+'</p>'+
             '<br>';
         return name+review+issues+plans;
@@ -147,25 +147,13 @@ export class ManagerComponent implements OnInit {
     }
 
     //related to projectSelect event
-    private findSpecificReportAndShow(reports:any[]) {
-        let report=this.findSpecificReport(this.selectedProject);
+    private displayReport(report:any[]) {
         this.hideAggregatedReports();
         if(report){
-            this.showSpecificReport(report);
+            this.showThisReport(report);
         } else{
             this.showEmptyReport();
         }
-    }
-
-    private findSpecificReport(project:Project): any {
-        if (this.reports) {
-            for (let report of this.reports) {
-                if(report.project.projectId===project.projectId){
-                    return report;
-                }
-            }
-        }
-        return null;
     }
 
     private hideAggregatedReports() {
@@ -173,7 +161,7 @@ export class ManagerComponent implements OnInit {
         this.showAggregated=!this.show;
     }
 
-    private showSpecificReport(report: any){
+    private showThisReport(report: any){
         this.reportForm.patchValue({
             review : report.reviewPart,
             issues : report.issuePart,
@@ -191,7 +179,7 @@ export class ManagerComponent implements OnInit {
 
     // related to submit
     private checkProjectIfUpdatedAndSaveReport(reportToUpdate: any) {
-        if(this.selectedProject.state){
+        if(this.selectedProject.state != 'Delayed'){
             this.saveReport(this.selectedProject,reportToUpdate);
         } else{
             this.refreshDataAndSaveReport(reportToUpdate);
@@ -200,38 +188,20 @@ export class ManagerComponent implements OnInit {
 
     private refreshDataAndSaveReport(reportToUpdate:any) {
         this.projectService.getProject(this.selectedProject.projectId).subscribe(project => {
-                if (project) {
-                    this.selectedProject = project;
+            if (project) {
+                this.selectedProject = project;
 
-                    if(project.state){
-                        this.refreshReportsAndSaveReport(reportToUpdate);
-                    } else {
-                        this.addReport(reportToUpdate);
-                    }
+                if(this.selectedProject.state != 'Delayed'){
+                    this.saveReport( this.selectedProject.projectId,reportToUpdate);
+                } else {
+                    this.addReport(reportToUpdate);
                 }
-            });
-    }
-
-    private refreshReportsAndSaveReport(reportToUpdate:any) {
-        let currentAccount = this.getCurrentAccount();
-        this.reportService.getReports(currentAccount.id).subscribe(reports => {
-                if(reports){
-                    this.reports=reports;
-
-                    this.saveReport(this.selectedProject,reportToUpdate);
-                }
+            }
         });
     }
 
     private saveReport(project:Project, reportToUpdate: any){
-        let prevReportVersion=this.findSpecificReport(project);
-        if(prevReportVersion) {
-            this.reportService.updateReports(prevReportVersion.reportId, reportToUpdate).subscribe();
-        } else {
-            console.log("Error: transaction aborted");
-            console.log("Error: can't find report after update");
-            this.addReport(reportToUpdate);
-        }
+        this.reportService.updateReports(project.projectId, reportToUpdate).subscribe();
     }
 
     private addReport(report: any){
@@ -239,6 +209,7 @@ export class ManagerComponent implements OnInit {
             if(data===201){
                 //TODO check if it's necessary
                 this.projectState="Updated";
+                console.log("Report posted!");
             }
         });
     }
