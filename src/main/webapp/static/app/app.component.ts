@@ -14,14 +14,11 @@ import {Account} from "./account/account";
 export class AppComponent {
     constructor(router:Router, private loginService:LoginService) {
         router.events.subscribe(e => {
-            console.log("+AppComponent: router event: "+e.url);
             let url = e.url;
             if(url !== '/authenticate' && url !== '/') {
                 if(!loginService.isAuthenticated() || !this.isUrlAllowedForAccount(url)) {
-                    console.log("+AppComponent: navigate to Login");
                     router.navigate(['/authenticate']);
                 } else {
-                    console.log("+AppComponent: send login success ");
                     loginService.sendLoginSuccess();
                 }
             }
@@ -29,7 +26,6 @@ export class AppComponent {
     }
 
     private isUrlAllowedForAccount(url: string): boolean {
-        console.log('+AppComponent: in isUrlAllowedForAccount');
         let currentAccount = this.getCurrentAccount();
         if((currentAccount.profile=='REPORTER' && url == '/reporter')
             || (currentAccount.profile=='LEAD' && url == '/manager'))

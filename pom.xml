@@ -217,6 +217,11 @@
 			<artifactId>spring-test</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.6.2</version>
+		</dependency>
 		<!-- For json-path -->
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>

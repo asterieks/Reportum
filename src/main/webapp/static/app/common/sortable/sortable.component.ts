@@ -56,7 +56,6 @@ export class SortableComponent implements OnInit{
 
     private loadManagerProjects() {
         let currentAccount = this.getCurrentAccount();
-        console.log('+SortableComponent: try to load projects for user '+ currentAccount.id);
         this.projectService.getProjects(currentAccount.id)
             .subscribe(data => {
                 if (data) {

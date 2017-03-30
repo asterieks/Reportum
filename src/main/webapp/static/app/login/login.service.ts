@@ -30,7 +30,6 @@ export class LoginService {
                 localStorage.setItem(AppUtils.STORAGE_SECURITY_TOKEN,JSON.stringify(securityToken));
 
                 let account:Account = new Account(res.json());
-                console.log('in authenticate ');
                 this.sendLoginSuccess(account);
                 return account;
             });
@@ -39,7 +38,6 @@ export class LoginService {
         if(!account) {
             account = new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN)));
         }
-        console.log('in fucking sendLoginSuccess',account);
         this.accountEventService.loginSuccess(account);
     }
     isAuthenticated():boolean {

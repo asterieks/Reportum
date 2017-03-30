@@ -6,6 +6,7 @@ import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IProjectService;
 import com.reportum.angular2.springmvc.service.IReportService;
 import com.reportum.angular2.springmvc.service.IUserService;
+import com.reportum.angular2.springmvc.utils.CustomStringUtils;
 import com.reportum.angular2.springmvc.utils.enums.Profile;
 import com.reportum.angular2.springmvc.utils.enums.State;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,10 @@ public class ReportController {
     }
 
     //PUT specific
-    @RequestMapping(value = "/reports/{reportId}", method = RequestMethod.PUT)
-    public ResponseEntity<Report> updateSpecificReport(@PathVariable long reportId, @RequestBody Report newReport) {
-        Report prevReport=reportService.findReport(new Long(reportId));
-        if(prevReport==null){
+    @RequestMapping(value = "/projects/{projectId}/reports", method = RequestMethod.PUT)
+    public ResponseEntity<Report> updateSpecificReport(@PathVariable long projectId, @RequestBody Report newReport) {
+        Report prevReport = reportService.findReportByProjectId(projectId);
+        if(prevReport == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
@@ -63,10 +64,10 @@ public class ReportController {
     }
 
     //GET specific
-    @RequestMapping(value = "/reports/{reportId}", method = RequestMethod.GET)
-    public ResponseEntity<Report> getSpecificReport(@PathVariable long reportId) {
-        Report report =reportService.findReport(reportId);
-        if(report==null){
+    @RequestMapping(value = "/projects/{projectId}/reports", method = RequestMethod.GET)
+    public ResponseEntity<Report> getSpecificReport(@PathVariable long projectId) {
+        Report report = reportService.findReportByProjectId(projectId);
+        if(report == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(report, HttpStatus.OK);
@@ -86,6 +87,8 @@ public class ReportController {
         List<Report> reports=reportService.findReports(projects);
         if(reports.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            replaceTextInReports(reports);    
         }
         return new ResponseEntity<>(reports, HttpStatus.OK);
     }
@@ -98,6 +101,18 @@ public class ReportController {
         }
         project.setStateDate(new Date());
         return project;
+    }
+
+    private void replaceTextInReports(List<Report> reports) {
+        reports.forEach(report-> {
+                report.setReviewPart(CustomStringUtils
+                        .convertText(report.getReviewPart()));
+                report.setIssuePart(CustomStringUtils
+                        .convertText(report.getIssuePart()));
+                report.setPlanPart(CustomStringUtils
+                        .convertText(report.getPlanPart()));
+                }
+        );
     }
 
     private Report createReport(Report newReport, Project project) {

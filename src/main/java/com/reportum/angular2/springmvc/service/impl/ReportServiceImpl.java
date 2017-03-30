@@ -34,4 +34,9 @@ public class ReportServiceImpl implements IReportService {
     public List<Report> findAllActualReports() {
         return reportDAO.findAllActualReports();
     }
+
+    @Override
+    public Report findReportByProjectId(Long projectId) {
+        return reportDAO.findReportByProjectId(projectId);
+    }
 }
