@@ -1,5 +1,9 @@
 form{
-    display:inline-flex;
+    display:flex;
+}
+
+#report_grid {
+    width:80%;
 }
 
 #manager_grid{
@@ -31,11 +35,6 @@ form{
     border-color: black;
     border-style: solid;
     border: 1px;
-}
-
-#manager_report_block{
-    width:48vw;
-    display: inline-block;
 }
 
 .text_area_model{
