@@ -1,6 +1,6 @@
 export class Report{
-    review: string;
-    issues: string;
-    plans: string;
+    reviewPart: string;
+    issuePart: string;
+    planPart: string;
     project: number;
 }

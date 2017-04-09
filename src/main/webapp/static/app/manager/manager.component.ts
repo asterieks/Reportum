@@ -21,7 +21,20 @@ export class ManagerComponent implements OnInit {
     reports:any;
     htmlVariable: string;
     isSaveButtonValid:boolean=false;
+    isReviewChanged: boolean = false;
+    isIssuesChanged: boolean = false;
+    isPlansChanged: boolean = false;
     templateForProjectSorting: number[]=[];
+    tempReportHolder: any = {
+        reviewPart : '',
+        issuePart : '',
+        planPart : ''
+    }
+    downloadedReportHolder: any = {
+        reviewPart : '',
+        issuePart : '',
+        planPart : ''
+    }
 
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
@@ -47,14 +60,18 @@ export class ManagerComponent implements OnInit {
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        //TODO check this
-        //let currentAccount = this.getCurrentAccount();
+        this.isReviewChanged=false;
+        this.isIssuesChanged=false;
+        this.isPlansChanged=false;
         this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
-                this.reports=data;
-                this.isSaveButtonValid=true;
-
-                this.displayReport(data);
+                if(data){
+                    this.showThisReport(data);
+                    this.tempReportHolder = data;
+                    this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
+                } else {
+                    this.showEmptyReport();
+                }
             });
     }
 
@@ -64,13 +81,75 @@ export class ManagerComponent implements OnInit {
 
     onAggregateButtonClick(event){
         event.preventDefault();
-        this.getReportsAndShow()
+        this.getReportsAndShow();
         this.isSaveButtonValid=false;
         this.unselectProjectButton();
     }
 
-    isValidSaveButton(): boolean{
-        return !this.isSaveButtonValid;
+    onKeyReview(text: string) {
+        let trimmedText = text.trim();
+        if(trimmedText && this.downloadedReportHolder.reviewPart != trimmedText) {
+            this.tempReportHolder.reviewPart = text;
+            this.isReviewChanged=true;
+        } else if(this.downloadedReportHolder.reviewPart && trimmedText=="") {
+            this.tempReportHolder.reviewPart = text;
+            this.isReviewChanged=true;
+        } else {
+            this.tempReportHolder.reviewPart = text;
+            this.isReviewChanged=false;
+        }
+    }
+
+    onKeyIssue(text: string) {
+        let trimmedText = text.trim();
+        if(trimmedText && this.downloadedReportHolder.issuePart != trimmedText){
+            this.tempReportHolder.issuePart = text;
+            this.isIssuesChanged=true;
+        } else if(this.downloadedReportHolder.issuePart && trimmedText=="") {
+            this.tempReportHolder.issuePart = text;
+            this.isReviewChanged=true;
+        } else {
+            this.tempReportHolder.issuePart = text;
+            this.isIssuesChanged=false;
+        }
+    }
+
+    onKeyPlan(text: string) {
+        let trimmedText = text.trim();
+        if(trimmedText && this.downloadedReportHolder.planPart != trimmedText ){
+            this.tempReportHolder.planPart = text;
+            this.isPlansChanged=true;
+        } else if(this.downloadedReportHolder.planPart && trimmedText=="") {
+            this.tempReportHolder.planPart = text;
+            this.isReviewChanged=true;
+        } else {
+            this.tempReportHolder.planPart = text;
+            this.isPlansChanged=false;
+        }
+    }
+
+    isDisabledSaveButton(): boolean {
+        return !this.isAnyPartChanged() || this.isAllFieldEmpty();
+    }
+
+    private isAllFieldEmpty():boolean {
+        if (this.tempReportHolder.reviewPart && this.tempReportHolder.reviewPart.trim()){
+            return false;
+        }
+        if (this.tempReportHolder.issuePart && this.tempReportHolder.issuePart.trim()){
+            return false;
+        }
+        if (this.tempReportHolder.planPart && this.tempReportHolder.planPart.trim()){
+            return false;
+        }
+        this.isReviewChanged=false;
+        this.isIssuesChanged=false;
+        this.isPlansChanged=false;
+        return true;
+    }
+
+    private isAnyPartChanged(): boolean {
+        return this.isReviewChanged || this.isIssuesChanged || this.isPlansChanged;
     }
 
 
@@ -146,22 +225,13 @@ export class ManagerComponent implements OnInit {
         return sortedReports;
     }
 
-    //related to projectSelect event
-    private displayReport(report:any[]) {
-        this.hideAggregatedReports();
-        if(report){
-            this.showThisReport(report);
-        } else{
-            this.showEmptyReport();
-        }
-    }
-
     private hideAggregatedReports() {
         this.show=true;
         this.showAggregated=!this.show;
     }
 
     private showThisReport(report: any){
+        this.hideAggregatedReports();
         this.reportForm.patchValue({
             review : report.reviewPart,
             issues : report.issuePart,
