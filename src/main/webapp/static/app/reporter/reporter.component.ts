@@ -16,14 +16,25 @@ export class ReporterComponent implements OnInit {
     public reportForm: FormGroup;
     selectedProject: any;
     projectState: string;
-    reports:any;
     isSaveButtonValid:boolean=false;
+    isReviewChanged: boolean = false;
+    isIssuesChanged: boolean = false;
+    isPlansChanged: boolean = false;
+    tempReportHolder: any = {
+        reviewPart : '',
+        issuePart : '',
+        planPart : ''
+    }
+    downloadedReportHolder: any = {
+        reviewPart : '',
+        issuePart : '',
+        planPart : ''
+    }
     templateForProjectSorting: number[]=[];
 
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
-                private projectService: ProjectService,
-                private elementRef:ElementRef){}
+                private projectService: ProjectService){}
 
     ngOnInit() {
         this.initForm();
@@ -43,14 +54,18 @@ export class ReporterComponent implements OnInit {
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        //TODO check this
-        //let currentAccount = this.getCurrentAccount();
+        this.isReviewChanged=false;
+        this.isIssuesChanged=false;
+        this.isPlansChanged=false;
         this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
-                this.reports=data;
-                this.isSaveButtonValid=true;
-
-                this.displayReport(data);
+                if(data){
+                    this.showThisReport(data);
+                    this.tempReportHolder = data;
+                    this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
+                } else {
+                    this.showEmptyReport();
+                }
             });
     }
 
@@ -58,8 +73,70 @@ export class ReporterComponent implements OnInit {
         this.templateForProjectSorting = templateForSorting;
     }
 
-    isValidSaveButton(): boolean{
-        return !this.isSaveButtonValid;
+    onKeyReview(text: string) {
+        let trimmedText = text.trim();
+        if(trimmedText && this.downloadedReportHolder.reviewPart != trimmedText) {
+            this.tempReportHolder.reviewPart = text;
+            this.isReviewChanged=true;
+        } else if(this.downloadedReportHolder.reviewPart && trimmedText=="") {
+            this.tempReportHolder.reviewPart = text;
+            this.isReviewChanged=true;
+        } else {
+            this.tempReportHolder.reviewPart = text;
+            this.isReviewChanged=false;
+        }
+    }
+
+    onKeyIssue(text: string) {
+        let trimmedText = text.trim();
+        if(trimmedText && this.downloadedReportHolder.issuePart != trimmedText){
+            this.tempReportHolder.issuePart = text;
+            this.isIssuesChanged=true;
+        } else if(this.downloadedReportHolder.issuePart && trimmedText=="") {
+            this.tempReportHolder.issuePart = text;
+            this.isReviewChanged=true;
+        } else {
+            this.tempReportHolder.issuePart = text;
+            this.isIssuesChanged=false;
+        }
+    }
+
+    onKeyPlan(text: string) {
+        let trimmedText = text.trim();
+        if(trimmedText && this.downloadedReportHolder.planPart != trimmedText ){
+            this.tempReportHolder.planPart = text;
+            this.isPlansChanged=true;
+        } else if(this.downloadedReportHolder.planPart && trimmedText=="") {
+            this.tempReportHolder.planPart = text;
+            this.isReviewChanged=true;
+        } else {
+            this.tempReportHolder.planPart = text;
+            this.isPlansChanged=false;
+        }
+    }
+
+    isDisabledSaveButton(): boolean {
+        return !this.isAnyPartChanged() || this.isAllFieldEmpty();
+    }
+
+    private isAllFieldEmpty():boolean {
+        if (this.tempReportHolder.reviewPart && this.tempReportHolder.reviewPart.trim()){
+            return false;
+        }
+        if (this.tempReportHolder.issuePart && this.tempReportHolder.issuePart.trim()){
+            return false;
+        }
+        if (this.tempReportHolder.planPart && this.tempReportHolder.planPart.trim()){
+            return false;
+        }
+        this.isReviewChanged=false;
+        this.isIssuesChanged=false;
+        this.isPlansChanged=false;
+        return true;
+    }
+
+    private isAnyPartChanged(): boolean {
+        return this.isReviewChanged || this.isIssuesChanged || this.isPlansChanged;
     }
 
     //---------methods---------------------------------------------------
@@ -70,15 +147,6 @@ export class ReporterComponent implements OnInit {
             issues: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
             plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]]
         });
-    }
-
-    //related to projectSelect event
-    private displayReport(report:any) {
-        if(report){
-            this.showThisReport(report);
-        } else{
-            this.showEmptyReport();
-        }
     }
 
     private showThisReport(report: any){

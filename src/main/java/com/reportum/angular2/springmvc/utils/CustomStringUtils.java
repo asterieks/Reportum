@@ -11,7 +11,7 @@ public class CustomStringUtils {
     private static final String BREAK = "<br>";
 
     public static String convertText(String text){
-        return replaceEndOfLineByBreak(text);
+        return text !=null ? replaceEndOfLineByBreak(text):"";
     }
 
     private static String replaceEndOfLineByBreak(String text){
