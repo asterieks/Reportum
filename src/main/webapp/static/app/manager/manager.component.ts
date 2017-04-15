@@ -25,16 +25,17 @@ export class ManagerComponent implements OnInit {
     isIssuesChanged: boolean = false;
     isPlansChanged: boolean = false;
     templateForProjectSorting: number[]=[];
+    submitTrigger:number = 0;
     tempReportHolder: any = {
         reviewPart : '',
         issuePart : '',
         planPart : ''
-    }
+    };
     downloadedReportHolder: any = {
         reviewPart : '',
         issuePart : '',
         planPart : ''
-    }
+    };
 
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
@@ -56,6 +57,7 @@ export class ManagerComponent implements OnInit {
                 reportedBy: currentAccount.id
         };
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
+        this.switchOffSaveButton();
     }
 
     onProjectSelect(project: Project){
@@ -142,9 +144,7 @@ export class ManagerComponent implements OnInit {
         if (this.tempReportHolder.planPart && this.tempReportHolder.planPart.trim()){
             return false;
         }
-        this.isReviewChanged=false;
-        this.isIssuesChanged=false;
-        this.isPlansChanged=false;
+        this.switchOffSaveButton();
         return true;
     }
 
@@ -240,6 +240,7 @@ export class ManagerComponent implements OnInit {
     }
 
     private showEmptyReport() {
+        this.hideAggregatedReports();
         this.reportForm.patchValue({
             review : '',
             issues : '',
@@ -271,7 +272,10 @@ export class ManagerComponent implements OnInit {
     }
 
     private saveReport(project:Project, reportToUpdate: any){
-        this.reportService.updateReports(project.projectId, reportToUpdate).subscribe();
+        this.reportService.updateReports(project.projectId, reportToUpdate)
+            .subscribe(data=>{
+                this.updateState();
+            });
     }
 
     private addReport(report: any){
@@ -280,6 +284,7 @@ export class ManagerComponent implements OnInit {
                 //TODO check if it's necessary
                 this.projectState="Updated";
                 console.log("Report posted!");
+                this.updateState();
             }
         });
     }
@@ -294,6 +299,16 @@ export class ManagerComponent implements OnInit {
 
     private getCurrentAccount(){
         return new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN)));
+    }
+
+    private updateState() {
+        this.submitTrigger = this.submitTrigger+1;
+    }
+
+    private switchOffSaveButton() {
+        this.isReviewChanged=false;
+        this.isIssuesChanged=false;
+        this.isPlansChanged=false;
     }
 }
 

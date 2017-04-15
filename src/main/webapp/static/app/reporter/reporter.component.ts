@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {ReportService} from "../common/report/report.service";
 import {Project} from "../common/project/project.model";
@@ -24,13 +24,14 @@ export class ReporterComponent implements OnInit {
         reviewPart : '',
         issuePart : '',
         planPart : ''
-    }
+    };
     downloadedReportHolder: any = {
         reviewPart : '',
         issuePart : '',
         planPart : ''
-    }
+    };
     templateForProjectSorting: number[]=[];
+    submitTrigger:number = 0;
 
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
@@ -50,6 +51,7 @@ export class ReporterComponent implements OnInit {
             reportedBy: currentAccount.id
         };
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
+        this.switchOffSaveButton();
     }
 
     onProjectSelect(project: Project){
@@ -129,9 +131,7 @@ export class ReporterComponent implements OnInit {
         if (this.tempReportHolder.planPart && this.tempReportHolder.planPart.trim()){
             return false;
         }
-        this.isReviewChanged=false;
-        this.isIssuesChanged=false;
-        this.isPlansChanged=false;
+        this.switchOffSaveButton();
         return true;
     }
 
@@ -189,7 +189,10 @@ export class ReporterComponent implements OnInit {
     }
 
     private saveReport(project:Project, reportToUpdate: any){
-        this.reportService.updateReports(project.projectId, reportToUpdate).subscribe();
+        this.reportService.updateReports(project.projectId, reportToUpdate)
+            .subscribe(data=>{
+                this.updateState();
+        });
     }
 
     private addReport(report: any){
@@ -198,11 +201,22 @@ export class ReporterComponent implements OnInit {
                 //TODO check if it's necessary
                 this.projectState="Updated";
                 console.log("Report posted!");
+                this.updateState();
             }
         });
     }
 
     private getCurrentAccount(){
         return new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN)));
+    }
+
+    private updateState() {
+        this.submitTrigger = this.submitTrigger+1;
+    }
+
+    private switchOffSaveButton() {
+        this.isReviewChanged=false;
+        this.isIssuesChanged=false;
+        this.isPlansChanged=false;
     }
 }
