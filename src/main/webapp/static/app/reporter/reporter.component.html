@@ -6,7 +6,9 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">My projects</div>
                         <div class="panel-body">
-                            <sortable_component (project_binder)='onProjectSelect($event)' (project_order_binder)='onProjectDrop($event)'></sortable_component>
+                            <sortable_component (project_binder)='onProjectSelect($event)'
+                                                (project_order_binder)='onProjectDrop($event)'
+                                                [submitTriggerCount]='submitTrigger'></sortable_component>
                         </div>
                     </div>
                 </div>

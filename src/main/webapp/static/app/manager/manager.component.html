@@ -9,7 +9,10 @@
                           <button class="btn btn-default" id="manager_aggregate_button" (click)="onAggregateButtonClick($event)">Aggregate</button>
                       </div>
                       <div class="panel-body">
-                          <sortable_component (project_binder)='onProjectSelect($event)' (project_order_binder)='onProjectDrop($event)'></sortable_component>
+                          <sortable_component
+                                  (project_binder)='onProjectSelect($event)'
+                                  (project_order_binder)='onProjectDrop($event)'
+                                  [submitTriggerCount]='submitTrigger'></sortable_component>
                       </div>
                   </div>
               </div>

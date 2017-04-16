@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Output} from "@angular/core";
+import {Component, OnInit, EventEmitter, Output, Input, OnChanges} from "@angular/core";
 import {ProjectService} from "../project/project.service";
 import {Project} from "../project/project.model";
 import {Account} from "../../account/account";
@@ -10,9 +10,10 @@ import * as AppUtils from "../../utils/app.utils";
     styles: [require('./sortable.component.css')]
 })
 
-export class SortableComponent implements OnInit{
+export class SortableComponent implements OnInit, OnChanges{
     selectedProject: any;
     projects: any;
+    @Input() submitTriggerCount:boolean;
     @Output() project_binder: EventEmitter<Project> = new EventEmitter<Project>();
     @Output() project_order_binder: EventEmitter<Project[]> = new EventEmitter<Project[]>();
 
@@ -30,6 +31,12 @@ export class SortableComponent implements OnInit{
 
     onDrop(event){
         this.createTemplateAndSend();
+    }
+
+    ngOnChanges(...args: any[]) {
+        if(args[0].submitTriggerCount.currentValue!=0){
+            this.loadManagerProjects();
+        }
     }
 
     defineColorBy(projectState: string): any {
