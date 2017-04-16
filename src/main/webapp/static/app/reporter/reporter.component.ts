@@ -20,6 +20,7 @@ export class ReporterComponent implements OnInit {
     isReviewChanged: boolean = false;
     isIssuesChanged: boolean = false;
     isPlansChanged: boolean = false;
+    selectedProjectName:string;
     tempReportHolder: any = {
         reviewPart : '',
         issuePart : '',
@@ -56,9 +57,7 @@ export class ReporterComponent implements OnInit {
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        this.isReviewChanged=false;
-        this.isIssuesChanged=false;
-        this.isPlansChanged=false;
+        this.switchOffSaveButton();
         this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
                 if(data){
@@ -69,6 +68,7 @@ export class ReporterComponent implements OnInit {
                     this.showEmptyReport();
                 }
             });
+        this.selectedProjectName=this.selectedProject.projectName;
     }
 
     onProjectDrop(templateForSorting: number[]){
