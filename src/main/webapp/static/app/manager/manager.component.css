@@ -37,6 +37,10 @@ form{
     border: 1px;
 }
 
+.selectedProjectName{
+    text-align: center;
+}
+
 .text_area_model{
     width:100%;
 }

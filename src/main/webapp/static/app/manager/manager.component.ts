@@ -26,6 +26,7 @@ export class ManagerComponent implements OnInit {
     isPlansChanged: boolean = false;
     templateForProjectSorting: number[]=[];
     submitTrigger:number = 0;
+    selectedProjectName:string;
     tempReportHolder: any = {
         reviewPart : '',
         issuePart : '',
@@ -62,9 +63,7 @@ export class ManagerComponent implements OnInit {
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
-        this.isReviewChanged=false;
-        this.isIssuesChanged=false;
-        this.isPlansChanged=false;
+        this.switchOffSaveButton();
         this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
                 if(data){
@@ -75,6 +74,7 @@ export class ManagerComponent implements OnInit {
                     this.showEmptyReport();
                 }
             });
+        this.selectedProjectName=this.selectedProject.projectName;
     }
 
     onProjectDrop(templateForSorting: number[]){
@@ -83,6 +83,7 @@ export class ManagerComponent implements OnInit {
 
     onAggregateButtonClick(event){
         event.preventDefault();
+        this.selectedProjectName="";
         this.getReportsAndShow();
         this.isSaveButtonValid=false;
         this.unselectProjectButton();
