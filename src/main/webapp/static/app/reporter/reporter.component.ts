@@ -67,8 +67,8 @@ export class ReporterComponent implements OnInit {
                 } else {
                     this.showEmptyReport();
                 }
+                this.selectedProjectName=this.selectedProject.projectName;
             });
-        this.selectedProjectName=this.selectedProject.projectName;
     }
 
     onProjectDrop(templateForSorting: number[]){

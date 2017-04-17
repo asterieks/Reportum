@@ -29,7 +29,7 @@ export class ReportService{
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    getReportByProjectId(projectId:number): Observable<Report[]>{
+    getReportByProjectId(projectId:number): Observable<Report>{
         let headers = new Headers({ 'Content-Type': 'application/json' });
         return this.http.get(AppUtils.BACKEND_API_ROOT_URL + `/projects/`+projectId+`/reports`, {headers: headers})
                                  .map((res:Response) => res.json())

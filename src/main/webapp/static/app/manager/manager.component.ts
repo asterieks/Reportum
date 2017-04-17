@@ -27,6 +27,7 @@ export class ManagerComponent implements OnInit {
     templateForProjectSorting: number[]=[];
     submitTrigger:number = 0;
     selectedProjectName:string;
+    isInitialization: boolean = true;
     tempReportHolder: any = {
         reviewPart : '',
         issuePart : '',
@@ -62,19 +63,23 @@ export class ManagerComponent implements OnInit {
     }
 
     onProjectSelect(project: Project){
-        this.selectedProject=project;
-        this.switchOffSaveButton();
-        this.reportService.getReportByProjectId(this.selectedProject.projectId)
-            .subscribe(data => {
-                if(data){
-                    this.showThisReport(data);
-                    this.tempReportHolder = data;
-                    this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
-                } else {
-                    this.showEmptyReport();
-                }
-            });
-        this.selectedProjectName=this.selectedProject.projectName;
+        if(!this.isInitialization){
+            this.selectedProject=project;
+            this.switchOffSaveButton();
+            this.reportService.getReportByProjectId(this.selectedProject.projectId)
+                .subscribe(data => {
+                    if(data){
+                        this.showThisReport(data);
+                        this.tempReportHolder = data;
+                        this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
+                    } else {
+                        this.showEmptyReport();
+                    }
+                    this.selectedProjectName=this.selectedProject.projectName;
+                });
+        } else {
+            this.isInitialization = false;
+        }
     }
 
     onProjectDrop(templateForSorting: number[]){
