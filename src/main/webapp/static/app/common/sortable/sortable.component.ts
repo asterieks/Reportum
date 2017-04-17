@@ -21,7 +21,7 @@ export class SortableComponent implements OnInit, OnChanges{
         private projectService: ProjectService) {}
 
     ngOnInit() {
-        this.loadManagerProjects();
+        this.loadManagerProjectsAndPreselectEmptyOrFirstOne();
     }
 
     onSelect(project: any): void {
@@ -61,6 +61,18 @@ export class SortableComponent implements OnInit, OnChanges{
         return template;
     }
 
+    private loadManagerProjectsAndPreselectEmptyOrFirstOne() {
+        let currentAccount = this.getCurrentAccount();
+        this.projectService.getProjects(currentAccount.id)
+            .subscribe(data => {
+                if (data) {
+                    this.projects = data;
+                    this.createTemplateAndSend();
+                    this.preSelectProject(this.findDelayedProjectOrReturnFirst(data));
+                }
+            });
+    }
+
     private loadManagerProjects() {
         let currentAccount = this.getCurrentAccount();
         this.projectService.getProjects(currentAccount.id)
@@ -75,5 +87,19 @@ export class SortableComponent implements OnInit, OnChanges{
 
     private getCurrentAccount(){
         return new Account(JSON.parse(localStorage.getItem(AppUtils.STORAGE_ACCOUNT_TOKEN)));
+    }
+
+    private preSelectProject(project: Project) {
+        this.selectedProject = project;
+        this.project_binder.emit(project);
+    }
+
+    private findDelayedProjectOrReturnFirst(projects: Project[]) {
+        for (let project of projects) {
+            if(project.state === 'Delayed'){
+                return project;
+            }
+        }
+        return projects[0];
     }
 }
