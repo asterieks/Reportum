@@ -16,12 +16,17 @@ export class SortableComponent implements OnInit, OnChanges{
     @Input() submitTriggerCount:boolean;
     @Output() project_binder: EventEmitter<Project> = new EventEmitter<Project>();
     @Output() project_order_binder: EventEmitter<Project[]> = new EventEmitter<Project[]>();
+    @Input() requester:string;
 
     constructor (
         private projectService: ProjectService) {}
 
     ngOnInit() {
-        this.loadManagerProjectsAndPreselectEmptyOrFirstOne();
+        if(this.requester === 'reporter'){
+            this.loadManagerProjectsAndPreselectEmptyOrFirstOne();
+        } else {
+            this.loadManagerProjects();
+        }
     }
 
     onSelect(project: any): void {
@@ -79,7 +84,6 @@ export class SortableComponent implements OnInit, OnChanges{
             .subscribe(data => {
                 if (data) {
                     this.projects = data;
-
                     this.createTemplateAndSend();
                 }
         });

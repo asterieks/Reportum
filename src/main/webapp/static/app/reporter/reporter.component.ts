@@ -16,6 +16,7 @@ export class ReporterComponent implements OnInit {
     public reportForm: FormGroup;
     selectedProject: any;
     projectState: string;
+    requester: string = "reporter";
     isSaveButtonValid:boolean=false;
     isReviewChanged: boolean = false;
     isIssuesChanged: boolean = false;
