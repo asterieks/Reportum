@@ -119,7 +119,12 @@ export class ReporterComponent implements OnInit {
     }
 
     isDisabledSaveButton(): boolean {
-        return !this.isAnyPartChanged() || this.isAllFieldEmpty();
+        let anyChanges = this.isAnyPartChanged();
+        let isAllEmpty = this.isAllFieldEmpty();
+        if(isAllEmpty){
+            this.switchOffSaveButton();
+        }
+        return !anyChanges || isAllEmpty;
     }
 
     private isAllFieldEmpty():boolean {
@@ -132,7 +137,6 @@ export class ReporterComponent implements OnInit {
         if (this.tempReportHolder.planPart && this.tempReportHolder.planPart.trim()){
             return false;
         }
-        this.switchOffSaveButton();
         return true;
     }
 
