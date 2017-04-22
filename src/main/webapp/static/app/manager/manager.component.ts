@@ -28,6 +28,7 @@ export class ManagerComponent implements OnInit {
     templateForProjectSorting: number[]=[];
     submitTrigger:number = 0;
     selectedProjectName:string;
+    switchOffApproveButton: boolean = false;
     tempReportHolder: any = {
         reviewPart : '',
         issuePart : '',
@@ -60,11 +61,13 @@ export class ManagerComponent implements OnInit {
         };
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
         this.switchOffSaveButton();
+        this.switchOffApproveButton = true;
     }
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
         this.switchOffSaveButton();
+        this.switchOffApproveButton = false;
         this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
                 if(data){
@@ -73,6 +76,8 @@ export class ManagerComponent implements OnInit {
                     this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
                 } else {
                     this.showEmptyReport();
+                    this.tempReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
+                    this.downloadedReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
                 }
                 this.selectedProjectName=this.selectedProject.projectName;
             });
@@ -133,7 +138,25 @@ export class ManagerComponent implements OnInit {
     }
 
     isDisabledSaveButton(): boolean {
-        return !this.isAnyPartChanged() || this.isAllFieldEmpty();
+        let anyChanges = this.isAnyPartChanged();
+        let isAllEmpty = this.isAllFieldEmpty();
+        if(isAllEmpty){
+            this.switchOffSaveButton();
+        }
+        return !anyChanges || isAllEmpty;
+    }
+
+    isDisabledApproveButton(): boolean {
+        return this.switchOffApproveButton
+            || this.isSelectedProjectDelayedOrReviewed()
+            || this.isAllFieldEmpty()
+            || this.isAnyPartChanged();
+    }
+
+    private isSelectedProjectDelayedOrReviewed(){
+        return !this.downloadedReportHolder.project
+            || this.downloadedReportHolder.project.state === 'Delayed'
+            || this.downloadedReportHolder.project.state === 'Reviewed';
     }
 
     private isAllFieldEmpty():boolean {
@@ -146,7 +169,6 @@ export class ManagerComponent implements OnInit {
         if (this.tempReportHolder.planPart && this.tempReportHolder.planPart.trim()){
             return false;
         }
-        this.switchOffSaveButton();
         return true;
     }
 

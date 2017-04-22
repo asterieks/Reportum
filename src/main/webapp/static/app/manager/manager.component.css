@@ -66,6 +66,10 @@ textarea{
     width:100%;
 }
 
+#manager_save_button, #manager_approve_button{
+    margin-left:10px;
+}
+
 .aggregated{
     font-size:14px;
     font-weight:500;
