@@ -12,11 +12,12 @@ import {Http, XHRBackend, RequestOptions} from "@angular/http";
 import {HmacHttpClient} from "./utils/hmac-http-client";
 import {AccountModule} from './account/account.module';
 import {UtilsModule} from './utils/utils.module';
+import {ToastyModule} from "ng2-toasty";
 
 @NgModule({
   imports:      [ BrowserModule, routing, ReporterModule, ManagerModule,
                   ReporterModule, RouterModule, LoginModule, AccountModule,
-                  UtilsModule ],      // module dependencies
+                  UtilsModule, ToastyModule.forRoot() ],      // module dependencies
   declarations: [ AppComponent ],                            // components and directives
   bootstrap:    [ AppComponent ],                            // root component
   providers:      [

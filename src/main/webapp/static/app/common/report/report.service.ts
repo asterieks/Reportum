@@ -19,13 +19,13 @@ export class ReportService{
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    updateReports (projectId: number, body: any): Observable<Report[]> {
+    updateReports (projectId: number, body: any): Observable<number> {
         let bodyString = JSON.stringify(body);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
         return this.http.put(AppUtils.BACKEND_API_ROOT_URL + `/projects/`+projectId+`/reports`, bodyString, options)
-                        .map((res:Response) => res.json())
+                        .map((res:Response) => res.status)
                         .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
