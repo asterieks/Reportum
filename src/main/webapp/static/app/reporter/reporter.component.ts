@@ -5,6 +5,7 @@ import {Project} from "../common/project/project.model";
 import {ProjectService} from "../common/project/project.service";
 import * as AppUtils from "../utils/app.utils";
 import {Account} from "../account/account";
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from "ng2-toasty";
 
 @Component({
     selector: 'reporter',
@@ -15,7 +16,6 @@ import {Account} from "../account/account";
 export class ReporterComponent implements OnInit {
     public reportForm: FormGroup;
     selectedProject: any;
-    projectState: string;
     requester: string = "reporter";
     isSaveButtonValid:boolean=false;
     isReviewChanged: boolean = false;
@@ -37,7 +37,12 @@ export class ReporterComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
-                private projectService: ProjectService){}
+                private projectService: ProjectService,
+                private toastyService:ToastyService,
+                private toastyConfig: ToastyConfig){
+
+        this.toastyConfig.theme = 'bootstrap';
+    }
 
     ngOnInit() {
         this.initForm();
@@ -194,19 +199,23 @@ export class ReporterComponent implements OnInit {
     }
 
     private saveReport(project:Project, reportToUpdate: any){
-        this.reportService.updateReports(project.projectId, reportToUpdate)
-            .subscribe(data=>{
-                this.updateState();
+        this.reportService.updateReports(project.projectId, reportToUpdate).subscribe(data=>{
+                if(data===201){
+                    this.updateState();
+                    this.showSuccessToast();
+                } else {
+                    this.showErrorToast();
+                }
         });
     }
 
     private addReport(report: any){
         this.reportService.addReports(report).subscribe(data=>{
             if(data===201){
-                //TODO check if it's necessary
-                this.projectState="Updated";
-                console.log("Report posted!");
                 this.updateState();
+                this.showSuccessToast();
+            } else {
+                this.showErrorToast();
             }
         });
     }
@@ -223,5 +232,31 @@ export class ReporterComponent implements OnInit {
         this.isReviewChanged=false;
         this.isIssuesChanged=false;
         this.isPlansChanged=false;
+    }
+
+    private showSuccessToast() {
+        var toastOptions:ToastOptions = {
+            title: "Success",
+            msg: "Report is saved.",
+            showClose: true,
+            timeout: 5000,
+            theme: 'bootstrap',
+            onAdd: (toast:ToastData) => {},
+            onRemove: function(toast:ToastData) {}
+        };
+        this.toastyService.success(toastOptions);
+    }
+
+    private showErrorToast() {
+        var toastOptions:ToastOptions = {
+            title: "Error",
+            msg: "Report isn't saved.",
+            showClose: true,
+            timeout: 5000,
+            theme: 'bootstrap',
+            onAdd: (toast:ToastData) => {},
+            onRemove: function(toast:ToastData) {}
+        };
+        this.toastyService.error(toastOptions);
     }
 }
