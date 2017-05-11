@@ -29,26 +29,6 @@
   width:100%;
 }
 
-/*.nav--menu_item{
-  display: block;
-}*/
-
-/*.nav--menu_item_anchor{
-  display: block;
-  height: 70px;
-  padding: 25px;
-  color: #ffffff !important;
-  text-decoration: none !important;
-  font-weight: 600;
-  line-height: 1;
-  font-size:18px;
-}*/
-
-/*.nav--menu_item_anchor:hover,
-.dropdown--item_anchor_active{
-  background: #535353;
-}*/
-
 .container {
   width:100%;
   padding-left:  calc(50vw - 565px)!important;
@@ -57,8 +37,6 @@
 }
 
 #content {
-  background-color:#fff!important;
-  padding: 40px 40px 210px;
   text-align: -webkit-center;
 }
 
