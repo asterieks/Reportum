@@ -1,3 +1,8 @@
+.component_background{
+    background-color: white;
+    padding: 40px;
+}
+
 form{
     display:flex;
 }

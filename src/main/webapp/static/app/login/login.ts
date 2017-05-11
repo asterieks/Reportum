@@ -7,8 +7,9 @@ import {AccountEventsService} from '../account/account.events.service';
 
 @Component({
     selector: 'login',
-    providers: [LoginService],
-    template: require('./login.html')
+    template: require('./login.html'),
+    styles: [require('./login.css')],
+    providers: [LoginService]
 })
 export class Login {
     username:string;
