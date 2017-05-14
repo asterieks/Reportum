@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, Validators, FormGroup} from '@angular/forms';
-import {LoginService} from './login.service';
-import {Account} from '../account/account';
-import {AccountEventsService} from '../account/account.events.service';
+import {Component} from "@angular/core";
+import {Router} from "@angular/router";
+import {FormBuilder, Validators, FormGroup} from "@angular/forms";
+import {LoginService} from "./login.service";
+import {Account} from "../account/account";
+import {AccountEventsService} from "../account/account.events.service";
+import {AlertService} from "../alert/alert.service";
 
 @Component({
     selector: 'login',
@@ -20,7 +21,12 @@ export class Login {
     loginService:LoginService;
     account:Account;
     error:string;
-    constructor(router: Router,form: FormBuilder,loginService:LoginService,accountEventService:AccountEventsService) {
+    constructor(router: Router,
+                form: FormBuilder,
+                loginService:LoginService,
+                accountEventService:AccountEventsService,
+                private alertService: AlertService) {
+
         this.router = router;
         this.wrongCredentials = false;
         this.loginService = loginService;
@@ -30,12 +36,10 @@ export class Login {
         });
         accountEventService.subscribe((account) => {
             if(!account.authenticated) {
-                if(account.error) {
-                    if(account.error.indexOf('BadCredentialsException') !== -1) {
-                        this.error = 'Username and/or password are invalid !';
-                    } else {
-                        this.error = account.error;
-                    }
+                if (account.error.indexOf('Secret key cannot be null') !== -1){
+                    this.alertService.error("Unauthorized request");
+                } else {
+                    this.alertService.error("Error: Username or password is incorrect");
                 }
             }
         });
