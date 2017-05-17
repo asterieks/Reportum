@@ -31,8 +31,6 @@ export class AppComponent {
             || (currentAccount.profile=='LEAD' && url == '/manager'))
         {
             return true;
-        } else {
-            this.loginService.logout();
         }
         return false;
     }

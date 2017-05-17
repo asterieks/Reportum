@@ -1,0 +1,102 @@
+.header--menu {
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    display: inline-flex;
+}
+
+.nav--menu{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    height: 70px;
+    margin-bottom:0px;
+    background:#63B175;
+    padding-left:  calc(50vw - 560px);
+    padding-right: calc(50vw - 560px);
+}
+
+.nav--logo{
+    list-style:none;
+    width:100%;
+}
+
+
+.nav--menu_item{
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 70px;
+}
+/* Menu item link */
+.nav--menu_item_anchor{
+    display: block;
+    height: 70px;
+    padding: 25px;
+    cursor:default;
+    /* TODO: make code that doesn't require !important; */
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: 600;
+    line-height: 1;
+
+    outline: none !important;
+}
+
+/* Menu item link — active*/
+.nav--menu_item_anchor:hover,
+.dropdown--item_anchor_active{
+    background: #535353;
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility:    hidden;
+    -ms-backface-visibility:     hidden;
+}
+
+/*Menu item link — highlighted*/
+/*Makes a menu item a lighter shade of green*/
+.nav--menu_item_highlighted{
+    background: #6DC782;
+}
+/*Menu item link — darkened*/
+/*Makes a menu item a lighter shade of green*/
+.nav--menu_item_darkened{
+    background: #4E9359;
+}
+
+/* Menu item link arrow dropdown */
+/* Down Arrow */
+.nav--menu_item_anchor .menu--item_normal{
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important;
+    font-size: 0.4em;
+    vertical-align: 1px;
+
+    /* Down arrow displays by default */
+    display: inline;
+    pointer-events: none;
+}
+/* Up Arrow */
+.nav--menu_item_anchor .menu--item_active{
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important;
+    font-size: 0.4em;
+    vertical-align: 2px;
+
+    /* Up arrow is hidden by default */
+    display: none;
+    pointer-events: none;
+}
+
+/* Arrow dropdown visibility is reversed for the active states of the links */
+.nav--menu_item_anchor:hover .menu--item_normal,
+.dropdown--item_anchor_active .menu--item_normal {
+    display: none;
+    pointer-events: none;
+}
+.nav--menu_item_anchor:hover .menu--item_active,
+.dropdown--item_anchor_active .menu--item_active {
+    display: inline;
+    pointer-events: none;
+}

@@ -1,23 +1,18 @@
-<div class="navbar navbar-default" role="navigation" *ngIf="authenticated">
-    <div class="container">
-        <div class="navbar-header">
-
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-                <span class="sr-only"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="http://www.redfroggy.fr/" target="_blank"><img src="../assets/img/red_froggy.png" width="36" height="36"/></a>
+<div class="header--menu">
+    <ul class="nav--menu">
+        <li class="nav--logo">
+            <div><img src="../static/images/logo.png"></div>
+        </li>
+        <div *ngIf="show" style="display: inline-flex;">
+            <li class="nav--menu_item">
+                <a class="nav--menu_item_anchor" (click)="logout($event)">Logout</a>
+            </li>
+            <div style="display: inline-flex;">
+                <div style="padding-top: 20px; padding-right: 5px;padding-left: 40px;">
+                    <img src="../static/images/user.png">
+                </div>
+                <span style="color: white;padding-top: 15px;">{{full_name}}</span>
+            </div>
         </div>
-
-        <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#/users">Users</a></li>
-                <li class="pull-right"><a href="" (click)="logout($event)">Logout</a></li>
-            </ul>
-        </div>
-    </div>
+    </ul>
 </div>

@@ -36,7 +36,7 @@ export class Login {
         });
         accountEventService.subscribe((account) => {
             if(!account.authenticated) {
-                if (account.error.indexOf('Secret key cannot be null') !== -1){
+                if (account.error && account.error.indexOf('Secret key cannot be null') !== -1){
                     this.alertService.error("Unauthorized request");
                 } else {
                     this.alertService.error("Error: Username or password is incorrect");
