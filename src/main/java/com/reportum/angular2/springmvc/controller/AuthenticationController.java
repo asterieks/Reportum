@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping("/api")
 public class AuthenticationController {
 
 	@Autowired
@@ -23,7 +23,7 @@ public class AuthenticationController {
 		return authenticationService.authenticate(loginDTO,response);
 	}
 
-	@RequestMapping(value = "/logout",method = RequestMethod.GET)
+	@RequestMapping("/logout")
 	public void logout(){
 		authenticationService.logout();
 	}

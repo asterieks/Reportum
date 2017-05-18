@@ -2,6 +2,7 @@
     <div class="modal-dialog">
         <div class="loginmodal-container">
             <h1>Login to Your Account</h1><br>
+            <alert></alert>
             <form [formGroup]="loginForm" (ngSubmit)="authenticate($event)">
                 <input type="text" name="user" placeholder="Username" formControlName="username">
                 <input type="password" name="pass" placeholder="Password" formControlName="password">

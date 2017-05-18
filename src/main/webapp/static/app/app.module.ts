@@ -13,12 +13,13 @@ import {HmacHttpClient} from "./utils/hmac-http-client";
 import {AccountModule} from './account/account.module';
 import {UtilsModule} from './utils/utils.module';
 import {ToastyModule} from "ng2-toasty";
+import {Header} from "./header/header";
 
 @NgModule({
   imports:      [ BrowserModule, routing, ReporterModule, ManagerModule,
                   ReporterModule, RouterModule, LoginModule, AccountModule,
                   UtilsModule, ToastyModule.forRoot() ],      // module dependencies
-  declarations: [ AppComponent ],                            // components and directives
+  declarations: [ AppComponent, Header ],                            // components and directives
   bootstrap:    [ AppComponent ],                            // root component
   providers:      [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
