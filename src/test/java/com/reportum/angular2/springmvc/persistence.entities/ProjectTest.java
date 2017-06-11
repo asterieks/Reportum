@@ -45,7 +45,7 @@ public class ProjectTest {
     }
 
     @Test
-    public void getterAndsetterTest(){
+    public void getterAndSetterTest(){
         assertEquals(new Long(1L), project.getProjectId());
         assertEquals("ProjectName", project.getProjectName());
         assertEquals("state", project.getState());

@@ -30,7 +30,7 @@ public class ReportTest {
     }
 
     @Test
-    public void getterAndsetterTest(){
+    public void getterAndSetterTest(){
         assertEquals(new Long(2L), report.getReportId());
         assertEquals(new Long(1L), report.getProject().getProjectId());
         assertEquals("IssuePart", report.getIssuePart());

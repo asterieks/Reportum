@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
@@ -30,14 +29,12 @@ public class JobSchedulerServiceImpl implements JobSchedulerService {
     @Scheduled(cron = "0 0 0 * * MON")
     public boolean updateProjectsStates(){
         LOGGER.debug("Job started.");
-        System.out.println("Started "+ new Date());
 
         List<Project> projects=projectService.findAllProjects();
         if(!isEmpty(projects)){
             List<Project> updatedProjects=resetStateAndDate(projects);
             projectService.saveProjects(updatedProjects);
             LOGGER.debug("Job completed.");
-            System.out.println("completed");
             return true;
         }
         return false;
