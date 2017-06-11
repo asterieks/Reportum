@@ -4,7 +4,6 @@ package com.reportum.angular2.springmvc.service.impl;
 import com.reportum.angular2.springmvc.dao.IReportDAO;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.Report;
-import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IReportService;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class ReportServiceImplTest {
 
     private Report report;
     private List<Project> projects=new ArrayList<>();
-    private User user;
+    private Long projectId;
 
     @Before
     public void setUp(){
@@ -59,5 +58,10 @@ public class ReportServiceImplTest {
     public void findAllActualReportsTest(){
         reportService.findAllActualReports();
         verify(reportDAO).findAllActualReports();
+    }
+    @Test
+    public void findReportByProjectIdTest(){
+        reportService.findReportByProjectId(projectId);
+        verify(reportDAO).findReportByProjectId(projectId);
     }
 }
