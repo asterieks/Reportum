@@ -15,7 +15,8 @@ export const STORAGE_SECURITY_TOKEN:string = 'hmacApp-security';
 export const BACKEND_API_PATH:string = '/api';
 export const BACKEND_API_AUTHENTICATE_PATH:string = '/authenticate';
 //export const BACKEND_API_ROOT_URL:string = 'http://localhost:8081'+BACKEND_API_PATH;
-export const BACKEND_API_ROOT_URL:string = '172.26.156.108:8080'+BACKEND_API_PATH;
+export const BACKEND_API_ROOT_URL:string = 'http://172.26.156.108:8080'+BACKEND_API_PATH;
+//export const BACKEND_API_ROOT_URL:string = 'http://93.180.189.191:19080'+BACKEND_API_PATH;
 export class UrlMatcher {
     public static matches(url:string):boolean {
         return url.indexOf(BACKEND_API_PATH) !== -1

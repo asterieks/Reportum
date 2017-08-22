@@ -17,10 +17,12 @@ export class ReporterComponent implements OnInit {
     public reportForm: FormGroup;
     selectedProject: any;
     requester: string = "reporter";
+    //TODO check if we need that
     isSaveButtonValid:boolean=false;
     isReviewChanged: boolean = false;
     isIssuesChanged: boolean = false;
     isPlansChanged: boolean = false;
+    isPrevButtonPressed:boolean = false;
     selectedProjectName:string;
     tempReportHolder: any = {
         reviewPart : '',
@@ -59,12 +61,30 @@ export class ReporterComponent implements OnInit {
         };
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
         this.switchOffSaveButton();
+        this.isPrevButtonPressed = false;
     }
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
         this.switchOffSaveButton();
+        this.isPrevButtonPressed = false;
         this.reportService.getReportByProjectId(this.selectedProject.projectId)
+            .subscribe(data => {
+                if(data){
+                    this.showThisReport(data);
+                    this.tempReportHolder = data;
+                    this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
+                } else {
+                    this.showEmptyReport();
+                }
+                this.selectedProjectName=this.selectedProject.projectName;
+            });
+    }
+
+    onLoadPrevButtonClick(event){
+        event.preventDefault();
+        this.isPrevButtonPressed = true;
+        this.reportService.getPrevReportByProjectId( this.selectedProject.projectId)
             .subscribe(data => {
                 if(data){
                     this.showThisReport(data);
@@ -130,6 +150,10 @@ export class ReporterComponent implements OnInit {
             this.switchOffSaveButton();
         }
         return !anyChanges || isAllEmpty;
+    }
+
+    isDisabledLoadPrevButton(): boolean {
+        return this.isPrevButtonPressed || !this.selectedProjectName;
     }
 
     private isAllFieldEmpty():boolean {

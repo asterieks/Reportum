@@ -71,7 +71,7 @@ textarea{
     width:100%;
 }
 
-#manager_save_button, #manager_approve_button{
+#manager_save_button, #manager_approve_button, #load_prev_button{
     margin-left:10px;
 }
 

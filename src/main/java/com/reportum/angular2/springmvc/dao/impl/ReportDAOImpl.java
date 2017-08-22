@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +37,7 @@ public class ReportDAOImpl implements IReportDAO {
 
         List<Predicate> predicates=new ArrayList<>();
         addProjectPredicate(predicates, root, projects);
-        addTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
+        greaterTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
 
         criteria.select(root)
                 .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
@@ -54,7 +51,7 @@ public class ReportDAOImpl implements IReportDAO {
 
         List<Predicate> predicates=new ArrayList<>();
         addReportIdPredicate(predicates, root, reportId);
-        addTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
+        greaterTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
 
         criteria.select(root)
                 .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
@@ -67,7 +64,7 @@ public class ReportDAOImpl implements IReportDAO {
         Root<Report> root=criteria.from(Report.class);
 
         List<Predicate> predicates=new ArrayList<>();
-        addTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
+        greaterTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
 
         criteria.select(root)
                 .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
@@ -81,7 +78,7 @@ public class ReportDAOImpl implements IReportDAO {
 
         List<Predicate> predicates = new ArrayList<>();
         addProjectIdPredicate(predicates, root, projectId);
-        addTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
+        greaterTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
 
         criteria.select(root)
                 .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
@@ -89,8 +86,31 @@ public class ReportDAOImpl implements IReportDAO {
         return !isEmpty(reports)? reports.get(0) : null;
     }
 
-    private void addTimePredicate(List<Predicate> predicates, Root<Report> root, Date thisWeekMondayDate) {
+    @Override
+    public Report findPrevReportByProjectId(Long projectId) {
+        CriteriaQuery<Report> criteria=getCriteriaBuilder().createQuery(Report.class);
+        Root<Report> root=criteria.from(Report.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        addProjectIdPredicate(predicates, root, projectId);
+        lesserTimePredicate(predicates, root, DateUtils.getThisWeekMondayDate());
+
+        criteria.select(root)
+                .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})))
+                .orderBy(getCriteriaBuilder().desc(root.get(Report_.reportId)));
+
+        List<Report> reports = em.createQuery(criteria).getResultList();
+        return !isEmpty(reports)? reports.get(0) : null;
+    }
+
+
+    private void greaterTimePredicate(List<Predicate> predicates, Root<Report> root, Date thisWeekMondayDate) {
         Predicate predicate=getCriteriaBuilder().greaterThanOrEqualTo(root.get(Report_.date), thisWeekMondayDate);
+        predicates.add(predicate);
+    }
+
+    private void lesserTimePredicate(List<Predicate> predicates, Root<Report> root, Date thisWeekMondayDate) {
+        Predicate predicate=getCriteriaBuilder().lessThan(root.get(Report_.date), thisWeekMondayDate);
         predicates.add(predicate);
     }
 

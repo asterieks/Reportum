@@ -22,9 +22,11 @@ export class ManagerComponent implements OnInit {
     reports:any;
     htmlVariable: string;
     isSaveButtonValid:boolean=false;
+    isApproveButtonValid:boolean=false;
     isReviewChanged: boolean = false;
     isIssuesChanged: boolean = false;
     isPlansChanged: boolean = false;
+    isPrevButtonPressed:boolean = false;
     templateForProjectSorting: number[]=[];
     submitTrigger:number = 0;
     selectedProjectName:string;
@@ -67,22 +69,26 @@ export class ManagerComponent implements OnInit {
         this.checkProjectIfUpdatedAndSaveReport(reportToUpdate);
         this.switchOffSaveButton();
         this.switchOffApproveButton = true;
+        this.isPrevButtonPressed = false;
     }
 
     onProjectSelect(project: Project){
         this.selectedProject=project;
         this.switchOffSaveButton();
         this.switchOffApproveButton = false;
+        this.isPrevButtonPressed = false;
         this.reportService.getReportByProjectId(this.selectedProject.projectId)
             .subscribe(data => {
                 if(data){
                     this.showThisReport(data);
                     this.tempReportHolder = data;
                     this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
+                    this.isApproveButtonValid = false;
                 } else {
                     this.showEmptyReport();
                     this.tempReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
                     this.downloadedReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
+                    this.isApproveButtonValid = false;
                 }
                 this.selectedProjectName=this.selectedProject.projectName;
             });
@@ -97,7 +103,30 @@ export class ManagerComponent implements OnInit {
         this.selectedProjectName="";
         this.getReportsAndShow();
         this.isSaveButtonValid=false;
+        this.tempReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
+        this.downloadedReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
         this.unselectProjectButton();
+
+        this.isPrevButtonPressed = false;
+    }
+
+    onLoadPrevButtonClick(event){
+        event.preventDefault();
+        this.isPrevButtonPressed = true;
+        this.reportService.getPrevReportByProjectId( this.selectedProject.projectId)
+            .subscribe(data => {
+                if(data){
+                    this.showThisReport(data);
+                    this.tempReportHolder = data;
+                    this.downloadedReportHolder = JSON.parse(JSON.stringify(data));
+                    this.isApproveButtonValid = true;
+                } else {
+                    this.showEmptyReport();
+                    this.tempReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
+                    this.downloadedReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
+                }
+                this.selectedProjectName=this.selectedProject.projectName;
+            });
     }
 
     onKeyReview(text: string) {
@@ -152,10 +181,14 @@ export class ManagerComponent implements OnInit {
     }
 
     isDisabledApproveButton(): boolean {
-        return this.switchOffApproveButton
+        return this.isApproveButtonValid || this.switchOffApproveButton
             || this.isSelectedProjectDelayedOrReviewed()
             || this.isAllFieldEmpty()
             || this.isAnyPartChanged();
+    }
+
+    isDisabledLoadPrevButton(): boolean {
+        return this.isPrevButtonPressed || this.showAggregated;
     }
 
     private isSelectedProjectDelayedOrReviewed(){

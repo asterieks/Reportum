@@ -83,3 +83,7 @@ textarea{
     float:right;
     background-color:lavender; /*lavenderblush*/
 }
+
+#manager_save_button, #load_prev_button{
+    margin-left:10px;
+}

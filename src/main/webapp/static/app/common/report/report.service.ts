@@ -36,6 +36,13 @@ export class ReportService{
                                  .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    getPrevReportByProjectId(projectId:number): Observable<Report>{
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.get(AppUtils.BACKEND_API_ROOT_URL + `/projects/`+projectId+`/prev/reports`, {headers: headers})
+            .map((res:Response) => res.json())
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     getReports(userId:string): Observable<any[]>{
         let headers = new Headers({ 'Content-Type': 'application/json' });
         return this.http.get(AppUtils.BACKEND_API_ROOT_URL + `/users/`+userId+`/reports`, {headers: headers})

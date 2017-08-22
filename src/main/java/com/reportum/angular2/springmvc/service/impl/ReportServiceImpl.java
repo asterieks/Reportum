@@ -39,4 +39,9 @@ public class ReportServiceImpl implements IReportService {
     public Report findReportByProjectId(Long projectId) {
         return reportDAO.findReportByProjectId(projectId);
     }
+
+    @Override
+    public Report findPrevReportByProjectId(Long projectId) {
+        return reportDAO.findPrevReportByProjectId(projectId);
+    }
 }

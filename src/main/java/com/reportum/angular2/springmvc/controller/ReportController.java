@@ -93,6 +93,16 @@ public class ReportController {
         return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
+    //GET specific
+    @RequestMapping(value = "/projects/{projectId}/prev/reports", method = RequestMethod.GET)
+    public ResponseEntity<Report> getPrevReport(@PathVariable long projectId) {
+        Report report = reportService.findPrevReportByProjectId(projectId);
+        if(report == null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(report, HttpStatus.OK);
+    }
+
     private Project updateProject(Project project, User reportedBy) {
         if(Profile.REPORTER==reportedBy.getProfile()){
             project.setState(State.REPORTED.getValue());
