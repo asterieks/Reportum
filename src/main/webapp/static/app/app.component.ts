@@ -17,10 +17,12 @@ export class AppComponent {
             let url = e.url;
             if(url !== '/authenticate' && url !== '/') {
                 if(!loginService.isAuthenticated() || !this.isUrlAllowedForAccount(url)) {
-                    router.navigate(['/authenticate']);
+                    loginService.logout();
                 } else {
                     loginService.sendLoginSuccess();
                 }
+            } else if(url == '/' && loginService.isAuthenticated()){
+                loginService.logout();
             }
         });
     }
