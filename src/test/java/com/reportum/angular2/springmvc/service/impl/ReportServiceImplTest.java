@@ -64,4 +64,10 @@ public class ReportServiceImplTest {
         reportService.findReportByProjectId(projectId);
         verify(reportDAO).findReportByProjectId(projectId);
     }
+
+    @Test
+    public void findPrevReportByProjectIdTest(){
+        reportService.findPrevReportByProjectId(projectId);
+        verify(reportDAO).findPrevReportByProjectId(projectId);
+    }
 }

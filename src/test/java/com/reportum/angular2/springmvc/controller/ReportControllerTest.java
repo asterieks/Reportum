@@ -12,9 +12,7 @@ import com.reportum.angular2.springmvc.utils.enums.Profile;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,14 +45,13 @@ public class ReportControllerTest {
     @Mock
     private IUserService userService;
 
+    @Captor
+    ArgumentCaptor<Project> argumentCaptor;
+
     @InjectMocks
     private ReportController reportController;
 
     public MockMvc mockMvc;
-
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
 
     private User user;
     private Report newReport;
@@ -98,12 +95,20 @@ public class ReportControllerTest {
     }
 
     @Test
-    public void updateSpecificReportTest() throws Exception{
-        when(reportService.findReportByProjectId(12L)).thenReturn(prevReport);
+    public void updateSpecificReportCaseNoContentTest() throws Exception{
         this.mockMvc.perform(put("/api/projects/13/reports").param("projectId", "13")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(prevReport)))
                 .andExpect(status().isNoContent());
+        verify(reportService).findReportByProjectId(13L);
+        verify(reportService,never()).saveReport(any());
+        verify(userService,never()).findUser(any());
+        verify(projectService,never()).saveProject(any());
+    }
+
+    @Test
+    public void updateSpecificReportCaseByReporterTest() throws Exception{
+        when(reportService.findReportByProjectId(12L)).thenReturn(prevReport);
         when(userService.findUser(newReport.getReportedBy())).thenReturn(user);
         this.mockMvc.perform(put("/api/projects/12/reports").param("projectId", "12")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -112,7 +117,24 @@ public class ReportControllerTest {
         verify(reportService).findReportByProjectId(12L);
         verify(reportService).saveReport(any());
         verify(userService).findUser(any());
-        verify(projectService).saveProject(project);
+        verify(projectService).saveProject(argumentCaptor.capture());
+        assertEquals("Reported",argumentCaptor.getValue().getState());
+    }
+
+    @Test
+    public void updateSpecificReportCaseByLeadTest() throws Exception{
+        user.setProfile(Profile.LEAD);
+        when(reportService.findReportByProjectId(12L)).thenReturn(prevReport);
+        when(userService.findUser(newReport.getReportedBy())).thenReturn(user);
+        this.mockMvc.perform(put("/api/projects/12/reports").param("projectId", "12")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(prevReport)))
+                .andExpect(status().isCreated());
+        verify(reportService).findReportByProjectId(12L);
+        verify(reportService).saveReport(any());
+        verify(userService).findUser(any());
+        verify(projectService).saveProject(argumentCaptor.capture());
+        assertEquals("Reviewed",argumentCaptor.getValue().getState());
     }
 
     @Test
@@ -126,25 +148,57 @@ public class ReportControllerTest {
     }
 
     @Test
-    public void getAllUserReportsTest() throws Exception{
+    public void getAllUserReportsCaseNoContentTest() throws Exception{
+        this.mockMvc.perform(get("/api/users/23/reports").param("userId", "23"))
+                .andExpect(status().isNoContent());
+
+        when(userService.findUser("23")).thenReturn(user);
+        this.mockMvc.perform(get("/api/users/23/reports").param("userId", "23"))
+                .andExpect(status().isNoContent());
+
+        List<Project> projects=new ArrayList<>();
+        projects.add(project);
+        when(projectService.findProjects(user)).thenReturn(projects);
+        this.mockMvc.perform(get("/api/users/23/reports").param("userId", "23"))
+                .andExpect(status().isNoContent());
+
+        verify(userService, times(3)).findUser(any());
+        verify(projectService, times(2)).findProjects(user);
+        verify(reportService).findReports(any());
+    }
+
+    @Test
+    public void getAllUserReportsCaseisOkTest() throws Exception{
         List<Project> projects=new ArrayList<>();
         List<Report> reports=new ArrayList<>();
         projects.add(project);
         reports.add(newReport);
         when(userService.findUser("23")).thenReturn(user);
-        this.mockMvc.perform(get("/api/users/22/reports").param("userId", "22"))
-                .andExpect(status().isNoContent());
         when(projectService.findProjects(user)).thenReturn(projects);
-        verify(userService).findUser(any());
-        this.mockMvc.perform(get("/api/users/23/reports").param("userId", "23"))
-                .andExpect(status().isNoContent());
         when(reportService.findReports(projects)).thenReturn(reports);
-        verify(projectService).findProjects(user);
-        verify(reportService).findReports(any());
-        this.mockMvc.perform(get("/api/users/22/reports").param("userId", "22"))
-                .andExpect(status().isNoContent());
         this.mockMvc.perform(get("/api/users/23/reports").param("userId", "23"))
                 .andExpect(status().isOk());
+        verify(userService).findUser(any());
+        verify(projectService).findProjects(user);
+        verify(reportService).findReports(any());
+
+    }
+
+    @Test
+    public void getPrevReportCaseNoContentTest() throws Exception{
+        this.mockMvc.perform(get("/api/projects/13/prev/reports").param("projectId", "13"))
+                .andExpect(status().isNoContent());
+        verify(reportService).findPrevReportByProjectId(13L);
+    }
+
+    @Test
+    public void getPrevReportCaseisOkTest() throws Exception{
+        when(reportService.findPrevReportByProjectId(13L)).thenReturn(prevReport);
+        this.mockMvc.perform(get("/api/projects/13/prev/reports").param("projectId", "13")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(prevReport)))
+                .andExpect(status().isOk());
+        verify(reportService).findPrevReportByProjectId(13L);
     }
 
     private static String asJsonString(final Object obj) {

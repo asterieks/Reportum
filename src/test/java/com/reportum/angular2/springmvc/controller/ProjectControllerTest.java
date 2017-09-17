@@ -8,18 +8,27 @@ import com.reportum.angular2.springmvc.service.IUserService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,18 +71,20 @@ public class ProjectControllerTest {
 
     @Test
     public void getProjectsTest()throws Exception{
+        this.mockMvc.perform(get("/api/users/13/projects").param("userId", "13"))
+                    .andExpect(status().isNoContent());
+        when(userService.findUser("13")).thenReturn(user);
+        this.mockMvc.perform(get("/api/users/13/projects").param("userId", "13"))
+                .andExpect(status().isNoContent());
+        verify(userService, times(2)).findUser("13");
+
         when(userService.findUser("12")).thenReturn(user);
-        this.mockMvc.perform(get("/api/users/13/projects").param("userId", "13"))
-                .andExpect(status().isNoContent());
         when(projectService.findProjects(user)).thenReturn(projects);
-        verify(userService).findUser("13");
-        this.mockMvc.perform(get("/api/users/13/projects").param("userId", "13"))
-                .andExpect(status().isNoContent());
         this.mockMvc.perform(get("/api/users/12/projects").param("userId", "12"))
                 .andExpect(jsonPath("$", Matchers.hasSize(1)))
                 .andExpect(jsonPath("$[0].projectId", is(23)))
                 .andExpect(status().isOk());
-        verify(projectService).findProjects(user);
+        verify(projectService, times(2)).findProjects(user);
     }
 
     @Test
