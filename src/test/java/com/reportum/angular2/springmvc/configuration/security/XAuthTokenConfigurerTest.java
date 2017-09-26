@@ -1,6 +1,6 @@
-package com.reportum.angular2.springmvc.configuration.security.hmac;
+package com.reportum.angular2.springmvc.configuration.security;
 
-import com.reportum.angular2.springmvc.service.impl.DefaultHmacRequester;
+import com.reportum.angular2.springmvc.service.impl.AuthenticationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -11,14 +11,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(HttpSecurity.class)
-public class HmacSecurityConfigurerTest {
-
+public class XAuthTokenConfigurerTest {
     @Test
     public void configureTest() throws Exception {
         HttpSecurity builder = PowerMockito.mock(HttpSecurity.class);
-        HmacSecurityConfigurer securityConfigurer = new HmacSecurityConfigurer(new DefaultHmacRequester());
+        XAuthTokenConfigurer xAuthTokenConfigurer = new XAuthTokenConfigurer(new AuthenticationService());
 
-        securityConfigurer.configure(builder);
+        xAuthTokenConfigurer.configure(builder);
         Mockito.verify(builder).addFilterBefore(Mockito.any(),Mockito.any());
     }
 }
