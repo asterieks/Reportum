@@ -113,7 +113,6 @@ public class AuthenticationService {
      * - Remove the stored UserDTO secret
      */
     public void logout(){
-        //TODO clean context?
         if(SecurityContextHolder.getContext().getAuthentication() != null
                 && SecurityContextHolder.getContext().getAuthentication().isAuthenticated())
         {

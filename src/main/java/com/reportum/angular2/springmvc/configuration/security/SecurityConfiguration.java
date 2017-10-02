@@ -79,7 +79,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //TODO refactor and take data from dataSource
         InMemoryUserDetailsManagerConfigurer configurer = auth
                 .inMemoryAuthentication()
                     .passwordEncoder(passwordEncoder());

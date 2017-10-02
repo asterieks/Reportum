@@ -1,5 +1,6 @@
 package com.reportum.angular2.springmvc.controller;
 
+import com.reportum.angular2.springmvc.configuration.security.hmac.HmacException;
 import com.reportum.angular2.springmvc.dto.LoginDTO;
 import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.impl.AuthenticationService;
@@ -19,7 +20,7 @@ public class AuthenticationController {
 	private AuthenticationService authenticationService;
 
 	@RequestMapping(value = "/authenticate",method = RequestMethod.POST)
-	public User authenticate(@RequestBody LoginDTO loginDTO, HttpServletResponse response) throws Exception{
+	public User authenticate(@RequestBody LoginDTO loginDTO, HttpServletResponse response) throws HmacException{
 		return authenticationService.authenticate(loginDTO,response);
 	}
 

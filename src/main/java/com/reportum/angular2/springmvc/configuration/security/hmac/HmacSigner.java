@@ -9,6 +9,8 @@ import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.jwt.SignedJWT;
 import org.apache.commons.codec.binary.Base64;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -24,7 +26,11 @@ import java.util.UUID;
 public class HmacSigner {
 
     public static final String ENCODING_CLAIM_PROPERTY = "l-lev";
+    private static final String UTF_8 = "UTF-8";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HmacSigner.class);
+
+    private HmacSigner(){}
     /**
      * Get a signed JWT
      * The issuer (user id) and the custom properties are stored in the JWT
@@ -61,9 +67,9 @@ public class HmacSigner {
      */
     public static String generateSecret() throws HmacException {
         try {
-            return Base64.encodeBase64String(generateToken().getBytes("UTF-8")).replace("\n","").replace("\r","");
+            return Base64.encodeBase64String(generateToken().getBytes(UTF_8)).replace("\n","").replace("\r","");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LOGGER.error(e.toString());
             throw new HmacException("Cannot encode base64",e);
         }
     }
@@ -81,7 +87,7 @@ public class HmacSigner {
         try {
             return signJWT(secret,jwtID,ttl,iss,claims);
         } catch (JOSEException e) {
-            e.printStackTrace();
+            LOGGER.error(e.toString());
             throw new HmacException("Cannot generate JWT",e);
         }
     }
@@ -204,11 +210,11 @@ public class HmacSigner {
     public static String encodeMac(final String secret, final String message, final String algorithm) throws HmacException {
         String digest;
         try {
-            SecretKeySpec key = new SecretKeySpec(secret.getBytes("UTF-8"), algorithm);
+            SecretKeySpec key = new SecretKeySpec(secret.getBytes(UTF_8), algorithm);
             Mac mac = Mac.getInstance(algorithm);
             mac.init(key);
 
-            byte[] bytes = mac.doFinal(message.getBytes("UTF-8"));
+            byte[] bytes = mac.doFinal(message.getBytes(UTF_8));
 
             StringBuilder hash = new StringBuilder();
             for (byte b : bytes) {

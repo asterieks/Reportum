@@ -1,7 +1,7 @@
 package com.reportum.angular2.springmvc.configuration.security.hmac;
 
+import com.reportum.angular2.springmvc.configuration.security.SecurityUtils;
 import com.reportum.angular2.springmvc.configuration.security.WrappedRequest;
-import com.reportum.angular2.springmvc.service.impl.AuthenticationService;
 import org.apache.commons.io.Charsets;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.GenericFilterBean;
@@ -26,28 +26,15 @@ public class HmacSecurityFilter extends GenericFilterBean {
 
     public static final Integer JWT_TTL = 20;
 
+    private static final String PHRASE_PART_HEADER = "' header";
+
     private HmacRequester hmacRequester;
 
     public HmacSecurityFilter(HmacRequester hmacRequester) {
         this.hmacRequester = hmacRequester;
     }
 
-    /**
-     * Find a cookie which contain a JWT
-     * @param request current http request
-     * @return Cookie found, null otherwise
-     */
-    private Cookie findJwtCookie(HttpServletRequest request) {
-        if(request.getCookies() == null || request.getCookies().length == 0) {
-            return null;
-        }
-        for(Cookie cookie : request.getCookies()) {
-            if(cookie.getName().contains(AuthenticationService.JWT_APP_COOKIE)) {
-                return cookie;
-            }
-        }
-        return null;
-    }
+
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -63,26 +50,26 @@ public class HmacSecurityFilter extends GenericFilterBean {
                 filterChain.doFilter(wrappedRequest, response);
             } else {
                 //Get Authentication header
-                Cookie jwtCookie = findJwtCookie(request);
+                Cookie jwtCookie = SecurityUtils.findJwtCookie(request);
                 Assert.notNull(jwtCookie,"No jwt cookie found");
 
                 String jwt = jwtCookie.getValue();
 
                 if (jwt == null || jwt.isEmpty()) {
-                    throw new HmacException("The JWT is missing from the '" + HmacUtils.AUTHENTICATION + "' header");
+                    throw new HmacException("The JWT is missing from the '" + HmacUtils.AUTHENTICATION + PHRASE_PART_HEADER);
                 }
 
                 String digestClient = request.getHeader(HmacUtils.X_DIGEST);
 
                 if (digestClient == null || digestClient.isEmpty()) {
-                    throw new HmacException("The digest is missing from the '" + HmacUtils.X_DIGEST + "' header");
+                    throw new HmacException("The digest is missing from the '" + HmacUtils.X_DIGEST + PHRASE_PART_HEADER);
                 }
 
                 //Get X-Once header
                 String xOnceHeader = request.getHeader(HmacUtils.X_ONCE);
 
                 if (xOnceHeader == null || xOnceHeader.isEmpty()) {
-                    throw new HmacException("The date is missing from the '" + HmacUtils.X_ONCE + "' header");
+                    throw new HmacException("The date is missing from the '" + HmacUtils.X_ONCE + PHRASE_PART_HEADER);
                 }
 
                 String url = request.getRequestURL().toString();
@@ -106,15 +93,9 @@ public class HmacSecurityFilter extends GenericFilterBean {
 
                 //Digest are calculated using a public shared secret
                 String digestServer = HmacSigner.encodeMac(secret, message, encoding);
-               /* System.out.println("HMAC JWT: " + jwt);
-                System.out.println("HMAC url digest: " + url);
-                System.out.println("HMAC Message server: " + message);
-                System.out.println("HMAC Secret server: " + secret);
-                System.out.println("HMAC Digest server: " + digestServer);
-                System.out.println("HMAC Digest client: " + digestClient);*/
 
                 if (digestClient.equals(digestServer)) {
-                    System.out.println("Request is valid, digest are matching");
+                    logger.debug("Request is valid, digest are matching");
 
                     Map<String,String> customClaims = new HashMap<>();
                     customClaims.put(HmacSigner.ENCODING_CLAIM_PROPERTY, HmacUtils.HMAC_SHA_256);
@@ -123,14 +104,14 @@ public class HmacSecurityFilter extends GenericFilterBean {
 
                     filterChain.doFilter(wrappedRequest, response);
                 } else {
-                    System.out.println("Server message: " + message);
+                    logger.debug("Server message: " + message);
                     throw new HmacException("Digest are not matching! Client: " + digestClient + " / Server: " + digestServer);
                 }
             }
 
         }catch(Exception e){
-            System.out.println("Error while generating hmac token");
-            e.printStackTrace();
+            logger.error("Error while generating hmac token");
+            logger.error(e.toString());
             response.setStatus(403);
             response.getWriter().write(e.getMessage());
         }

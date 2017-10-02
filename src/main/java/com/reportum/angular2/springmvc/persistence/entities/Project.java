@@ -38,8 +38,6 @@ public class Project implements Serializable{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
     private List<Report> projectList = new ArrayList<>();
 
-    public Project (){}
-
     public Long getProjectId() {
         return projectId;
     }

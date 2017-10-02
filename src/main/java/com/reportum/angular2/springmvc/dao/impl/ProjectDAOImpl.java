@@ -63,9 +63,7 @@ public class ProjectDAOImpl implements IProjectDAO{
 
     @Override
     public void saveProjects(List<Project> projects) {
-        projects.forEach(project -> {
-            em.merge(project);
-        });
+        projects.forEach(project -> em.merge(project));
     }
 
     private void addReporterPredicate(List<Predicate> predicates, Root<Project> root, User user) {

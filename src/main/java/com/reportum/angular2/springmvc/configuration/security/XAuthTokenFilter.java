@@ -29,23 +29,6 @@ public class XAuthTokenFilter extends GenericFilterBean {
        this.authenticationService = authenticationService;
     }
 
-    /**
-     * Find a cookie which contain a JWT
-     * @param request current http request
-     * @return Cookie found, null otherwise
-     */
-    private Cookie findJwtCookie(HttpServletRequest request) {
-        if(request.getCookies() == null || request.getCookies().length == 0) {
-            return null;
-        }
-        for(Cookie cookie : request.getCookies()) {
-            if(cookie.getName().contains(AuthenticationService.JWT_APP_COOKIE)) {
-                return cookie;
-            }
-        }
-        return null;
-    }
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -56,7 +39,7 @@ public class XAuthTokenFilter extends GenericFilterBean {
         } else {
 
             try {
-                Cookie jwtCookie = findJwtCookie(request);
+                Cookie jwtCookie = SecurityUtils.findJwtCookie(request);
                 Assert.notNull(jwtCookie,"No jwt cookie found");
 
                 String jwt = jwtCookie.getValue();
@@ -82,7 +65,7 @@ public class XAuthTokenFilter extends GenericFilterBean {
                 this.authenticationService.tokenAuthentication(login);
                 filterChain.doFilter(request,response);
             } catch (HmacException | ParseException e) {
-                e.printStackTrace();
+                logger.error(e.toString());
                 response.setStatus(403);
             }
         }

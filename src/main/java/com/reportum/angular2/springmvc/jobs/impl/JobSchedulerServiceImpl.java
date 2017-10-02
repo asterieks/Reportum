@@ -23,18 +23,18 @@ public class JobSchedulerServiceImpl implements JobSchedulerService {
     @Autowired
     private IProjectService projectService;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JobSchedulerServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(JobSchedulerServiceImpl.class);
 
     @Override
     @Scheduled(cron = "0 0 0 * * MON")
     public boolean updateProjectsStates(){
-        LOGGER.debug("Job started.");
+        logger.debug("Job started.");
 
         List<Project> projects=projectService.findAllProjects();
         if(!isEmpty(projects)){
             List<Project> updatedProjects=resetStateAndDate(projects);
             projectService.saveProjects(updatedProjects);
-            LOGGER.debug("Job completed.");
+            logger.debug("Job completed.");
             return true;
         }
         return false;

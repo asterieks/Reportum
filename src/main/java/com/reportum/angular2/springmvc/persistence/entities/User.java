@@ -36,8 +36,6 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "manager")
     private List<Project> managerList = new ArrayList<>();
 
-    public User(){}
-
     public String getId() {
         return id;
     }

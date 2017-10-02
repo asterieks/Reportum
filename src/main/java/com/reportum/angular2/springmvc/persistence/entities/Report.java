@@ -32,8 +32,6 @@ public class Report implements Serializable {
     @Column (name="reported_by")
     private String reportedBy;
 
-    public Report(){}
-
     public Long getReportId() {
         return reportId;
     }

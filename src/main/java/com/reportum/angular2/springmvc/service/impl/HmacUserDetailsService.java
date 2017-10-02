@@ -21,7 +21,7 @@ public class HmacUserDetailsService implements UserDetailsService {
     private IUserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
 
         User user = userService.findUser(username);
         if (user == null) {
