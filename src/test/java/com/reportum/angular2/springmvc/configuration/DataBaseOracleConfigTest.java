@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -26,12 +27,19 @@ public class DataBaseOracleConfigTest {
     @Mock
     private JpaTransactionManager transactionManager;
 
+    @Mock
+    private Environment env;
+
     @InjectMocks
     private DataBaseOracleConfig dbConfig = new DataBaseOracleConfig();
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
+        Mockito.when(env.getProperty("db.driver")).thenReturn("oracle.jdbc.driver.OracleDriver");
+        Mockito.when(env.getProperty("db.url")).thenReturn("jdbc:oracle:thin:@localhost:1521:XE");
+        Mockito.when(env.getProperty("db.username")).thenReturn("username");
+        Mockito.when(env.getProperty("db.password")).thenReturn("password");
     }
 
     @Test

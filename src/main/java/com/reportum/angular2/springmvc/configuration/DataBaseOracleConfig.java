@@ -1,7 +1,10 @@
 package com.reportum.angular2.springmvc.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -17,9 +20,13 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@PropertySource("classpath:database.properties")
 public class DataBaseOracleConfig {
 
     private static final String ENTITIES_FOLDER = "com.reportum.angular2.springmvc.persistence.entities";
+
+    @Autowired
+    private Environment env;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -37,11 +44,10 @@ public class DataBaseOracleConfig {
     @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-        driverManagerDataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-        driverManagerDataSource.setUrl("jdbc:oracle:thin:@172.26.156.105:1521:ORA11G");
-        //driverManagerDataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
-        driverManagerDataSource.setUsername("REPORT");
-        driverManagerDataSource.setPassword("REPORTUM");
+        driverManagerDataSource.setDriverClassName(env.getProperty("db.driver"));
+        driverManagerDataSource.setUrl(env.getProperty("db.url"));
+        driverManagerDataSource.setUsername(env.getProperty("db.username"));
+        driverManagerDataSource.setPassword(env.getProperty("db.password"));
 
         return driverManagerDataSource;
     }

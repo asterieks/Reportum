@@ -4,7 +4,7 @@
 	<groupId>com.reportum.angular2.springmvc</groupId>
 	<artifactId>Reportum</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 	<name>Reportum</name>
 
 	<properties>
@@ -17,6 +17,7 @@
 		<jcloverslf4j.version>1.7.21</jcloverslf4j.version>
 		<maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
         <powermock.version>1.7.1</powermock.version>
+		<skipTests>true</skipTests>
 	</properties>
 
 	<dependencies>
@@ -363,6 +364,7 @@
 				<configuration>
 					<includes>
 						<include>**/*Test.java</include>
+						<skipTests>${skipTests}</skipTests>
 					</includes>
 					<additionalClasspathElements>
 						<additionalClasspathElement>${basedir}/src/lib/ojdbc6.jar</additionalClasspathElement>
