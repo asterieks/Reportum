@@ -19,7 +19,6 @@ public class UserServiceImplTest {
     @InjectMocks
     private IUserService userService=new UserServiceImpl();
 
-    private User user;
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
@@ -39,6 +38,7 @@ public class UserServiceImplTest {
 
     @Test
     public void saveUserTest(){
+        User user = new User();
         userService.saveUser(user);
         verify(userDAO).saveUser(user);
     }

@@ -64,7 +64,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCase1CookieTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         hmacSecurityFilter.doFilter(request, response, filterChain);
@@ -74,7 +74,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseJwtNullTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt",null);
@@ -86,7 +86,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseCookieEmptyTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie[] cookie = {};
@@ -98,7 +98,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseJwtEmptyTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","");
@@ -110,7 +110,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseXTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("efrweffe","userX");
@@ -122,7 +122,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseDigestNullTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -134,12 +134,12 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseDigestEmptyTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
         request.setCookies(cookie);
-        request.addHeader(HmacUtils.X_DIGEST,"xx");
+        request.addHeader(HmacUtils.X_DIGEST,"");
         hmacSecurityFilter.doFilter(request, response, filterChain);
         Mockito.verify(response).setStatus(403);
         Mockito.verify(response).getWriter();
@@ -147,7 +147,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCasexOnceHeaderNullTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -160,7 +160,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCasexOnceHeaderEmptyTest() throws IOException, ServletException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -175,7 +175,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseSecretNullTest() throws IOException, ServletException, HmacException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -193,7 +193,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseTest() throws IOException, ServletException, HmacException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -210,7 +210,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCaseSecretNotNullTest() throws IOException, ServletException, HmacException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -229,7 +229,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCasePOSTTest() throws IOException, ServletException, HmacException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -249,7 +249,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCasePUTTest() throws IOException, ServletException, HmacException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");
@@ -269,7 +269,7 @@ public class HmacSecurityFilterTest {
 
     @Test
     public void doFilterCasePATCHTest() throws IOException, ServletException, HmacException {
-        Mockito.when(hmacRequester.canVerify((HttpServletRequest) request)).thenReturn(true);
+        Mockito.when(hmacRequester.canVerify(request)).thenReturn(true);
         PrintWriter writer = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(writer);
         Cookie cookie = new Cookie("hmac-app-jwt","userX");

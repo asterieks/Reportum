@@ -16,14 +16,12 @@ public class UserTest {
     private List<Project> reporterList = new ArrayList<>();
     private List<Project> teamLeaderList = new ArrayList<>();
     private List<Project> managerList = new ArrayList<>();
-    private Project project;
-    private Profile profile;
 
     @Before
     public void setUp(){
         user=new User();
-        project=new Project();
-        profile=REPORTER;
+        Project project = new Project();
+        Profile profile = REPORTER;
 
         user.setFullName("FullName");
         project.setReporter(user);

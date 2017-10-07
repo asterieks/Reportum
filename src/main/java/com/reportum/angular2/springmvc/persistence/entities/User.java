@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reportum.angular2.springmvc.utils.enums.Profile;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User implements Serializable {
     @Id
     @Column (name = "user_id", nullable = false)
     private String id;

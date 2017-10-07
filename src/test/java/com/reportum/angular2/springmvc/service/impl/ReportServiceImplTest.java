@@ -26,14 +26,11 @@ public class ReportServiceImplTest {
 
     private Report report;
     private List<Project> projects=new ArrayList<>();
-    private Long projectId;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-
         report=new Report();
-        List<Project> projects=new ArrayList<>();
     }
 
     @Test
@@ -61,13 +58,13 @@ public class ReportServiceImplTest {
     }
     @Test
     public void findReportByProjectIdTest(){
-        reportService.findReportByProjectId(projectId);
-        verify(reportDAO).findReportByProjectId(projectId);
+        reportService.findReportByProjectId(2L);
+        verify(reportDAO).findReportByProjectId(2L);
     }
 
     @Test
     public void findPrevReportByProjectIdTest(){
-        reportService.findPrevReportByProjectId(projectId);
-        verify(reportDAO).findPrevReportByProjectId(projectId);
+        reportService.findPrevReportByProjectId(3L);
+        verify(reportDAO).findPrevReportByProjectId(3L);
     }
 }

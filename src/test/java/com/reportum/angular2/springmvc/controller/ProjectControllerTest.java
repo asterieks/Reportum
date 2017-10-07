@@ -34,7 +34,7 @@ public class ProjectControllerTest {
     @InjectMocks
     private ProjectController projectController=new ProjectController();
 
-    public MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     private User user;
     private Project project;

@@ -7,29 +7,25 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 
 public class WrappedRequest extends HttpServletRequestWrapper {
-    private ByteArrayInputStream bais = null;
-    private ByteArrayOutputStream baos = null;
-    private BufferedServletInputStream bsis = null;
     private byte[] buffer = null;
 
     public WrappedRequest(HttpServletRequest req) throws IOException {
         super(req);
         // Read InputStream and store its content in a buffer.
         InputStream is = req.getInputStream();
-        this.baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buf = new byte[1024];
         int read;
         while ((read = is.read(buf)) > 0) {
-            this.baos.write(buf, 0, read);
+            baos.write(buf, 0, read);
         }
-        this.buffer = this.baos.toByteArray();
+        this.buffer = baos.toByteArray();
     }
 
     @Override
     public ServletInputStream getInputStream() {
-        this.bais = new ByteArrayInputStream(this.buffer);
-        this.bsis = new BufferedServletInputStream(this.bais);
-        return this.bsis;
+        ByteArrayInputStream bais = new ByteArrayInputStream(this.buffer);
+        return new BufferedServletInputStream(bais);
     }
 
     public String getBody() throws IOException {

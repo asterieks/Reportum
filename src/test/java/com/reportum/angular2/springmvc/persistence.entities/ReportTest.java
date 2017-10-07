@@ -11,12 +11,11 @@ import static org.junit.Assert.assertEquals;
 public class ReportTest {
 
     private Report report;
-    private Project project;
 
     @Before
     public void setUp(){
         report=new Report();
-        project=new Project();
+        Project project = new Project();
 
         project.setProjectId(1L);
 

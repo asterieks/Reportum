@@ -52,7 +52,7 @@ public class ProjectServiceImplTest {
     @Test
     public void saveProjectTest(){
         projectService.saveProject(project);
-        verify(projectDAO).saveProject((Project)any());
+        verify(projectDAO).saveProject(any());
     }
 
     @Test

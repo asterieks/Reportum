@@ -13,20 +13,15 @@ import static org.junit.Assert.assertEquals;
 public class ProjectTest {
 
     private Project project;
-    private User reporter;
-    private User teamLeader;
-    private User manager;
-    private List<Report> projectList;
-    private Report report;
 
     @Before
     public void setUp(){
         project=new Project();
-        reporter=new User();
-        teamLeader=new User();
-        manager=new User();
-        projectList=new ArrayList<>();
-        report=new Report();
+        User reporter=new User();
+        User teamLeader = new User();
+        User manager = new User();
+        List<Report> projectList = new ArrayList<>();
+        Report report = new Report();
 
         reporter.setFullName("Reporter");
         teamLeader.setFullName("TeamLeader");

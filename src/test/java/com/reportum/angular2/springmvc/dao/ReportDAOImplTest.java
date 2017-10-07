@@ -1,6 +1,6 @@
 package com.reportum.angular2.springmvc.dao;
 
-import com.reportum.angular2.springmvc.configuration.TestDataBaseConfig;
+import com.reportum.angular2.springmvc.configuration.TestDataSourceConfig;
 import com.reportum.angular2.springmvc.dao.impl.ReportDAOImpl;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.Report;
@@ -23,10 +23,11 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=TestDataBaseConfig.class)
+@ContextConfiguration(classes= TestDataSourceConfig.class)
 @Transactional
 public class ReportDAOImplTest {
 
@@ -36,10 +37,10 @@ public class ReportDAOImplTest {
     @InjectMocks
     private ReportDAOImpl reportDAO=new ReportDAOImpl();
 
-    User reporter;
-    User reporter1;
-    User manager;
-    User lead;
+    private User reporter;
+    private User reporter1;
+    private User manager;
+    private User lead;
 
     @Before
     public void setUp(){
@@ -47,7 +48,7 @@ public class ReportDAOImplTest {
         reportDAO.setEm(em);
 
         reporter = new User();
-        reporter.setId("r");
+        reporter.setId("r2");
         reporter.setProfile(Profile.REPORTER);
         reporter.setFullName("");
         reporter.setPassword("");
@@ -206,6 +207,7 @@ public class ReportDAOImplTest {
         Report actual = reportDAO.findReportByProjectId(project1.getProjectId());
         assertEquals(project1.getProjectId(), actual.getProject().getProjectId());
         assertEquals(report2.getReportId(), actual.getReportId());
+        assertNull(reportDAO.findReportByProjectId(333L));
         em.clear();
     }
 
@@ -228,7 +230,7 @@ public class ReportDAOImplTest {
         Report report = new Report();
         report.setDate(twoWeekAgoDate);
         report.setProject(project1);
-        report = em.merge(report);
+        em.merge(report);
 
         Report report1 = new Report();
         report1.setDate(weekAgoDate);
@@ -238,7 +240,7 @@ public class ReportDAOImplTest {
         Report report2 = new Report();
         report2.setDate(new Date());
         report2.setProject(project1);
-        report2 = em.merge(report2);
+        em.merge(report2);
 
         Report report3 = new Report();
         report3.setDate(new Date());
@@ -248,6 +250,7 @@ public class ReportDAOImplTest {
         Report actual = reportDAO.findPrevReportByProjectId(project1.getProjectId());
         assertEquals(project1.getProjectId(), actual.getProject().getProjectId());
         assertEquals(report1.getReportId(), actual.getReportId());
+        assertNull(reportDAO.findPrevReportByProjectId(334L));
         em.clear();
     }
 }

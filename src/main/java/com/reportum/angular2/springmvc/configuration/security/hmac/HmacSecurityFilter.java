@@ -14,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,28 +55,17 @@ public class HmacSecurityFilter extends GenericFilterBean {
                 Assert.notNull(jwtCookie,"No jwt cookie found");
 
                 String jwt = jwtCookie.getValue();
-
-                if (jwt == null || jwt.isEmpty()) {
-                    throw new HmacException("The JWT is missing from the '" + HmacUtils.AUTHENTICATION + PHRASE_PART_HEADER);
-                }
+                validateJwt(jwt);
 
                 String digestClient = request.getHeader(HmacUtils.X_DIGEST);
-
-                if (digestClient == null || digestClient.isEmpty()) {
-                    throw new HmacException("The digest is missing from the '" + HmacUtils.X_DIGEST + PHRASE_PART_HEADER);
-                }
+                validateDigestClient(digestClient);
 
                 //Get X-Once header
                 String xOnceHeader = request.getHeader(HmacUtils.X_ONCE);
-
-                if (xOnceHeader == null || xOnceHeader.isEmpty()) {
-                    throw new HmacException("The date is missing from the '" + HmacUtils.X_ONCE + PHRASE_PART_HEADER);
-                }
+                validateXonnceHeader(xOnceHeader);
 
                 String url = request.getRequestURL().toString();
-                if (request.getQueryString() != null) {
-                    url += "?" + URLDecoder.decode(request.getQueryString(), Charsets.UTF_8.displayName());
-                }
+                url = addExtraInfoToUrl(url, request.getQueryString());
 
                 String encoding = HmacSigner.getJwtClaim(jwt, HmacSigner.ENCODING_CLAIM_PROPERTY);
                 String iss = HmacSigner.getJwtIss(jwt);
@@ -84,12 +74,7 @@ public class HmacSecurityFilter extends GenericFilterBean {
                 String secret = hmacRequester.getPublicSecret(iss);
                 Assert.notNull(secret, "Secret key cannot be null");
 
-                String message;
-                if ("POST".equals(request.getMethod()) || "PUT".equals(request.getMethod()) || "PATCH".equals(request.getMethod())) {
-                    message = request.getMethod().concat(wrappedRequest.getBody()).concat(url).concat(xOnceHeader);
-                } else {
-                    message = request.getMethod().concat(url).concat(xOnceHeader);
-                }
+                String message = buildMessage(request, wrappedRequest,url,xOnceHeader);
 
                 //Digest are calculated using a public shared secret
                 String digestServer = HmacSigner.encodeMac(secret, message, encoding);
@@ -115,5 +100,37 @@ public class HmacSecurityFilter extends GenericFilterBean {
             response.setStatus(403);
             response.getWriter().write(e.getMessage());
         }
+    }
+
+    private void validateJwt(String jwt) throws HmacException {
+        if (jwt == null || jwt.isEmpty()) {
+            throw new HmacException("The JWT is missing from the '" + HmacUtils.AUTHENTICATION + PHRASE_PART_HEADER);
+        }
+    }
+
+    private void validateDigestClient(String digestClient) throws HmacException {
+        if (digestClient == null || digestClient.isEmpty()) {
+            throw new HmacException("The digest is missing from the '" + HmacUtils.X_DIGEST + PHRASE_PART_HEADER);
+        }
+    }
+
+    private void validateXonnceHeader(String xOnceHeader) throws HmacException {
+        if (xOnceHeader == null || xOnceHeader.isEmpty()) {
+            throw new HmacException("The date is missing from the '" + HmacUtils.X_ONCE + PHRASE_PART_HEADER);
+        }
+    }
+
+    private String addExtraInfoToUrl(String url, String queryString) throws UnsupportedEncodingException {
+        if (queryString != null) {
+            return url + "?" + URLDecoder.decode(queryString, Charsets.UTF_8.displayName());
+        }
+        return url;
+    }
+
+    private String buildMessage(HttpServletRequest request, WrappedRequest wrappedRequest, String url, String xOnceHeader) throws IOException {
+        if ("POST".equals(request.getMethod()) || "PUT".equals(request.getMethod()) || "PATCH".equals(request.getMethod())) {
+            return request.getMethod().concat(wrappedRequest.getBody()).concat(url).concat(xOnceHeader);
+        }
+        return request.getMethod().concat(url).concat(xOnceHeader);
     }
 }

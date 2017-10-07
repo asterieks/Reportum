@@ -2,7 +2,6 @@ package com.reportum.angular2.springmvc.jobs.impl;
 
 
 import com.reportum.angular2.springmvc.persistence.entities.Project;
-import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IProjectService;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +22,6 @@ import java.util.List;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 public class JobSchedulerServiceImplTest {
@@ -35,10 +33,8 @@ public class JobSchedulerServiceImplTest {
     private JobSchedulerServiceImpl jobSchedulerService=new JobSchedulerServiceImpl();
 
     private Project project;
-    private List<Project> projects=new ArrayList<>();
-    private User user;
 
-    public MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Before
     public void setUp(){

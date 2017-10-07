@@ -1,7 +1,7 @@
 package com.reportum.angular2.springmvc.dao;
 
 
-import com.reportum.angular2.springmvc.configuration.TestDataBaseConfig;
+import com.reportum.angular2.springmvc.configuration.TestDataSourceConfig;
 import com.reportum.angular2.springmvc.dao.impl.ProjectDAOImpl;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.User;
@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=TestDataBaseConfig.class)
+@ContextConfiguration(classes= TestDataSourceConfig.class)
 @Transactional
 public class ProjectDAOImplTest {
 
@@ -33,10 +33,10 @@ public class ProjectDAOImplTest {
     @InjectMocks
     private ProjectDAOImpl projectDAO=new ProjectDAOImpl();
 
-    User reporter;
-    User reporter1;
-    User manager;
-    User lead;
+    private User reporter;
+    private User reporter1;
+    private User manager;
+    private User lead;
 
     @Before
     public void setUp(){
