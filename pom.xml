@@ -300,6 +300,11 @@
 			<artifactId>spring-web</artifactId>
 			<version>4.3.7.RELEASE</version>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.mockito</groupId>-->
+			<!--<artifactId>mockito-core</artifactId>-->
+			<!--<version>2.8.9</version>-->
+		<!--</dependency>-->
 	</dependencies>
 
 	<build>
@@ -357,20 +362,20 @@
 					<useIncrementalCompilation>false</useIncrementalCompilation>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
-					<includes>
-						<include>**/*Test.java</include>
-						<skipTests>${skipTests}</skipTests>
-					</includes>
-					<additionalClasspathElements>
-						<additionalClasspathElement>${basedir}/src/lib/ojdbc6.jar</additionalClasspathElement>
-					</additionalClasspathElements>
-				</configuration>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-surefire-plugin</artifactId>-->
+				<!--<version>${maven-surefire-plugin.version}</version>-->
+				<!--<configuration>-->
+					<!--<includes>-->
+						<!--<include>**/*Test.java</include>-->
+						<!--<skipTests>${skipTests}</skipTests>-->
+					<!--</includes>-->
+					<!--<additionalClasspathElements>-->
+						<!--<additionalClasspathElement>${basedir}/src/lib/ojdbc6.jar</additionalClasspathElement>-->
+					<!--</additionalClasspathElements>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -429,4 +434,63 @@
 		</plugins>
 		<finalName>Reportum</finalName>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>test</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<skipTests>false</skipTests>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven-surefire-plugin.version}</version>
+						<configuration>
+							<includes>
+								<include>**/*Test.java</include>
+								<skipTests>${skipTests}</skipTests>
+							</includes>
+							<additionalClasspathElements>
+								<additionalClasspathElement>${basedir}/src/lib/ojdbc6.jar</additionalClasspathElement>
+							</additionalClasspathElements>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>integration-test</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<skipTests>false</skipTests>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven-surefire-plugin.version}</version>
+						<configuration>
+							<includes>
+								<include>**/*IT.java</include>
+								<skipTests>${skipTests}</skipTests>
+							</includes>
+							<additionalClasspathElements>
+								<additionalClasspathElement>${basedir}/src/lib/ojdbc6.jar</additionalClasspathElement>
+							</additionalClasspathElements>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

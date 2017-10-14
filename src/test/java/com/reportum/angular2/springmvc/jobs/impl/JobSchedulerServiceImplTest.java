@@ -11,8 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,13 +32,9 @@ public class JobSchedulerServiceImplTest {
 
     private Project project;
 
-    private MockMvc mockMvc;
-
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(jobSchedulerService).build();
-
         project=new Project();
         project.setProjectId(25L);
 

@@ -17,7 +17,6 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.reportum.angular2.springmvc")
-//@Import({GeneralDataSourceConfig.class, SecurityConfiguration.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 
 	@Bean

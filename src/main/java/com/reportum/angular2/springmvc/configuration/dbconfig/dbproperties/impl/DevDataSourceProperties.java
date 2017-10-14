@@ -6,6 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("dev")
+@Profile({"dev","test","integration-test"})
 @PropertySource("classpath:dev-database.properties")
 public class DevDataSourceProperties extends DataSourceProperties {}

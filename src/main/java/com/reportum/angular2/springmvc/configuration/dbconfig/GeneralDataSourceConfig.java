@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.Properties;
 
 @Configuration
+@Profile({"dev","test","integration-test"})
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.reportum.angular2.springmvc.configuration.dbconfig.dbproperties")
 public class GeneralDataSourceConfig extends DataSourceConfig{
