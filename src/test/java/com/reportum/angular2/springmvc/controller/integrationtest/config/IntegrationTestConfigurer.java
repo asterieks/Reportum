@@ -1,4 +1,4 @@
-package com.reportum.angular2.springmvc.controller.integrationtest;
+package com.reportum.angular2.springmvc.controller.integrationtest.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reportum.angular2.springmvc.configuration.WebConfiguration;
@@ -10,8 +10,6 @@ import com.reportum.angular2.springmvc.configuration.security.hmac.HmacUtils;
 import com.reportum.angular2.springmvc.dto.LoginDTO;
 import org.apache.commons.io.Charsets;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +18,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -36,17 +33,13 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ActiveProfiles("integration-test")
-@RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {SecurityConfiguration.class, WebConfiguration.class})
-public class IntegrationTestConfig {
+@ActiveProfiles("integration-test")
+@ContextConfiguration(classes = {SecurityConfiguration.class, WebConfiguration.class, IntegrationTestDataSourceConfig.class})
+public class IntegrationTestConfigurer {
 
     @Autowired
     protected WebApplicationContext context;
@@ -64,7 +57,7 @@ public class IntegrationTestConfig {
     protected String xOnceValue;
     protected Cookie jwtCookie;
 
-    private static final String LOGOUT = "/api/logout";
+    protected static final String AUTHENTICATE = "/api/authenticate";
 
     @Before
     public void setUp() throws Exception {
@@ -83,7 +76,7 @@ public class IntegrationTestConfig {
 
         MockHttpServletResponse response = mockMvc
                 .perform(
-                        post("/api/authenticate")
+                        post(AUTHENTICATE)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(jsonLogin))
                 .andReturn().getResponse();
@@ -95,37 +88,6 @@ public class IntegrationTestConfig {
         xOnceValue = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.msXX")
                 .withZone(ZoneOffset.UTC)
                 .format(Instant.now());
-    }
-
-    @Test
-    public void logoutTest() throws Exception {
-        mockMvc.perform(
-                get(LOGOUT)
-                        .header(X_SECRET, publicSecret)
-                        .header(WWW_AUTHENTICATE, wwwAuthenticateValue)
-                        .header(X_HMAC_CSRF, hmacValue)
-                        .header(X_ONCE, xOnceValue)
-                        .header(X_DIGEST, mockUpClientDigest(get(LOGOUT)))
-                        .cookie(jwtCookie)
-        )
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void logoutWithoutAnyHeadersTest() throws Exception {
-        mockMvc.perform(
-                get(LOGOUT)
-        )
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    public void logoutWithOnlyLoginPasswordTest() throws Exception {
-        mockMvc.perform(
-                get(LOGOUT)
-                        .with(user("asterieks@gmail.com").password("1"))
-        )
-                .andExpect(status().isForbidden());
     }
 
     protected String mockUpClientDigest(MockHttpServletRequestBuilder requestBuilder) throws HmacException, IOException {
