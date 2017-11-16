@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.Properties;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev","production"})
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.reportum.angular2.springmvc.configuration.dbconfig.dbproperties")
 public class GeneralDataSourceConfig extends DataSourceConfig{

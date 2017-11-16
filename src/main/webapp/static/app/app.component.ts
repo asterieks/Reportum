@@ -30,7 +30,7 @@ export class AppComponent {
     private isUrlAllowedForAccount(url: string): boolean {
         let currentAccount = this.getCurrentAccount();
         if((currentAccount.profile=='REPORTER' && url == '/reporter')
-            || (currentAccount.profile=='LEAD' && url == '/manager'))
+            || ( (currentAccount.profile=='LEAD' || currentAccount.profile=='MANAGER') && url == '/manager'))
         {
             return true;
         }

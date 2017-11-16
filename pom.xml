@@ -4,7 +4,7 @@
 	<groupId>com.reportum.angular2.springmvc</groupId>
 	<artifactId>Reportum</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 	<name>Reportum</name>
 
 	<properties>
@@ -357,20 +357,6 @@
 					<useIncrementalCompilation>false</useIncrementalCompilation>
 				</configuration>
 			</plugin>
-			<!--<plugin>-->
-				<!--<groupId>org.apache.maven.plugins</groupId>-->
-				<!--<artifactId>maven-surefire-plugin</artifactId>-->
-				<!--<version>${maven-surefire-plugin.version}</version>-->
-				<!--<configuration>-->
-					<!--<includes>-->
-						<!--<include>**/*Test.java</include>-->
-						<!--<skipTests>${skipTests}</skipTests>-->
-					<!--</includes>-->
-					<!--<additionalClasspathElements>-->
-						<!--<additionalClasspathElement>${basedir}/src/lib/ojdbc6.jar</additionalClasspathElement>-->
-					<!--</additionalClasspathElements>-->
-				<!--</configuration>-->
-			<!--</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>

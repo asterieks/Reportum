@@ -52,7 +52,7 @@ export class Login {
                 console.log('Successfully logged',account);
                 if(account.profile==="REPORTER"){
                     this.router.navigate(['/reporter']);
-                } else if(account.profile==="LEAD"){
+                } else if(account.profile==="LEAD" || account.profile==="MANAGER"){
                     this.router.navigate(['/manager']);
                 }
             }
