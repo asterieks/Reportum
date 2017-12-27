@@ -11,19 +11,20 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader',
-                exclude: /node_modules/
+                loaders: ['awesome-typescript-loader'],
+                exclude: [/node_modules\/(?!(ng2-.+|ngx-.+))/]
             },
-            { test: /\.(html|css)$/, loader: 'raw-loader' }
+            { test: /\.(html)$/, loader: 'raw-loader' },
+            {
+                test: /\.css$/,
+                loaders: ['to-string-loader', 'css-loader']
+            }
         ]
     },
     resolve: {
         extensions: [".tsx", ".ts", ".js"]
     },
     plugins: [
-        new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core(\\|\/)@angular/,
-            path.resolve(__dirname, './app')
-        )
+        new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './app')),
     ]
 };
