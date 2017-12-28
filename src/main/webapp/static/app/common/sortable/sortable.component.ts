@@ -73,7 +73,7 @@ export class SortableComponent implements OnInit, OnChanges{
                 if (data) {
                     this.projects = data;
                     this.createTemplateAndSend();
-                    this.preSelectProject(this.findDelayedProjectOrReturnFirst(data));
+                    this.preSelectProject(this.findDelayedProjectOrReturnFirst(this.projects));
                 }
             });
     }

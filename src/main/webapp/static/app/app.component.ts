@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {Router, NavigationStart} from '@angular/router';
-import {LoginService} from './login/login.service';
+import {Router, NavigationEnd} from "@angular/router";
+import {LoginService} from "./login/login.service";
 import * as AppUtils from "./utils/app.utils";
 import {Account} from "./account/account";
 
@@ -13,8 +13,9 @@ import {Account} from "./account/account";
 
 export class AppComponent {
     constructor(router:Router, private loginService:LoginService) {
-        router.events.subscribe((e: NavigationStart)  => {
-            let url = e.url;
+        router.events.filter((event) => event instanceof NavigationEnd).subscribe((event: NavigationEnd)  => {
+            let url = event.url;
+            console.log("AppComponent:DEBAG " + event.toString());
             if(url !== '/authenticate' && url !== '/') {
                 if(!loginService.isAuthenticated() || !this.isUrlAllowedForAccount(url)) {
                     loginService.logout();

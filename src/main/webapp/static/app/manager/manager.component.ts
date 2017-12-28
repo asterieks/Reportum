@@ -232,7 +232,7 @@ export class ManagerComponent implements OnInit {
             .subscribe(data => {
                 if(data){
                     this.reports=data;
-                    this.aggregateAndShowReports(data);
+                    this.aggregateAndShowReports(this.reports);
                 }
             });
     }
