@@ -36,6 +36,26 @@ export class ReporterComponent implements OnInit {
     };
     templateForProjectSorting: number[]=[];
     submitTrigger:number = 0;
+    ckeditorConfig = {
+        height: 110,
+        uiColor: '#E6E6FA',
+        removePlugins: "elementspath,div",
+        language: "en",
+        extraPlugins: "autogrow",
+        autoGrow_minHeight: 110,
+        autoGrow_maxHeight: 300,
+        autoGrow_bottomSpace: 10,
+        resize_enabled: false,
+        scayt_autoStartup: true,
+        toolbarGroups: [
+            { name: 'basicstyles', groups: [ 'basicstyles' ] },
+            { name: 'paragraph', element: 'div', groups: [ 'list', 'indent'] },
+            { name: 'editing',     groups: [ 'selection', 'spellchecker' ] },
+            { name: 'styles' }
+        ],
+        removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
+        enterMode: 3
+    };
 
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
@@ -102,7 +122,7 @@ export class ReporterComponent implements OnInit {
     }
 
     onKeyReview(text: string) {
-        let trimmedText = text.trim();
+        let trimmedText = text;
         if(trimmedText && this.downloadedReportHolder.reviewPart != trimmedText) {
             this.tempReportHolder.reviewPart = text;
             this.isReviewChanged=true;
@@ -116,7 +136,7 @@ export class ReporterComponent implements OnInit {
     }
 
     onKeyIssue(text: string) {
-        let trimmedText = text.trim();
+        let trimmedText = text;
         if(trimmedText && this.downloadedReportHolder.issuePart != trimmedText){
             this.tempReportHolder.issuePart = text;
             this.isIssuesChanged=true;
@@ -130,7 +150,7 @@ export class ReporterComponent implements OnInit {
     }
 
     onKeyPlan(text: string) {
-        let trimmedText = text.trim();
+        let trimmedText = text;
         if(trimmedText && this.downloadedReportHolder.planPart != trimmedText ){
             this.tempReportHolder.planPart = text;
             this.isPlansChanged=true;

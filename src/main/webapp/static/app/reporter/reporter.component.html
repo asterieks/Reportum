@@ -14,32 +14,43 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div id="report_grid"class="panel panel-success">
-            <div class="panel-heading">
-                Report details
-            </div>
+            <div class="panel-heading">{{selectedProjectName}} report details</div>
             <div class="panel-body">
-                <div class="selectedProjectName">
-                    <span>{{selectedProjectName}}</span>
-                </div>
                 <div id="manager_report_block">
-                    <div class="text_area_model" fz-elastic >
-                        <label>Review</label>
-                        <textarea #box1 (keyup)="onKeyReview(box1.value)" formControlName='review'></textarea>
+                    <div>
+                        <label id="review_label">Review</label>
+                        <ckeditor #box1
+                                formControlName='review'
+                                [config]="ckeditorConfig"
+                                [readonly]="false"
+                                (change)="onKeyReview(box1.value)">
+                        </ckeditor>
                     </div>
-                    <div class="text_area_model" fz-elastic >
+                    <div>
                         <label>Issues/Questions</label>
-                        <textarea #box2 (keyup)="onKeyIssue(box2.value)" formControlName='issues'></textarea>
+                        <ckeditor #box2
+                                formControlName='issues'
+                                [config]="ckeditorConfig"
+                                [readonly]="false"
+                                (change)="onKeyIssue(box2.value)">
+                        </ckeditor>
                     </div>
-                    <div class="text_area_model" fz-elastic >
+                    <div>
                         <label>Plans</label>
-                        <textarea #box3 (keyup)="onKeyPlan(box3.value)" formControlName='plans'></textarea>
+                        <ckeditor #box3
+                                formControlName='plans'
+                                [config]="ckeditorConfig"
+                                [readonly]="false"
+                                (change)="onKeyPlan(box3.value)">
+                        </ckeditor>
                     </div>
-                   <div>
+                </div>
+                <div class="buttons_bar">
+                    <div>
                         <button type="submit" class="btn btn-default" id="manager_save_button" [disabled]="isDisabledSaveButton()">Save</button>
-                   </div>
+                    </div>
                     <div>
                         <button class="btn btn-default" id="load_prev_button" (click)="onLoadPrevButtonClick($event)" [disabled]="isDisabledLoadPrevButton()">Load Previous</button>
                     </div>

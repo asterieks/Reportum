@@ -3,7 +3,7 @@ li{
 }
 
 .selected {
-    background-color: lavender !important;
+    background-color: rgb(240, 240, 252) !important;
     color: #607D8B;
 }
 
