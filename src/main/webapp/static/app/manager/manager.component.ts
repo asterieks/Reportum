@@ -9,8 +9,8 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from "ng2-toasty";
 
 @Component({
     selector: 'manager',
-    template: require('./manager.component.html'),
-    styles: [require('./manager.component.css')]
+    templateUrl: '../static/app/manager/manager.component.html',
+    styleUrls: ['../static/app/manager/manager.component.css'],
 })
 
 export class ManagerComponent implements OnInit {
@@ -47,6 +47,7 @@ export class ManagerComponent implements OnInit {
         removePlugins: "elementspath,div",
         language: "en",
         extraPlugins: "autogrow",
+        autoGrow_onStartup: true,
         autoGrow_minHeight: 110,
         autoGrow_maxHeight: 300,
         autoGrow_bottomSpace: 10,

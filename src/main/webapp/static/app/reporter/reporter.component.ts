@@ -9,8 +9,8 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from "ng2-toasty";
 
 @Component({
     selector: 'reporter',
-    template: require('./reporter.component.html'),
-    styles: [require('./reporter.component.css')]
+    templateUrl: '../static/app/reporter/reporter.component.html',
+    styleUrls: ['../static/app/reporter/reporter.component.css'],
 })
 
 export class ReporterComponent implements OnInit {
@@ -39,9 +39,10 @@ export class ReporterComponent implements OnInit {
     ckeditorConfig = {
         height: 110,
         uiColor: '#E6E6FA',
-        removePlugins: "elementspath,div",
+        removePlugins: "elementspath,div,resize",
         language: "en",
         extraPlugins: "autogrow",
+        autoGrow_onStartup: true,
         autoGrow_minHeight: 110,
         autoGrow_maxHeight: 300,
         autoGrow_bottomSpace: 10,
