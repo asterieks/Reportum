@@ -54,8 +54,13 @@
                       </div>
                   </div>
                   <div *ngIf="showAggregated" class="aggregated_report_block">
-                      <span>Aggregated report</span>
-                      <div class="aggregated" [innerHtml]="htmlVariable"></div>
+                      <div class="aggregated">
+                          <ckeditor
+                                    formControlName='aggregated'
+                                    [config]="aggregated_ckeditorConfig"
+                                    [readonly]="false">
+                          </ckeditor>
+                      </div>
                   </div>
                   <div class="buttons_bar">
                       <div>

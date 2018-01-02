@@ -20,7 +20,6 @@ export class ManagerComponent implements OnInit {
     show = false;
     showAggregated=true;
     reports:any;
-    htmlVariable: string;
     isSaveButtonValid:boolean=false;
     isApproveButtonValid:boolean=false;
     isReviewChanged: boolean = false;
@@ -29,7 +28,7 @@ export class ManagerComponent implements OnInit {
     isPrevButtonPressed:boolean = false;
     templateForProjectSorting: number[]=[];
     submitTrigger:number = 0;
-    selectedProjectName:string;
+    selectedProjectName:string = "Aggregated";
     switchOffApproveButton: boolean = false;
     tempReportHolder: any = {
         reviewPart : '',
@@ -53,6 +52,28 @@ export class ManagerComponent implements OnInit {
         autoGrow_bottomSpace: 10,
         resize_enabled: false,
         scayt_autoStartup: true,
+        toolbarGroups: [
+            { name: 'basicstyles', groups: [ 'basicstyles' ] },
+            { name: 'paragraph', element: 'div', groups: [ 'list', 'indent'] },
+            { name: 'editing',     groups: [ 'selection', 'spellchecker' ] },
+            { name: 'styles' }
+        ],
+        removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
+        enterMode: 3
+    };
+
+    aggregated_ckeditorConfig = {
+        height: 110,
+        uiColor: '#E6E6FA',
+        removePlugins: "elementspath,div",
+        language: "en",
+        extraPlugins: "autogrow",
+        autoGrow_onStartup: true,
+        autoGrow_minHeight: 110,
+        autoGrow_maxHeight: 550,
+        autoGrow_bottomSpace: 10,
+        resize_enabled: false,
+        scayt_autoStartup: false,
         toolbarGroups: [
             { name: 'basicstyles', groups: [ 'basicstyles' ] },
             { name: 'paragraph', element: 'div', groups: [ 'list', 'indent'] },
@@ -121,7 +142,7 @@ export class ManagerComponent implements OnInit {
 
     onAggregateButtonClick(event){
         event.preventDefault();
-        this.selectedProjectName="";
+        this.selectedProjectName="Aggregated";
         this.getReportsAndShow();
         this.isSaveButtonValid=false;
         this.tempReportHolder = {reviewPart:"", issuePart:"", planPart:"", project:null};
@@ -243,7 +264,8 @@ export class ManagerComponent implements OnInit {
         this.reportForm = this.fb.group({
             review: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
             issues: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
-            plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]]
+            plans: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
+            aggregated:['', [<any>Validators.required, <any>Validators.minLength(5)]]
         });
     }
 
@@ -270,7 +292,7 @@ export class ManagerComponent implements OnInit {
     }
 
     private aggregateReports(reports:any[]): string{
-        let aggregatedReport='<br><br>';
+        let aggregatedReport='';
         for (let report of reports) {
             aggregatedReport=aggregatedReport+this.wrapEachReportInTags(report);
         }
@@ -278,20 +300,18 @@ export class ManagerComponent implements OnInit {
     }
 
     private showAggregatedReports(aggregatedReport:string) {
-        this.htmlVariable=aggregatedReport;
+        this.reportForm.patchValue({
+            aggregated : aggregatedReport
+        });
         this.show=false;
         this.showAggregated=!this.show;
     }
 
     private wrapEachReportInTags(report:any): string {
-        let name = '<h5><b>'+report.project.projectName+'</u></b></h5>';
-        let review='<p>Review:</p>' +
-            '<p>'+report.reviewPart+'</p>';
-        let issues='<p>Issues:</p>' +
-            '<p>'+report.issuePart+'</p>';
-        let plans= '<p>Plans:</p>' +
-            '<p>'+report.planPart+'</p>'+
-            '<br>';
+        let name = '<h4><u><strong>'+report.project.projectName+'</strong></u></h4>';
+        let review='<h4><strong>Review:</strong></h4>' + report.reviewPart;
+        let issues='<h4><strong>Issues:</strong></h4>' + report.issuePart;
+        let plans= '<h4><strong>Plans:</strong></h4>' + report.planPart;
         return name+review+issues+plans;
     }
 

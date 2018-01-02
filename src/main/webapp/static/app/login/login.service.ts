@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Response,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Account} from '../account/account';
 import {AccountEventsService} from '../account/account.events.service';
@@ -7,7 +6,7 @@ import {SecurityToken} from '../security/securityToken';
 import {Observable} from 'rxjs/Observable';
 import * as AppUtils from '../utils/app.utils';
 import {Router} from '@angular/router';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {headers} from "../common/report/report.service";
 
 @Injectable()
