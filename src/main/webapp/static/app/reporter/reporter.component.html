@@ -22,28 +22,28 @@
                     <div>
                         <label id="review_label">Review</label>
                         <ckeditor #box1
-                                formControlName='review'
-                                [config]="ckeditorConfig"
-                                [readonly]="false"
-                                (change)="onKeyReview(box1.value)">
+                                  formControlName='review'
+                                  [config]="ckeditorConfig"
+                                  [readonly]="false"
+                                  (change)="onKeyReview(box1.value)">
                         </ckeditor>
                     </div>
                     <div>
                         <label>Issues/Questions</label>
                         <ckeditor #box2
-                                formControlName='issues'
-                                [config]="ckeditorConfig"
-                                [readonly]="false"
-                                (change)="onKeyIssue(box2.value)">
+                                  formControlName='issues'
+                                  [config]="ckeditorConfig"
+                                  [readonly]="false"
+                                  (change)="onKeyIssue(box2.value)">
                         </ckeditor>
                     </div>
                     <div>
                         <label>Plans</label>
                         <ckeditor #box3
-                                formControlName='plans'
-                                [config]="ckeditorConfig"
-                                [readonly]="false"
-                                (change)="onKeyPlan(box3.value)">
+                                  formControlName='plans'
+                                  [config]="ckeditorConfig"
+                                  [readonly]="false"
+                                  (change)="onKeyPlan(box3.value)">
                         </ckeditor>
                     </div>
                 </div>

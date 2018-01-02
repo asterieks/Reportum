@@ -6,7 +6,8 @@
                   <div class="panel panel-success">
                       <div class="panel-heading">Actual projects</div>
                       <div class="aggregate_button_wrapper">
-                          <button class="btn btn-default" id="manager_aggregate_button" (click)="onAggregateButtonClick($event)">Aggregate</button>
+                          <button class="btn btn-default" id="manager_aggregate_button"
+                                  (click)="onAggregateButtonClick($event)">Aggregate</button>
                       </div>
                       <div class="panel-body">
                           <sortable_component
@@ -18,57 +19,59 @@
                   </div>
               </div>
           </div>
-
       </div>
       <div id="report_grid" class="panel panel-success">
           <div class="panel-heading">{{selectedProjectName}} report details</div>
           <div class="panel-body">
-      <div id="manager_report_block">
-        <div disabled *ngIf="show">
-            <div>
-                <label id="review_label">Review</label>
-                <ckeditor #box1
-                          formControlName='review'
-                          [config]="ckeditorConfig"
-                          [readonly]="false"
-                          (change)="onKeyReview(box1.value)">
-                </ckeditor>
-            </div>
-            <div>
-                <label>Issues/Questions</label>
-                <ckeditor #box2
-                          formControlName='issues'
-                          [config]="ckeditorConfig"
-                          [readonly]="false"
-                          (change)="onKeyIssue(box2.value)">
-                </ckeditor>
-            </div>
-            <div>
-                <label>Plans</label>
-                <ckeditor #box3
-                          formControlName='plans'
-                          [config]="ckeditorConfig"
-                          [readonly]="false"
-                          (change)="onKeyPlan(box3.value)">
-                </ckeditor>
-            </div>
-        </div>
-        <div *ngIf="showAggregated" class="aggregated_report_block">
-          <span>Aggregated report</span>
-          <div class="aggregated" [innerHtml]="htmlVariable"></div>
-        </div>
-          <div class="buttons_bar">
-        <div>
-            <button type="submit" class="btn btn-default" id="manager_save_button" [disabled]="isDisabledSaveButton()">Save</button>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-default" id="manager_approve_button"  [disabled]="isDisabledApproveButton()">Approve</button>
-        </div>
-        <div>
-            <button class="btn btn-default" id="load_prev_button" (click)="onLoadPrevButtonClick($event)" [disabled]="isDisabledLoadPrevButton()">Load Previous</button>
-        </div>
-          </div>
-      </div>
+              <div id="manager_report_block">
+                  <div disabled *ngIf="show">
+                      <div>
+                          <label id="review_label">Review</label>
+                          <ckeditor #box1
+                                    formControlName='review'
+                                    [config]="ckeditorConfig"
+                                    [readonly]="false"
+                                    (change)="onKeyReview(box1.value)">
+                          </ckeditor>
+                      </div>
+                      <div>
+                          <label>Issues/Questions</label>
+                          <ckeditor #box2
+                                    formControlName='issues'
+                                    [config]="ckeditorConfig"
+                                    [readonly]="false"
+                                    (change)="onKeyIssue(box2.value)">
+                          </ckeditor>
+                      </div>
+                      <div>
+                          <label>Plans</label>
+                          <ckeditor #box3
+                                    formControlName='plans'
+                                    [config]="ckeditorConfig"
+                                    [readonly]="false"
+                                    (change)="onKeyPlan(box3.value)">
+                          </ckeditor>
+                      </div>
+                  </div>
+                  <div *ngIf="showAggregated" class="aggregated_report_block">
+                      <span>Aggregated report</span>
+                      <div class="aggregated" [innerHtml]="htmlVariable"></div>
+                  </div>
+                  <div class="buttons_bar">
+                      <div>
+                          <button type="submit" class="btn btn-default" id="manager_save_button"
+                                  [disabled]="isDisabledSaveButton()">Save</button>
+                      </div>
+                      <div>
+                          <button type="submit" class="btn btn-default" id="manager_approve_button"
+                                  [disabled]="isDisabledApproveButton()">Approve</button>
+                      </div>
+                      <div>
+                          <button class="btn btn-default" id="load_prev_button" (click)="onLoadPrevButtonClick($event)"
+                                  [disabled]="isDisabledLoadPrevButton()">Load Previous</button>
+                      </div>
+                  </div>
+              </div>
           </div>
       </div>
   </form>
