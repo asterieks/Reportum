@@ -90,9 +90,9 @@ public class ReportControllerIT extends IntegrationTestConfigurer {
                 .andExpect(jsonPath("$.[0].project.teamLeader.profile", is("LEAD")))
                 .andExpect(jsonPath("$.[0].project.teamLeader.authorities", is("ROLE_MANAGER")))
                 .andExpect(jsonPath("$.[0].project.manager", isEmptyOrNullString()))
-                .andExpect(jsonPath("$.[0].reviewPart", is("review<br>")))
-                .andExpect(jsonPath("$.[0].issuePart", is("issue<br>")))
-                .andExpect(jsonPath("$.[0].planPart", is("plan<br>")))
+                .andExpect(jsonPath("$.[0].reviewPart", is("review")))
+                .andExpect(jsonPath("$.[0].issuePart", is("issue")))
+                .andExpect(jsonPath("$.[0].planPart", is("plan")))
                 .andExpect(jsonPath("$.[0].date", any(Long.class)))
                 .andExpect(jsonPath("$.[0].reportedBy", is("asterieks@gmail.com")))
                 .andExpect(status().isOk());
