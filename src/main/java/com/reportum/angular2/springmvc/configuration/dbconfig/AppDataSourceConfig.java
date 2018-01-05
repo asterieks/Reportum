@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -37,15 +36,6 @@ public class AppDataSourceConfig extends DataSourceConfig{
         driverManagerDataSource.setUsername(dataSourceProperties.getUserName());
         driverManagerDataSource.setPassword(dataSourceProperties.getPassword());
         return driverManagerDataSource;
-    }
-
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(ENTITIES_FOLDER);
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
     }
 
     @Bean

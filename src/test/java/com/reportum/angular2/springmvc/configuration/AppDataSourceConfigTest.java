@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -54,13 +53,6 @@ public class AppDataSourceConfigTest {
         EntityManagerFactory emf = Mockito.mock(EntityManagerFactory.class);
         PlatformTransactionManager actual = dbConfig.transactionManager(emf);
         assertNotNull(actual);
-    }
-
-    @Test
-    public void sessionFactoryTest(){
-        LocalSessionFactoryBean actual = dbConfig.sessionFactory();
-        assertNotNull(actual);
-        assertNotNull(actual.getHibernateProperties());
     }
 
     @Test
