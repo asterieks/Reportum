@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
-public class WebConfigurationTest {
+public class ServletContextConfigTest {
 
     @Mock
     private ResourceHandlerRegistry registry;

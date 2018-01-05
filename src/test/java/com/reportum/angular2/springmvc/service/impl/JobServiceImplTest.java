@@ -1,7 +1,10 @@
-package com.reportum.angular2.springmvc.jobs.impl;
+package com.reportum.angular2.springmvc.service.impl;
 
 
+import com.reportum.angular2.springmvc.dao.IJobStateDAO;
+import com.reportum.angular2.springmvc.persistence.entities.JobStateHolder;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
+import com.reportum.angular2.springmvc.service.IJobService;
 import com.reportum.angular2.springmvc.service.IProjectService;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,15 +25,19 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class JobSchedulerServiceImplTest {
+public class JobServiceImplTest {
 
     @Mock
     private IProjectService projectService;
 
+    @Mock
+    private IJobStateDAO jobStateDAO;
+
     @InjectMocks
-    private JobSchedulerServiceImpl jobSchedulerService=new JobSchedulerServiceImpl();
+    private IJobService jobService = new JobServiceImpl();
 
     private Project project;
+    private JobStateHolder jobStateHolder;
 
     @Before
     public void setUp(){
@@ -38,6 +45,7 @@ public class JobSchedulerServiceImplTest {
         project=new Project();
         project.setProjectId(25L);
 
+        jobStateHolder = new JobStateHolder();
     }
 
     @Test
@@ -75,19 +83,55 @@ public class JobSchedulerServiceImplTest {
         log.println(message);
         assertThat(message).contains("00:00:00 Monday");
 
-        boolean actual = jobSchedulerService.updateProjectsStates();
+        when(jobStateDAO.getJobState(1L)).thenReturn(new JobStateHolder());
+
+        jobService.updateProjectsStates();
         verify(projectService).findAllProjects();
         verify(projectService, never()).saveProjects(anyList());
-        assertThat(actual).isFalse();
+        verify(jobStateDAO,never()).updateJobStateHolder(any());
 
         Mockito.reset(projectService);
         List<Project> projects=new ArrayList<>();
         projects.add(project);
         when(projectService.findAllProjects()).thenReturn(projects);
 
-        actual = jobSchedulerService.updateProjectsStates();
+        jobService.updateProjectsStates();
         verify(projectService).findAllProjects();
         verify(projectService).saveProjects(anyList());
-        assertThat(actual).isTrue();
+        verify(jobStateDAO).updateJobStateHolder(any());
+    }
+
+    @Test
+    public void getJobStateHolderTest(){
+        jobService.getJobStateHolder(1L);
+        verify(jobStateDAO).getJobState(1L);
+    }
+
+    @Test
+    public void updateJobStateHolderTest(){
+        jobService.updateJobStateHolder(jobStateHolder);
+        verify(jobStateDAO).updateJobStateHolder(jobStateHolder);
+    }
+
+    @Test
+    public void checkStateAndUpdateTest(){
+        jobStateHolder.setStateDate(new Date());
+        when(jobStateDAO.getJobState(1L)).thenReturn(jobStateHolder);
+
+        jobService.checkStateAndUpdate();
+        verify(jobStateDAO).getJobState(1L);
+        verify(projectService, never()).findAllProjects();
+
+        Mockito.reset(projectService);
+        Mockito.reset(jobStateDAO);
+
+        Calendar today = Calendar.getInstance();
+        today.add(Calendar.DAY_OF_WEEK, -10);
+        jobStateHolder.setStateDate(today.getTime());
+        when(jobStateDAO.getJobState(1L)).thenReturn(jobStateHolder);
+
+        jobService.checkStateAndUpdate();
+        verify(jobStateDAO).getJobState(1L);
+        verify(projectService).findAllProjects();
     }
 }
