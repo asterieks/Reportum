@@ -10,7 +10,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import java.util.Properties;
 
 @Configuration
-public class TestDataSourceConfig extends DataSourceConfig {
+public class UnitTestDataSourceConfig extends DataSourceConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

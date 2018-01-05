@@ -1,6 +1,6 @@
 package com.reportum.angular2.springmvc.configuration;
 
-import com.reportum.angular2.springmvc.configuration.dbconfig.GeneralDataSourceConfig;
+import com.reportum.angular2.springmvc.configuration.dbconfig.AppDataSourceConfig;
 import com.reportum.angular2.springmvc.configuration.dbconfig.dbproperties.DataSourceProperties;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import static org.junit.Assert.assertNotNull;
 
 
-public class GeneralDataSourceConfigTest {
+public class AppDataSourceConfigTest {
 
     @Mock
     private DriverManagerDataSource dataSource;
@@ -32,7 +32,7 @@ public class GeneralDataSourceConfigTest {
     private DataSourceProperties env;
 
     @InjectMocks
-    private GeneralDataSourceConfig dbConfig = new GeneralDataSourceConfig();
+    private AppDataSourceConfig dbConfig = new AppDataSourceConfig();
 
     @Before
     public void setUp(){

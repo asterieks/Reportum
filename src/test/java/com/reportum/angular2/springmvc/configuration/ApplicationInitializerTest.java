@@ -12,16 +12,15 @@ public class ApplicationInitializerTest {
     @Test
     public void getRootConfigClassesTest(){
         Class[] actual = initializer.getRootConfigClasses();
-        assertEquals(2, actual.length);
-        assertEquals("com.reportum.angular2.springmvc.configuration.dbconfig.GeneralDataSourceConfig",actual[0].getName());
-        assertEquals("com.reportum.angular2.springmvc.configuration.security.SecurityConfiguration",actual[1].getName());
+        assertEquals(1, actual.length);
+        assertEquals("com.reportum.angular2.springmvc.configuration.RootContextConfig",actual[0].getName());
     }
 
     @Test
     public void getServletConfigClassesTest(){
         Class[] actual = initializer.getServletConfigClasses();
         assertEquals(1, actual.length);
-        assertEquals("com.reportum.angular2.springmvc.configuration.WebConfiguration",actual[0].getName());
+        assertEquals("com.reportum.angular2.springmvc.configuration.ServletContextConfig",actual[0].getName());
     }
 
     @Test

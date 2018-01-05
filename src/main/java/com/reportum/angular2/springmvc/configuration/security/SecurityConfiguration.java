@@ -8,7 +8,6 @@ import com.reportum.angular2.springmvc.service.IUserService;
 import com.reportum.angular2.springmvc.service.impl.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -23,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = "com.reportum.angular2.springmvc")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Autowired

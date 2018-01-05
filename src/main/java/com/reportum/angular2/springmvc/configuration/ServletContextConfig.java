@@ -16,8 +16,8 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.reportum.angular2.springmvc")
-public class WebConfiguration extends WebMvcConfigurerAdapter{
+@ComponentScan(basePackages = "com.reportum.angular2.springmvc.controller")
+public class ServletContextConfig extends WebMvcConfigurerAdapter{
 
 	@Bean
 	public ViewResolver getViewResolver() {

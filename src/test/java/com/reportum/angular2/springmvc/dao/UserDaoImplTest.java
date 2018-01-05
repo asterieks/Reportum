@@ -1,6 +1,6 @@
 package com.reportum.angular2.springmvc.dao;
 
-import com.reportum.angular2.springmvc.configuration.TestDataSourceConfig;
+import com.reportum.angular2.springmvc.configuration.UnitTestDataSourceConfig;
 import com.reportum.angular2.springmvc.dao.impl.UserDAOImpl;
 import com.reportum.angular2.springmvc.persistence.entities.User;
 import org.junit.Before;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= TestDataSourceConfig.class)
+@ContextConfiguration(classes= UnitTestDataSourceConfig.class)
 @Transactional
 public class UserDaoImplTest {
 

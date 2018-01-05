@@ -1,8 +1,8 @@
 package com.reportum.angular2.springmvc.controller.integrationtest.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reportum.angular2.springmvc.configuration.WebConfiguration;
-import com.reportum.angular2.springmvc.configuration.security.SecurityConfiguration;
+import com.reportum.angular2.springmvc.configuration.RootContextConfig;
+import com.reportum.angular2.springmvc.configuration.ServletContextConfig;
 import com.reportum.angular2.springmvc.configuration.security.WrappedRequest;
 import com.reportum.angular2.springmvc.configuration.security.hmac.HmacException;
 import com.reportum.angular2.springmvc.configuration.security.hmac.HmacSigner;
@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @WebAppConfiguration
 @ActiveProfiles("integration-test")
-@ContextConfiguration(classes = {SecurityConfiguration.class, WebConfiguration.class, IntegrationTestDataSourceConfig.class})
+@ContextConfiguration(classes = {ServletContextConfig.class, RootContextConfig.class, IntegrationTestDataSourceConfig.class})
 public class IntegrationTestConfigurer {
 
     @Autowired

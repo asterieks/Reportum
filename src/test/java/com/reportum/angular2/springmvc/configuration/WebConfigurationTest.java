@@ -40,7 +40,7 @@ public class WebConfigurationTest {
     private ResourceHandlerRegistration resHandler;
 
     @InjectMocks
-    private WebConfiguration webConfig = new WebConfiguration();
+    private ServletContextConfig webConfig = new ServletContextConfig();
 
     @Before
     public void setUp(){

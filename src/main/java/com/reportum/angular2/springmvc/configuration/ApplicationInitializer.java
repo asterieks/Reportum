@@ -1,7 +1,5 @@
 package com.reportum.angular2.springmvc.configuration;
 
-import com.reportum.angular2.springmvc.configuration.dbconfig.GeneralDataSourceConfig;
-import com.reportum.angular2.springmvc.configuration.security.SecurityConfiguration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -21,12 +19,12 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]   {GeneralDataSourceConfig.class, SecurityConfiguration.class};
+        return new Class[]   {RootContextConfig.class};
     }
   
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { WebConfiguration.class };
+        return new Class[] { ServletContextConfig.class };
     }
   
     @Override

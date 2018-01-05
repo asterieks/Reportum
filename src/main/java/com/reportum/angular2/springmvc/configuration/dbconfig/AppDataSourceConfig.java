@@ -4,7 +4,6 @@ package com.reportum.angular2.springmvc.configuration.dbconfig;
 import com.reportum.angular2.springmvc.configuration.dbconfig.dbproperties.DataSourceProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -18,8 +17,7 @@ import java.util.Properties;
 @Configuration
 @Profile({"dev","production"})
 @EnableTransactionManagement
-@ComponentScan(basePackages = "com.reportum.angular2.springmvc.configuration.dbconfig.dbproperties")
-public class GeneralDataSourceConfig extends DataSourceConfig{
+public class AppDataSourceConfig extends DataSourceConfig{
 
     @Autowired
     private DataSourceProperties dataSourceProperties;

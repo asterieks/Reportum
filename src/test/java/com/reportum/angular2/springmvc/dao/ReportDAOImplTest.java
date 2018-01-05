@@ -1,6 +1,6 @@
 package com.reportum.angular2.springmvc.dao;
 
-import com.reportum.angular2.springmvc.configuration.TestDataSourceConfig;
+import com.reportum.angular2.springmvc.configuration.UnitTestDataSourceConfig;
 import com.reportum.angular2.springmvc.dao.impl.ReportDAOImpl;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.Report;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= TestDataSourceConfig.class)
+@ContextConfiguration(classes= UnitTestDataSourceConfig.class)
 @Transactional
 public class ReportDAOImplTest {
 
