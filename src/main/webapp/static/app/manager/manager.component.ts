@@ -308,11 +308,17 @@ export class ManagerComponent implements OnInit {
     }
 
     private wrapEachReportInTags(report:any): string {
-        let name = '<h4><u><strong>'+report.project.projectName+'</strong></u></h4>';
-        let review='<h4><strong>Review:</strong></h4>' + report.reviewPart;
-        let issues='<h4><strong>Issues:</strong></h4>' + report.issuePart;
-        let plans= '<h4><strong>Plans:</strong></h4>' + report.planPart;
-        return name+review+issues+plans;
+        let reportContent = '<h4><u><strong>'+report.project.projectName+'</strong></u></h4>';
+        if(report.reviewPart){
+            reportContent += '<h4><strong>Review:</strong></h4>' + report.reviewPart;
+        }
+        if(report.issuePart){
+            reportContent += '<h4><strong>Issues:</strong></h4>' + report.issuePart;
+        }
+        if(report.planPart){
+            reportContent += '<h4><strong>Plans:</strong></h4>' + report.planPart;
+        }
+        return reportContent;
     }
 
     private sortReports(reports:any[], templateForProjectSorting:number[]): any[] {
