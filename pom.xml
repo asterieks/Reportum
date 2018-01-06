@@ -362,6 +362,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
+					<packagingExcludes>static/node_modules/,static/typings/,static/*.js,static/*.json</packagingExcludes>
 					<webResources>
 						<resource>
 							<directory>${basedir}/src/lib</directory>
