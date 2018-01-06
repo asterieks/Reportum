@@ -83,6 +83,7 @@ export class ManagerComponent implements OnInit {
         removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
         enterMode: 3
     };
+    spinnerFlag: boolean = true;
 
     constructor(private fb: FormBuilder,
                 private reportService: ReportService,
@@ -211,6 +212,10 @@ export class ManagerComponent implements OnInit {
             this.tempReportHolder.planPart = text;
             this.isPlansChanged=false;
         }
+    }
+
+    onReady(event){
+        this.spinnerFlag = false;
     }
 
     isDisabledSaveButton(): boolean {

@@ -23,7 +23,10 @@
       <div id="report_grid" class="panel panel-success">
           <div class="panel-heading">{{selectedProjectName}} report details</div>
           <div class="panel-body">
-              <div id="manager_report_block">
+              <div class="spin_container" *ngIf="spinnerFlag">
+                  <div class="spinner"></div>
+              </div>
+              <div id="manager_report_block" [style.visibility]="spinnerFlag ? 'hidden' : 'visible'">
                   <div disabled *ngIf="show">
                       <div>
                           <label id="review_label">Review</label>
@@ -58,7 +61,8 @@
                           <ckeditor
                                     formControlName='aggregated'
                                     [config]="aggregated_ckeditorConfig"
-                                    [readonly]="false">
+                                    [readonly]="false"
+                                    (ready)="onReady($event)">
                           </ckeditor>
                       </div>
                   </div>
