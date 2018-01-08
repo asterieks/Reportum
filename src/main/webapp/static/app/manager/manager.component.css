@@ -106,3 +106,12 @@ label{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+#manager_report_block, .ckeditors, .aggregated_report_block {
+    -webkit-animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

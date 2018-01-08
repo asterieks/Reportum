@@ -62,3 +62,12 @@ label{
 #manager_save_button, #load_prev_button{
     margin-left:10px;
 }
+
+#manager_report_block {
+    -webkit-animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
