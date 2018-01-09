@@ -281,6 +281,8 @@ export class ManagerComponent implements OnInit {
                 if(data){
                     this.reports=data;
                     this.aggregateAndShowReports(this.reports);
+                } else {
+                    this.showAggregatedReports("");
                 }
             });
     }
