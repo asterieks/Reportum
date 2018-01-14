@@ -26,10 +26,10 @@
     "ng2-ckeditor": "^1.1.13",
     "ng2-dnd": "4.0.2",
     "ng2-toasty": "^4.0.3",
-    "reflect-metadata": "0.1.8",
-    "rxjs": "^5.0.1",
-    "systemjs": "^0.19.27",
-    "zone.js": "^0.8.10"
+    "reflect-metadata": "0.1.10",
+    "rxjs": "^5.5.6",
+    "systemjs": "^0.20.19",
+    "zone.js": "0.8.20"
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
