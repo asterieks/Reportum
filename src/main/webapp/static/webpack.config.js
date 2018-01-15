@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 var path = require('path');
+var EncodingPlugin = require('webpack-encoding-plugin');
 module.exports = {
     devtool: 'source-map',
     entry: './app/boot.ts',
@@ -26,5 +27,6 @@ module.exports = {
     },
     plugins: [
         new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './app')),
+        new EncodingPlugin({encoding: 'utf-8'})
     ]
 };
