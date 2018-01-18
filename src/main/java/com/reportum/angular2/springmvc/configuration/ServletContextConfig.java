@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @Configuration
@@ -53,8 +54,15 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter{
 
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-		configurer.favorPathExtension(false).favorParameter(true).parameterName("mediaType").ignoreAcceptHeader(true).useJaf(false)
-				.defaultContentType(MediaType.APPLICATION_JSON).mediaType("xml", MediaType.APPLICATION_XML).mediaType("json", MediaType.APPLICATION_JSON);
+		configurer.favorPathExtension(true)
+				.favorParameter(true)
+				.parameterName("mediaType")
+				.ignoreAcceptHeader(true)
+				.useJaf(false)
+				.defaultContentType(MediaType.APPLICATION_JSON)
+				.mediaType("css", new MediaType("text","css"))
+				.mediaType("js", new MediaType("text","javascript",Charset.forName("UTF-8")))
+				.mediaType("json", MediaType.APPLICATION_JSON);
 	}
 
 	@Override
