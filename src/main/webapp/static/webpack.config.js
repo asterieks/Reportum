@@ -36,8 +36,13 @@ module.exports = {
             { from: './node_modules/ng2-toasty/bundles/style-bootstrap.css', to: 'css/ng2-toasty' },
             { from: './node_modules/ckeditor', to: 'libs/ckeditor' },
             { from: './node_modules/normalize.css/normalize.css', to: 'css/necolas' },
-            { from: './node_modules/raleway-webfont/fonts', to: "fonts/raleway" },
-            { from: './node_modules/roboto-fontface/fonts/roboto', to: "fonts/roboto" },
+            { from: './node_modules/typeface-raleway/files/raleway-latin-100.woff2', to: "fonts/raleway" },
+            { from: './node_modules/typeface-raleway/files/raleway-latin-200.woff2', to: "fonts/raleway" },
+            { from: './node_modules/typeface-raleway/files/raleway-latin-300.woff2', to: "fonts/raleway" },
+            { from: './node_modules/typeface-raleway/files/raleway-latin-400.woff2', to: "fonts/raleway" },
+            { from: './node_modules/typeface-raleway/files/raleway-latin-600.woff2', to: "fonts/raleway" },
+            { from: './node_modules/typeface-raleway/files/raleway-latin-700.woff2', to: "fonts/raleway" },
+            { from: './node_modules/roboto-fontface/fonts/roboto/Roboto-Regular.woff2', to: "fonts/roboto" },
             { from: './node_modules/typeface-source-code-pro/files', to: "fonts/source-code-pro" }
         ])
     ]
