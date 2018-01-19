@@ -37,7 +37,6 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter{
 		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
 
 		ObjectMapper mapper = new ObjectMapper();
-		//Registering Hibernate4Module to support lazy objects
 		mapper.registerModule(new Hibernate5Module());
 
 		messageConverter.setObjectMapper(mapper);
@@ -62,6 +61,9 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter{
 				.defaultContentType(MediaType.APPLICATION_JSON)
 				.mediaType("css", new MediaType("text","css"))
 				.mediaType("js", new MediaType("text","javascript",Charset.forName("UTF-8")))
+				.mediaType("png", MediaType.IMAGE_PNG)
+				.mediaType("woff2", new MediaType("font","woff2"))
+				.mediaType("ico", new MediaType("image","x-icon"))
 				.mediaType("json", MediaType.APPLICATION_JSON);
 	}
 
