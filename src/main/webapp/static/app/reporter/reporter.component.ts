@@ -39,7 +39,7 @@ export class ReporterComponent implements OnInit {
     ckeditorConfig = {
         height: 110,
         uiColor: '#E6E6FA',
-        removePlugins: "elementspath,div,resize",
+        removePlugins: "elementspath,div,resize,scayt",
         language: "en",
         extraPlugins: "autogrow",
         autoGrow_onStartup: true,
@@ -47,11 +47,12 @@ export class ReporterComponent implements OnInit {
         autoGrow_maxHeight: 300,
         autoGrow_bottomSpace: 10,
         resize_enabled: false,
-        scayt_autoStartup: true,
+        // scayt_autoStartup: true,
         toolbarGroups: [
             { name: 'basicstyles', groups: [ 'basicstyles' ] },
             { name: 'paragraph', element: 'div', groups: [ 'list', 'indent'] },
-            { name: 'editing',     groups: [ 'selection', 'spellchecker' ] },
+            // { name: 'editing',     groups: [ 'selection', 'spellchecker' ] },
+            { name: 'editing',     groups: [ 'selection'] },
             { name: 'styles' }
         ],
         removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',

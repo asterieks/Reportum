@@ -1,5 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:600,700,100,200,300,400);
-@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:300);
+@import url(raleway-family-fonts.css);
+@import url(source-code-pro-family-fonts.css);
 
 *{
   font-size:100%;
