@@ -7,7 +7,7 @@ module.exports = {
     entry: './app/boot.ts',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'build')
+        path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
@@ -43,7 +43,8 @@ module.exports = {
             { from: './node_modules/typeface-raleway/files/raleway-latin-600.woff2', to: "fonts/raleway" },
             { from: './node_modules/typeface-raleway/files/raleway-latin-700.woff2', to: "fonts/raleway" },
             { from: './node_modules/roboto-fontface/fonts/roboto/Roboto-Regular.woff2', to: "fonts/roboto" },
-            { from: './node_modules/typeface-source-code-pro/files', to: "fonts/source-code-pro" }
+            { from: './node_modules/typeface-source-code-pro/files', to: "fonts/source-code-pro" },
+            { from: './assets/images', to: "images" }
         ])
     ]
 };
