@@ -1,15 +1,20 @@
 package com.reportum.angular2.springmvc.configuration.security;
 
+import com.reportum.angular2.springmvc.configuration.UnitTestDataSourceConfig;
 import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IUserService;
 import com.reportum.angular2.springmvc.utils.enums.Profile;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
@@ -20,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes={UnitTestDataSourceConfig.class})
 public class SecurityConfigurationTest {
 
     @Mock
@@ -30,6 +36,11 @@ public class SecurityConfigurationTest {
 
     @InjectMocks
     private SecurityConfiguration config = new SecurityConfiguration();
+
+    @Before
+    public void setUp(){
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void passwordEncoderTest(){

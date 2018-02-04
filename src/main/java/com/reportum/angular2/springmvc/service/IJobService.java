@@ -10,5 +10,5 @@ public interface IJobService {
 
     void updateJobStateHolder(JobStateHolder jobStateHolder);
 
-    void checkStateAndUpdate();
+    void checkAndRemind();
 }

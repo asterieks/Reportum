@@ -46,7 +46,6 @@ public class ReportServiceImpl implements IReportService {
 
     @Override
     public Report findPrevReportByProjectId(Long projectId) {
-        emailService.sendSimpleMessage("msokil@luxoft.com","EmailService call","Hello reporter. Make your report");
         return reportDAO.findPrevReportByProjectId(projectId);
     }
 }
