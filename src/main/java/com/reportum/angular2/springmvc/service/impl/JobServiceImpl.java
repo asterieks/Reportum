@@ -25,7 +25,7 @@ import static org.apache.commons.collections.CollectionUtils.isEmpty;
 public class JobServiceImpl implements IJobService {
 
     private static final Long JOB_ID = 1L;
-    private final Logger logger = LoggerFactory.getLogger(JobServiceImpl.class);
+    private final Logger DEBUG_LOG = LoggerFactory.getLogger("DEBUG_LOGGER");
 
     @Autowired
     private IProjectService projectService;
@@ -49,9 +49,9 @@ public class JobServiceImpl implements IJobService {
     private String remindMessage;
 
     @Override
-    @Scheduled(cron = "0 0 0 * * MON")
+    @Scheduled(cron = "${reset.state.time}")
     public void updateProjectsStates(){
-        logger.info("JobServiceImpl.updateProjectsStates(): Update state job started.");
+        DEBUG_LOG.info("JobServiceImpl.updateProjectsStates(): Update state job started.");
 
         List<Project> projects=projectService.findAllProjects();
         if(!isEmpty(projects)){
@@ -60,7 +60,7 @@ public class JobServiceImpl implements IJobService {
             JobStateHolder jobStateHolder = getJobStateHolder(JOB_ID);
             jobStateHolder.setStateDate(new Date());
             updateJobStateHolder(jobStateHolder);
-            logger.info("JobServiceImpl.updateProjectsStates(): Job completed.");
+            DEBUG_LOG.info("JobServiceImpl.updateProjectsStates(): Job completed.");
             emailService.sendSimpleMessage(adminEmail,subject,updateMessage);
         }
     }
@@ -78,11 +78,11 @@ public class JobServiceImpl implements IJobService {
     @Override
     @Scheduled(cron = "${check.job.time}")
     public void checkAndRemind() {
-        logger.debug("JobServiceImpl.checkAndRemind(): Job check started.");
+        DEBUG_LOG.debug("JobServiceImpl.checkAndRemind(): Job check started.");
         List<Project> allProjects=projectService.findAllProjects();
         List<Project> delayedProjects = getDelayedProjects(allProjects);
         if(!isEmpty(delayedProjects)){
-            logger.debug("JobServiceImpl.checkAndRemind(): An notification has to be sent.");
+            DEBUG_LOG.debug("JobServiceImpl.checkAndRemind(): An notification has to be sent.");
             Map<String,String> receivers = mapProjectsToReceivers(delayedProjects);
             receivers.forEach((email,projects)->{
                 emailService.sendSimpleMessage(email,subject,buildMessage(projects));

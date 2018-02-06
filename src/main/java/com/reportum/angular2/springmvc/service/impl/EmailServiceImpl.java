@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailServiceImpl implements IEmailService {
 
-    private final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
+    private final Logger DEBUG_LOG = LoggerFactory.getLogger("DEBUG_LOGGER");
 
     @Autowired
     public JavaMailSender emailSender;
@@ -23,6 +23,7 @@ public class EmailServiceImpl implements IEmailService {
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
-        logger.debug("EmailServiceImpl.sendSimpleMessage(): message sent!");
+        DEBUG_LOG.debug("EmailServiceImpl.sendSimpleMessage(): message sent to" + to
+                + " subject " +subject + " text: " + text);
     }
 }

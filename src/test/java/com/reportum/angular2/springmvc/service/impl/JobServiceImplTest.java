@@ -14,8 +14,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.support.CronTrigger;
 
@@ -29,8 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class JobServiceImplTest {
-
-    private final Logger logger = LoggerFactory.getLogger(JobServiceImplTest.class);
 
     @Mock
     private IProjectService projectService;
@@ -59,7 +55,6 @@ public class JobServiceImplTest {
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss EEEE");
         final Date prevMonday = today.getTime();
 
-        logger.debug("Previous Monday was : " + df.format(prevMonday));
         Date nextExecutionTime = trigger.nextExecutionTime(
                 new TriggerContext() {
 
@@ -80,7 +75,6 @@ public class JobServiceImplTest {
                 });
 
         String message = "Next Execution date: " + df.format(nextExecutionTime);
-        logger.debug(message);
         assertThat(message).contains("00:00:00 Monday");
     }
 
@@ -135,7 +129,6 @@ public class JobServiceImplTest {
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss EEEE");
         final Date friday = today.getTime();
 
-        logger.debug("Friday : " + df.format(friday));
         Date nextExecutionTime = trigger.nextExecutionTime(
                 new TriggerContext() {
 
@@ -156,7 +149,6 @@ public class JobServiceImplTest {
                 });
 
         String message = "Next Execution date: " + df.format(nextExecutionTime);
-        logger.debug(message);
         assertThat(message).contains("00:00:00 Friday");
     }
 

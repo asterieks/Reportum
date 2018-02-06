@@ -17,14 +17,14 @@ import static org.springframework.context.annotation.FilterType.ANNOTATION;
 
 @Configuration
 @EnableScheduling
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:application.properties")
 @Import({SecurityConfiguration.class, AppDataSourceConfig.class})
 @ComponentScan(basePackages = "com.reportum.angular2.springmvc",
                excludeFilters = {@ComponentScan.Filter(type = ANNOTATION, value = Configuration.class),
                                  @ComponentScan.Filter(type = ANNOTATION, value = Controller.class)  })
 public class RootContextConfig {
 
-    private final Logger logger = LoggerFactory.getLogger(RootContextConfig.class);
+    private final Logger DEBUG_LOG = LoggerFactory.getLogger("DEBUG_LOGGER");
 
     @Value("${mail.sender.host}")
     private String host;
@@ -52,15 +52,15 @@ public class RootContextConfig {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
-        logger.debug("RootContextConfig.getJavaMailSender()");
-        logger.debug("host: "+ host);
-        logger.debug("port: "+ port);
-        logger.debug("username: "+ username);
-        logger.debug("password: "+ password);
-        logger.debug("protocol: "+ protocol);
-        logger.debug("auth: "+ auth);
-        logger.debug("starttls: "+ starttls);
-        logger.debug("debug: "+ debug);
+        DEBUG_LOG.debug("RootContextConfig.getJavaMailSender()");
+        DEBUG_LOG.debug("host: "+ host);
+        DEBUG_LOG.debug("port: "+ port);
+        DEBUG_LOG.debug("username: "+ username);
+        DEBUG_LOG.debug("password: "+ password);
+        DEBUG_LOG.debug("protocol: "+ protocol);
+        DEBUG_LOG.debug("auth: "+ auth);
+        DEBUG_LOG.debug("starttls: "+ starttls);
+        DEBUG_LOG.debug("debug: "+ debug);
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
@@ -75,4 +75,14 @@ public class RootContextConfig {
         props.put("mail.debug", debug);
         return mailSender;
     }
+
+    @Configuration
+    @Profile("production")
+    @PropertySource("file:/var/spool/reportum/props/application.properties")
+    static class ProdProperties { }
+
+    @Configuration
+    @Profile("dev")
+    @PropertySource("classpath:dev-application.properties")
+    static class DevProperties {}
 }

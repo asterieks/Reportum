@@ -5,6 +5,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import static ch.qos.logback.core.util.EnvUtil.isWindows;
+//replace above method
 
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

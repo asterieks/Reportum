@@ -28,7 +28,7 @@ public class HmacSigner {
     public static final String ENCODING_CLAIM_PROPERTY = "l-lev";
     private static final String UTF_8 = "UTF-8";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HmacSigner.class);
+    private static final Logger DEFAULT_LOG = LoggerFactory.getLogger(HmacSigner.class);
 
     private HmacSigner(){}
     /**
@@ -69,7 +69,7 @@ public class HmacSigner {
         try {
             return Base64.encodeBase64String(generateToken().getBytes(UTF_8)).replace("\n","").replace("\r","");
         } catch (UnsupportedEncodingException e) {
-            LOGGER.error(e.toString());
+            DEFAULT_LOG.error(e.toString());
             throw new HmacException("Cannot encode base64",e);
         }
     }
@@ -87,7 +87,7 @@ public class HmacSigner {
         try {
             return signJWT(secret,jwtID,ttl,iss,claims);
         } catch (JOSEException e) {
-            LOGGER.error(e.toString());
+            DEFAULT_LOG.error(e.toString());
             throw new HmacException("Cannot generate JWT",e);
         }
     }
