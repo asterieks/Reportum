@@ -17,7 +17,6 @@ import static org.springframework.context.annotation.FilterType.ANNOTATION;
 
 @Configuration
 @EnableScheduling
-//@PropertySource("classpath:application.properties")
 @Import({SecurityConfiguration.class, AppDataSourceConfig.class})
 @ComponentScan(basePackages = "com.reportum.angular2.springmvc",
                excludeFilters = {@ComponentScan.Filter(type = ANNOTATION, value = Configuration.class),
@@ -78,8 +77,8 @@ public class RootContextConfig {
 
     @Configuration
     @Profile("production")
-    @PropertySource("file:/var/spool/reportum/props/application.properties")
-    static class ProdProperties { }
+    @PropertySource("file:${spool.dir}/props/application.properties")
+    static class ProdProperties {}
 
     @Configuration
     @Profile("dev")

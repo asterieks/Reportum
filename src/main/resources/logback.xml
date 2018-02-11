@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" debug="true">
 
-    <property name="DEV_HOME" value="D:/LOG" />
-
     <appender name="CONSOLE-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
@@ -10,13 +8,13 @@
     </appender>
 
     <appender name="DEBUG-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DEV_HOME}/reportum-debug.log</file>
+        <file>${spool.dir}/logs/reportum-debug.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${DEV_HOME}/archived/reportum-debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${spool.dir}/logs/archived/reportum-debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -24,13 +22,13 @@
     </appender>
 
     <appender name="WARN-FILE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DEV_HOME}/reportum-error.log</file>
+        <file>${spool.dir}/logs/reportum-error.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${DEV_HOME}/archived/reportum-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${spool.dir}/logs/archived/reportum-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
