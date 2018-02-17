@@ -14,6 +14,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
     protected WebApplicationContext createRootApplicationContext() {
         WebApplicationContext context = super.createRootApplicationContext();
         ((ConfigurableEnvironment) context.getEnvironment()).setActiveProfiles(ENVIRONMENT);
+        //test comments 1
         return context;
     }
 
