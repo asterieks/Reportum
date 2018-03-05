@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -76,22 +77,30 @@ public class ServletContextConfigTest {
 
     @Test
     public void configureContentNegotiationTest(){
-        Mockito.when(contentConfigurer.favorPathExtension(false)).thenReturn(contentConfigurer);
+        Mockito.when(contentConfigurer.favorPathExtension(true)).thenReturn(contentConfigurer);
         Mockito.when(contentConfigurer.favorParameter(true)).thenReturn(contentConfigurer);
         Mockito.when(contentConfigurer.parameterName("mediaType")).thenReturn(contentConfigurer);
         Mockito.when(contentConfigurer.ignoreAcceptHeader(true)).thenReturn(contentConfigurer);
         Mockito.when(contentConfigurer.useJaf(false)).thenReturn(contentConfigurer);
         Mockito.when(contentConfigurer.defaultContentType(MediaType.APPLICATION_JSON)).thenReturn(contentConfigurer);
-        Mockito.when(contentConfigurer.mediaType("xml", MediaType.APPLICATION_XML)).thenReturn(contentConfigurer);
+        Mockito.when(contentConfigurer.mediaType("css", new MediaType("text","css"))).thenReturn(contentConfigurer);
+        Mockito.when(contentConfigurer.mediaType("js", new MediaType("text","javascript", Charset.forName("UTF-8")))).thenReturn(contentConfigurer);
+        Mockito.when(contentConfigurer.mediaType("png", MediaType.IMAGE_PNG)).thenReturn(contentConfigurer);
+        Mockito.when(contentConfigurer.mediaType("woff2", new MediaType("font","woff2"))).thenReturn(contentConfigurer);
+        Mockito.when(contentConfigurer.mediaType("ico", new MediaType("image","x-icon"))).thenReturn(contentConfigurer);
 
         webConfig.configureContentNegotiation(contentConfigurer);
-        Mockito.verify(contentConfigurer).favorPathExtension(false);
+        Mockito.verify(contentConfigurer).favorPathExtension(true);
         Mockito.verify(contentConfigurer).favorParameter(true);
         Mockito.verify(contentConfigurer).parameterName("mediaType");
         Mockito.verify(contentConfigurer).ignoreAcceptHeader(true);
         Mockito.verify(contentConfigurer).useJaf(false);
         Mockito.verify(contentConfigurer).defaultContentType(MediaType.APPLICATION_JSON);
-        Mockito.verify(contentConfigurer).mediaType("xml", MediaType.APPLICATION_XML);
+        Mockito.verify(contentConfigurer).mediaType("css", new MediaType("text","css"));
+        Mockito.verify(contentConfigurer).mediaType("js", new MediaType("text","javascript", Charset.forName("UTF-8")));
+        Mockito.verify(contentConfigurer).mediaType("png", MediaType.IMAGE_PNG);
+        Mockito.verify(contentConfigurer).mediaType("woff2", new MediaType("font","woff2"));
+        Mockito.verify(contentConfigurer).mediaType("ico", new MediaType("image","x-icon"));
         Mockito.verify(contentConfigurer).mediaType("json", MediaType.APPLICATION_JSON);
     }
 

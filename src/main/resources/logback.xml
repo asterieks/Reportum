@@ -1,63 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true" debug="true">
 
-    <property name="DEV_HOME" value="D:/LOG/" />
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </layout>
+    <appender name="CONSOLE-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
     </appender>
 
-    <appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DEV_HOME}/debug.log</file>
+    <appender name="DEBUG-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${spool.dir}/logs/reportum-debug.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
-            </Pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <fileNamePattern>${spool.dir}/logs/archived/reportum-debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
 
-    <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DEV_HOME}/error.log</file>
+    <appender name="WARN-FILE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${spool.dir}/logs/reportum-error.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
-            </Pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${DEV_HOME}/archived/error.%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <fileNamePattern>${spool.dir}/logs/archived/reportum-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-
     </appender>
 
     <!-- Send logs to both console and file audit -->
-    <logger name="com.websystique.springmvc" level="debug" additivity="false">
-        <appender-ref ref="FILE-AUDIT" />
-        <appender-ref ref="STDOUT" />
+    <logger name="DEBUG_LOGGER" level="debug" additivity="false">
+        <appender-ref ref="DEBUG-APPENDER" />
     </logger>
-
-    <root level="error">
-        <appender-ref ref="FILE-ERROR" />
+    <root level="warn">
+        <appender-ref ref="CONSOLE-APPENDER" />
+        <appender-ref ref="WARN-FILE-APPENDER" />
     </root>
 
 </configuration>

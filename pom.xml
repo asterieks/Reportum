@@ -4,12 +4,13 @@
 	<groupId>com.reportum.angular2.springmvc</groupId>
 	<artifactId>Reportum</artifactId>
 	<packaging>war</packaging>
-	<version>0.4.1</version>
+	<version>0.5.2</version>
 	<name>Reportum</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<springframework.version>4.3.1.RELEASE</springframework.version>
+		<springframework.security.version>4.2.1.RELEASE</springframework.security.version>
 		<jackson.version>2.7.5</jackson.version>
 		<hibernate.version>4.3.6.Final</hibernate.version>
 		<mysql.connector.version>5.1.31</mysql.connector.version>
@@ -39,11 +40,21 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>4.2.1.RELEASE</version>
+			<version>${springframework.security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -58,12 +69,12 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>4.2.1.RELEASE</version>
+			<version>${springframework.security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>4.2.1.RELEASE</version>
+			<version>${springframework.security.version}</version>
 		</dependency>
 
         <dependency>
@@ -105,20 +116,6 @@
 			<version>1.2</version>
 		</dependency>
 
-		<!-- Hibernate framework -->
-		<!-- Hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.connector.version}</version>
-			<scope>runtime</scope>
-		</dependency>
 		<!-- Hibernate library dependecy start -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -159,12 +156,6 @@
 			<artifactId>antlr</artifactId>
 			<version>2.7.7</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
 		<!-- Hibernate library dependecy end -->
 
 		<!-- LogBack dependencies -->
@@ -185,7 +176,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-hibernate5</artifactId>
-			<version>2.7.4</version>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- Test #############################-->
@@ -242,20 +233,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-test</artifactId>
-			<version>1.5.7.RELEASE</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-test-autoconfigure</artifactId>
-			<version>1.5.7.RELEASE</version>
-		</dependency>
-
-
-
-		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito2</artifactId>
 			<version>${powermock.version}</version>
@@ -276,12 +253,14 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>5.2.9.Final</version>
+			<version>5.2.12.Final</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
 			<version>3.6.2</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- For json-path -->
 		<dependency>
@@ -298,7 +277,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>4.3.7.RELEASE</version>
+			<version>${springframework.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -414,7 +393,7 @@
 			<!--Sonar: end-->
 
 		</plugins>
-		<finalName>Reportum</finalName>
+		<finalName>ROOT</finalName>
 	</build>
 
 	<profiles>

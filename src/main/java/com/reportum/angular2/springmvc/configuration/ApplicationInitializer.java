@@ -5,10 +5,18 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import static ch.qos.logback.core.util.EnvUtil.isWindows;
+//replace above method
 
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     private static final String ENVIRONMENT = isWindows() ? "dev" : "production";
+    static {
+        if(ENVIRONMENT.equals("production")){
+            System.setProperty("spool.dir","/var/spool/reportum");
+        } else {
+            System.setProperty("spool.dir","D:/LOG");
+        }
+    }
 
     @Override
     protected WebApplicationContext createRootApplicationContext() {

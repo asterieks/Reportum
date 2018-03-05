@@ -3,6 +3,7 @@ package com.reportum.angular2.springmvc.service.impl;
 import com.reportum.angular2.springmvc.dao.IReportDAO;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.Report;
+import com.reportum.angular2.springmvc.service.IEmailService;
 import com.reportum.angular2.springmvc.service.IReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class ReportServiceImpl implements IReportService {
 
     @Autowired
     private IReportDAO reportDAO;
+
+    @Autowired
+    private IEmailService emailService;
 
     @Override
     public Report saveReport(Report report) {
