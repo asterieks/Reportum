@@ -56,7 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .and()
                 .apply(authTokenConfigurer())
                 .and()
-                .apply(hmacSecurityConfigurer());
+                .apply(hmacSecurityConfigurer())
+                .and().requiresChannel().anyRequest().requiresSecure();;
     }
 
     @Bean
