@@ -22,7 +22,7 @@ public class EmailServiceImpl implements IEmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-        message.setFrom("noreply@reportum.com");
+        message.setFrom("noreply@reportum.luxoft.com");
         emailSender.send(message);
         DEBUG_LOG.debug("EmailServiceImpl.sendSimpleMessage(): message sent to" + to
                 + " subject " +subject + " text: " + text);
