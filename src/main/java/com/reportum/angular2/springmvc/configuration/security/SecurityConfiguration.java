@@ -39,24 +39,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
+            .authorizeRequests()
                 .antMatchers("/api/authenticate").anonymous()
                 .antMatchers("/api/**").authenticated()
-                .and()
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions().disable()
-                .and()
+            .and()
+                .csrf().disable()
+                .headers().frameOptions().disable()
+            .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .logout()
-                .permitAll()
-                .and()
+            .and()
+                .logout().permitAll()
+            .and()
                 .apply(authTokenConfigurer())
-                .and()
-                .apply(hmacSecurityConfigurer());
+            .and()
+                .apply(hmacSecurityConfigurer())
+            .and()
+                .requiresChannel()
+                .anyRequest().requiresSecure();
     }
 
     @Bean
