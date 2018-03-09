@@ -59,8 +59,20 @@ export class ManagerComponent implements OnInit {
             { name: 'styles', groups: [ 'styles' ] }
         ],
         removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
-        enterMode: 3
-    };
+        enterMode: 3,
+        font_names :
+        'Arial/Arial, Helvetica, sans-serif;' +
+        'Comic Sans MS/Comic Sans MS, cursive;' +
+        'Courier New/Courier New, Courier, monospace;' +
+        'Georgia/Georgia, serif;' +
+        'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
+        'Tahoma/Tahoma, Geneva, sans-serif;' +
+        'Times New Roman/Times New Roman, Times, serif;' +
+        'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
+        'Calibri/Calibri, Verdana, Geneva, sans-serif;' +
+        'Verdana/Verdana, Geneva, sans-serif'
+        //line_height:"1em;1.1em;1.2em;1.3em;1.4em;1.5em"
+};
 
     aggregated_ckeditorConfig = {
         height: 110,
@@ -81,8 +93,20 @@ export class ManagerComponent implements OnInit {
             { name: 'styles', groups: [ 'styles' ] }
         ],
         removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
-        enterMode: 3
-    };
+        enterMode: 3,
+        font_names :
+        'Arial/Arial, Helvetica, sans-serif;' +
+        'Comic Sans MS/Comic Sans MS, cursive;' +
+        'Courier New/Courier New, Courier, monospace;' +
+        'Georgia/Georgia, serif;' +
+        'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
+        'Tahoma/Tahoma, Geneva, sans-serif;' +
+        'Times New Roman/Times New Roman, Times, serif;' +
+        'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
+        'Calibri/Calibri, Verdana, Geneva, sans-serif;' +
+        'Verdana/Verdana, Geneva, sans-serif'
+        //line_height:"1em;1.1em;1.2em;1.3em;1.4em;1.5em"
+};
     spinnerFlag: boolean = true;
 
     constructor(private fb: FormBuilder,
@@ -315,15 +339,15 @@ export class ManagerComponent implements OnInit {
     }
 
     private wrapEachReportInTags(report:any): string {
-        let reportContent = '<h4><u><strong>'+report.project.projectName+'</strong></u></h4>';
+        let reportContent = '<h4><strong>'+report.project.projectName+'</strong></h4>';
         if(report.reviewPart){
-            reportContent += '<h4><strong>Review:</strong></h4>' + report.reviewPart;
+            reportContent += '<h4>Review:</h4>' + report.reviewPart;
         }
         if(report.issuePart){
-            reportContent += '<h4><strong>Issues:</strong></h4>' + report.issuePart;
+            reportContent += '<h4>Issues:</h4>' + report.issuePart;
         }
         if(report.planPart){
-            reportContent += '<h4><strong>Plans:</strong></h4>' + report.planPart;
+            reportContent += '<h4>Plans:</h4>' + report.planPart;
         }
         return reportContent;
     }
