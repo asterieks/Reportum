@@ -2,10 +2,12 @@ package com.reportum.angular2.springmvc.configuration;
 
 import com.reportum.angular2.springmvc.configuration.dbconfig.AppDataSourceConfig;
 import com.reportum.angular2.springmvc.configuration.security.SecurityConfiguration;
+import com.reportum.angular2.springmvc.dto.PropertiesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;

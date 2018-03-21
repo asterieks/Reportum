@@ -11,4 +11,6 @@ public interface IUserDAO {
     List<User> findAllUsers();
 
     void saveUser(User user);
+
+    void deleteUser(String userId);
 }

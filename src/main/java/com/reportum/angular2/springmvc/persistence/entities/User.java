@@ -1,6 +1,7 @@
 package com.reportum.angular2.springmvc.persistence.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.reportum.angular2.springmvc.utils.enums.Profile;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "USERS")
 public class User implements Serializable {
     @Id
@@ -16,7 +18,6 @@ public class User implements Serializable {
     private String id;
     @Column (name = "full_name", nullable = false)
     private String fullName;
-    @JsonIgnore
     @Column (name = "password", nullable = false)
     private String password;
     @Column (name = "profile")
@@ -30,10 +31,13 @@ public class User implements Serializable {
     @JsonIgnore
     @Column (name = "public_secret")
     private String publicSecret;
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "reporter")
     private List<Project> reporterList = new ArrayList<>();
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teamLeader")
     private List<Project> teamLeaderList = new ArrayList<>();
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "manager")
     private List<Project> managerList = new ArrayList<>();
 

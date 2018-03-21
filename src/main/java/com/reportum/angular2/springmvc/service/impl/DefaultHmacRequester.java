@@ -20,7 +20,8 @@ public class DefaultHmacRequester implements HmacRequester {
 
     @Override
     public Boolean canVerify(HttpServletRequest request) {
-        return request.getRequestURI().contains("/api") && !request.getRequestURI().contains("/api/authenticate");
+        String uri = request.getRequestURI();
+        return uri.contains("/api") && !uri.contains("/api/authenticate");
     }
 
     @Override

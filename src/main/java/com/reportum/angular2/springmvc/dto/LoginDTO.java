@@ -2,10 +2,6 @@ package com.reportum.angular2.springmvc.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * Login DTP
- * Created by Michael DESIGAUD on 14/02/2016.
- */
 public class LoginDTO {
 
     @NotEmpty

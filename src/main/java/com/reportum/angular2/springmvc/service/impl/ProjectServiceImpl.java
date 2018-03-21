@@ -5,6 +5,7 @@ import com.reportum.angular2.springmvc.persistence.entities.Project;
 import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IEmailService;
 import com.reportum.angular2.springmvc.service.IProjectService;
+import com.reportum.angular2.springmvc.service.IUserService;
 import com.reportum.angular2.springmvc.utils.enums.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,9 @@ import java.util.List;
 public class ProjectServiceImpl implements IProjectService{
 
     private final Logger DEBUG_LOG = LoggerFactory.getLogger("DEBUG_LOGGER");
+
+    @Autowired
+    private IUserService userService;
 
     @Autowired
     private IProjectDAO projectDAO;
@@ -62,5 +66,22 @@ public class ProjectServiceImpl implements IProjectService{
     @Override
     public List<Project> findAllProjects() {
         return projectDAO.findAllProjects();
+    }
+
+    @Override
+    public void deleteProject(Long id) {
+        projectDAO.deleteProject(id);
+    }
+
+    @Override
+    public Project prepareProject(Project project) {
+        User manager = userService.findUser(project.getManager().getId());
+        User reporter = userService.findUser(project.getReporter().getId());
+        User teamLead = userService.findUser(project.getTeamLeader().getId());
+        project.setReporter(reporter);
+        project.setTeamLeader(teamLead);
+        project.setManager(manager);
+        project.setState(State.DELAYED.getValue());
+        return project;
     }
 }

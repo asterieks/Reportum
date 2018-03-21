@@ -33,6 +33,7 @@ module.exports = {
             { from: './node_modules/core-js/client/shim.min.js', to: 'libs' },
             { from: './node_modules/zone.js/dist/zone.js', to: 'libs' },
             { from: './node_modules/bootstrap/dist/css/bootstrap.min.css', to: 'css/bootstrap' },
+            { from: './node_modules/bootstrap/dist/fonts', to: 'css/fonts' },
             { from: './node_modules/ng2-toasty/bundles/style-bootstrap.css', to: 'css/ng2-toasty' },
             { from: './node_modules/ckeditor', to: 'libs/ckeditor' },
             { from: './node_modules/normalize.css/normalize.css', to: 'css/necolas' },

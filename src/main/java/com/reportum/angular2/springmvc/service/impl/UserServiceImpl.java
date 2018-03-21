@@ -28,4 +28,15 @@ public class UserServiceImpl implements IUserService {
 	public void saveUser(User user) {
 		userDAO.saveUser(user);
 	}
+
+	@Override
+	public void deleteUser(String userId) {
+		userDAO.deleteUser(userId);
+	}
+
+	@Override
+	public User prepareUser(User user) {
+		user.setAuthorities("ROLE_" + user.getProfile().name());
+		return user;
+	}
 }
