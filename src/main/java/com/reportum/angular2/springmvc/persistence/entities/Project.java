@@ -11,6 +11,8 @@ import java.util.List;
 public class Project implements Serializable{
     @Id
     @Column(name = "project_id", nullable = false)
+    @SequenceGenerator(name = "user_report_seq_gen", sequenceName = "user_report_id_seq")
+    @GeneratedValue (strategy = GenerationType.AUTO, generator = "user_report_seq_gen")
     private Long projectId;
 
 

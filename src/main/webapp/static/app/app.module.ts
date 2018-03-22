@@ -14,11 +14,12 @@ import {AccountModule} from './account/account.module';
 import {UtilsModule} from './utils/utils.module';
 import {ToastyModule} from "ng2-toasty";
 import {Header} from "./header/header";
+import {AdminModule} from "./admin/admin.module";
 
 @NgModule({
   imports:      [ BrowserModule, routing, ReporterModule, ManagerModule,
                   ReporterModule, RouterModule, LoginModule, AccountModule,
-                  UtilsModule, ToastyModule.forRoot(), HttpClientModule ],      // module dependencies
+                  UtilsModule, ToastyModule.forRoot(), HttpClientModule, AdminModule ],      // module dependencies
   declarations: [ AppComponent, Header ],                            // components and directives
   bootstrap:    [ AppComponent ],                            // root component
   providers:      [

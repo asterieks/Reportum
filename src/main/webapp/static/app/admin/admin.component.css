@@ -1,0 +1,118 @@
+.component_background{
+    background-color: white;
+    padding: 40px;
+}
+
+form{
+    display:flex;
+}
+
+#report_grid {
+    width:80%;
+}
+
+#manager_grid{
+    width: 280px;
+    display: inline-block;
+    display: inline-block;
+    margin-right: 40px;
+}
+
+.col-sm-3{
+    width:100%;
+}
+
+.panel-heading {
+    background-color:#63B175;
+    color:white;
+    font-weight:600;
+}
+
+.panel-body{
+    font-weight: 600;
+    text-align: left;
+    border-color: black;
+    border-style: solid;
+    border: 1px;
+}
+
+label{
+    display:block;
+    float:left;
+    font-weight:600;
+    width:100%;
+    margin-bottom:0 !important;
+    background-color: rgb(240, 240, 252);
+    border-left: 1px solid #d1d1d1;
+    border-right: 1px solid #d1d1d1;
+}
+
+#review_label{
+    border-top: 1px solid #d1d1d1;
+}
+
+.buttons_bar{
+    margin-top: 10px;
+}
+
+.btn-default{
+    float:right;
+    background-color:rgb(240, 240, 252);
+}
+
+#manager_save_button, #load_prev_button{
+    margin-left:10px;
+}
+
+#manager_report_block {
+    -webkit-animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+li{
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: rgb(240, 240, 252) !important;
+    color: #607D8B;
+}
+
+li.selected:hover {
+    background-color: grey !important;
+    color: white;
+}
+
+li:hover {
+    color: #607D8B;
+    background-color: #EEE;
+    left: .1em;
+}
+
+span.project_name{
+    display: inline-block;
+    width: 30px;
+}
+
+div.project_state_wrapper{
+    display: inline-block;
+    float: right;
+    color:white;
+    /* background-color: rgba(39,194,76,0.7);*/
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+div.project_state{
+    padding: 2px 8px;
+}
+
+input{
+    font-family:Raleway!important;
+    font-style: italic;
+}

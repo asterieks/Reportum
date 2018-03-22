@@ -66,6 +66,11 @@ public class ProjectDAOImpl implements IProjectDAO{
         projects.forEach(project -> em.merge(project));
     }
 
+    @Override
+    public void deleteProject(Long id) {
+        em.remove(findProject(id));
+    }
+
     private void addReporterPredicate(List<Predicate> predicates, Root<Project> root, User user) {
         Predicate predicate=getCriteriaBuilder().equal(root.get(Project_.reporter),user);
         predicates.add(predicate);

@@ -38,6 +38,11 @@ public class UserDAOImpl implements IUserDAO{
         em.merge(user);
     }
 
+    @Override
+    public void deleteUser(String userId) {
+        em.remove(findUser(userId));
+    }
+
     private CriteriaBuilder getCriteriaBuilder(){
         return em.getCriteriaBuilder();
     }

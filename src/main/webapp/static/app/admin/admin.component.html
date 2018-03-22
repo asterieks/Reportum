@@ -1,0 +1,277 @@
+<div style="display:flex" class="component_background">
+    <div id="manager_grid">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">Config panel</div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                              <li class="list-group-item" *ngFor="let configTab of configTabs"
+                                  (click)="onTabSelect(configTab)"
+                                  [class.selected] = "configTab == selectedTab"  >
+                                  <span class="project_name">{{configTab}}</span>
+                              </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="report_grid" class="panel panel-success">
+        <div class="panel-heading">Config dashboard</div>
+        <div class="panel-body">
+            <div *ngIf="showUsersFlag" class="container-fluid">
+                <div style="display: inline-block; margin-top:-8px; margin-left:-15px">
+                    <form class="navbar-form form-inline" [formGroup]="addUserForm" (ngSubmit)="addNewUser(addUserForm)">
+                        <div class="form-group">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="useremeil" placeholder="user@comp.com">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="username" placeholder="Full Name">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="userrole" placeholder="ROLE">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="userpassword" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus" style="color:#63B175; margin-right:5px" aria-hidden="true"></span>Add User
+                        </button>
+                    </form>
+                </div>
+                <div style="margin-top:-20px">
+                    <h2 class="sub-header">Users list</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User Id</th>
+                            <th>Full Name</th>
+                            <th>Role</th>
+                            <th style="max-width:40px">Update/Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let user of users; let i = index" >
+                            <td>{{i+1}}</td>
+                            <td>{{user.id}}</td>
+                            <td>{{user.fullName}}</td>
+                            <td>{{user.profile}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Remove" (click)="onRemoveUser(user.id)">
+                                    <span style="color:red" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div *ngIf="showProjectsFlag" class="container-fluid">
+                <div style="display: inline-block; margin-top:-8px; margin-left:-15px">
+                    <form class="navbar-form form-inline" role="search" [formGroup]="addProjectForm" (ngSubmit)="addNewProject(addProjectForm)">
+                        <div class="form-group">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="projectname" placeholder="Project Name">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="manager" placeholder="Manager">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="teamlead" placeholder="Teamlead">
+                            <input type="text" class="form-control" style="width: 24%" formControlName="reporter" placeholder="Reporter">
+                        </div>
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus" style="color:#63B175; margin-right:5px" aria-hidden="true"></span>Add Project
+                        </button>
+                    </form>
+                </div>
+                <div style="margin-top:-20px">
+                    <h2 class="sub-header">Projects list</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Manager</th>
+                            <th>TeamLead</th>
+                            <th>Reporter</th>
+                            <th>State</th>
+                            <th>Time</th>
+                            <th style="max-width:40px">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let project of projects">
+                            <td>{{project.projectId}}</td>
+                            <td>{{project.projectName}}</td>
+                            <td>{{project.manager.fullName}}</td>
+                            <td>{{project.teamLeader.fullName}}</td>
+                            <td>{{project.reporter.fullName}}</td>
+                            <td>{{project.state}}</td>
+                            <td>{{project.stateDate}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="alert" (click)="onRemoveProject(project.projectId)">
+                                    <span style="color:red" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div *ngIf="showPropsFlag" class="container-fluid">
+                <div style="margin-top:-20px">
+                    <h2 class="sub-header">Properties list</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Property Name</th>
+                            <th>Property Value</th>
+                            <th style="max-width:40px">Update</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>managerEmail</td>
+                            <td>{{properties.managerEmail}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>adminEmail</td>
+                            <td>{{properties.adminEmail}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>jobNotificationTitle</td>
+                            <td>{{properties.jobNotificationTitle}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>updateJobMessage</td>
+                            <td>{{properties.updateJobMessage}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>checkJobMessage</td>
+                            <td>{{properties.checkJobMessage}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>checkJobTime</td>
+                            <td>{{properties.checkJobTime}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>resetStateTime</td>
+                            <td>{{properties.resetStateTime}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>auth</td>
+                            <td>{{properties.auth}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>debug</td>
+                            <td>{{properties.debug}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>host</td>
+                            <td>{{properties.host}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>port</td>
+                            <td>{{properties.port}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>protocol</td>
+                            <td>{{properties.protocol}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>starttls</td>
+                            <td>{{properties.starttls}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div *ngIf="showLogsFlag" class="container-fluid">
+                <div style="display: inline-block; margin-top:-8px; margin-left:-15px">
+                    <form class="navbar-form form-inline" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+                <div style="margin-top:-20px">
+                    <h2 class="sub-header" style="color: red">Page is under construction!</h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

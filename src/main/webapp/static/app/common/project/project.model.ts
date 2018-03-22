@@ -1,9 +1,10 @@
+import {User} from "../../admin/admin.component";
 export class Project{
     projectId: number;
     projectName: string;
-    reporter: string;
-    teamLeader: string;
-    manager: string;
+    reporter: User;
+    teamLeader: User;
+    manager: User;
     state: string;
     stateDate: Date;
 }

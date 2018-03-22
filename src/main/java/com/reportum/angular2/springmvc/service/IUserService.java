@@ -11,4 +11,8 @@ public interface IUserService {
 	List<User> findAllUsers();
 
 	void saveUser(User user);
+
+	void deleteUser(String userId);
+
+	User prepareUser(User user);
 }

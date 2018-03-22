@@ -54,6 +54,8 @@ export class Login {
                     this.router.navigate(['/reporter']);
                 } else if(account.profile==="LEAD" || account.profile==="MANAGER"){
                     this.router.navigate(['/manager']);
+                } else if (account.profile==="ADMIN") {
+                    this.router.navigate(['/admin']);
                 }
             }
         });

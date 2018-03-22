@@ -16,4 +16,8 @@ public interface IProjectService {
     void saveProjects(List<Project> projects);
 
     List<Project> findAllProjects();
+
+    void deleteProject(Long projectId);
+
+    Project prepareProject(Project project);
 }
