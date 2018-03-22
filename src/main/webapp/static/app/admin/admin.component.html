@@ -1,4 +1,4 @@
-<div style="display:flex" class="component_background">
+<div style="display:flex; min-height:-webkit-fill-available" class="component_background">
     <div id="manager_grid">
         <div class="row">
             <div class="col-sm-3">
@@ -17,7 +17,12 @@
             </div>
         </div>
     </div>
-    <div id="report_grid" class="panel panel-success">
+
+    <div id="report_grid">
+    <div class="">
+    <div class="">
+    <div class="panel panel-success">
+
         <div class="panel-heading">Config dashboard</div>
         <div class="panel-body">
             <div *ngIf="showUsersFlag" class="container-fluid">
@@ -273,5 +278,8 @@
             </div>
 
         </div>
+    </div>
+    </div>
+    </div>
     </div>
 </div>

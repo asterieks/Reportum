@@ -1,8 +1,10 @@
-<div class="component_background">
+<div class="component_background" style="min-height:-webkit-fill-available">
     <form [formGroup]="reportForm" (ngSubmit)="onSubmit(reportForm)">
         <div id="manager_grid">
             <div class="row">
                 <div class="col-sm-3">
+
+
                     <div class="panel panel-success">
                         <div class="panel-heading">My projects</div>
                         <div class="panel-body">
@@ -15,7 +17,11 @@
                 </div>
             </div>
         </div>
-        <div id="report_grid"class="panel panel-success">
+
+        <div id="report_grid">
+        <div class="">
+        <div class="">
+        <div class="panel panel-success">
             <div class="panel-heading">{{selectedProjectName}} report details</div>
             <div class="panel-body">
                 <div id="manager_report_block">
@@ -56,6 +62,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
+        </div>
         </div>
     </form>
 </div>
