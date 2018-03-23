@@ -17,7 +17,7 @@ export class ManagerComponent implements OnInit {
     public reportForm: FormGroup;
     selectedProject: any;
     requester: string = "manager";
-    show = false;
+    showExactReport = false;
     showAggregated=true;
     reports:any;
     isSaveButtonValid:boolean=false;
@@ -238,10 +238,6 @@ export class ManagerComponent implements OnInit {
         }
     }
 
-    onReady(event){
-        this.spinnerFlag = false;
-    }
-
     isDisabledSaveButton(): boolean {
         let anyChanges = this.isAnyPartChanged();
         let isAllEmpty = this.isAllFieldEmpty();
@@ -308,6 +304,7 @@ export class ManagerComponent implements OnInit {
                 } else {
                     this.showAggregatedReports("");
                 }
+                this.spinnerFlag = false;
             });
     }
 
@@ -334,8 +331,8 @@ export class ManagerComponent implements OnInit {
         this.reportForm.patchValue({
             aggregated : aggregatedReport
         });
-        this.show=false;
-        this.showAggregated=!this.show;
+        this.showExactReport=false;
+        this.showAggregated=true;
     }
 
     private wrapEachReportInTags(report:any): string {
@@ -366,8 +363,8 @@ export class ManagerComponent implements OnInit {
     }
 
     private hideAggregatedReports() {
-        this.show=true;
-        this.showAggregated=!this.show;
+        this.showExactReport=true;
+        this.showAggregated=false;
     }
 
     private showThisReport(report: any){

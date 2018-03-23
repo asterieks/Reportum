@@ -31,7 +31,7 @@
                   <div class="spinner"></div>
               </div>
               <div id="manager_report_block" [style.visibility]="spinnerFlag ? 'hidden' : 'visible'">
-                  <div class="ckeditors" disabled *ngIf="show">
+                  <div class="ckeditors" disabled *ngIf="showExactReport">
                       <div>
                           <label id="review_label">Review</label>
                           <ckeditor #box1
@@ -65,8 +65,7 @@
                           <ckeditor
                                     formControlName='aggregated'
                                     [config]="aggregated_ckeditorConfig"
-                                    [readonly]="false"
-                                    (ready)="onReady($event)">
+                                    [readonly]="false">
                           </ckeditor>
                       </div>
                   </div>
