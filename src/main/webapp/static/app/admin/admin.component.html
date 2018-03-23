@@ -26,15 +26,15 @@
         <div class="panel-heading">Config dashboard</div>
         <div class="panel-body">
             <div *ngIf="showUsersFlag" class="container-fluid">
-                <div style="display: inline-block; margin-top:-8px; margin-left:-15px">
-                    <form class="navbar-form form-inline" [formGroup]="addUserForm" (ngSubmit)="addNewUser(addUserForm)">
-                        <div class="form-group">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="useremeil" placeholder="user@comp.com">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="username" placeholder="Full Name">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="userrole" placeholder="ROLE">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="userpassword" placeholder="Password">
+                <div>
+                    <form class="navbar-form form-inline" [formGroup]="addUserForm" (ngSubmit)="addNewUser(addUserForm)" style="display:block; padding:0px 0px; margin-top: 0px">
+                        <div class="form-group" style="margin-bottom: 10px">
+                            <input type="text" class="form-control" style="width: 34%" formControlName="useremeil" placeholder="user@comp.com">
+                            <input type="text" class="form-control" style="width: 28%" formControlName="username" placeholder="Full Name">
+                            <input type="text" class="form-control" style="width: 20%" formControlName="userrole" placeholder="ROLE">
+                            <input type="text" class="form-control" style="width: 16%" formControlName="userpassword" placeholder="Password">
                         </div>
-                        <button type="submit" class="btn btn-default">
+                        <button type="submit" class="btn btn-default" style="margin-top: 5px">
                             <span class="glyphicon glyphicon-plus" style="color:#63B175; margin-right:5px" aria-hidden="true"></span>Add User
                         </button>
                     </form>
@@ -50,7 +50,7 @@
                             <th>User Id</th>
                             <th>Full Name</th>
                             <th>Role</th>
-                            <th style="max-width:40px">Update/Remove</th>
+                            <th style="max-width:40px">Remove</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,9 +63,9 @@
                                 <button type="button" class="btn btn-default" aria-label="Remove" (click)="onRemoveUser(user.id)">
                                     <span style="color:red" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </button>
-                                <button type="button" class="btn btn-default" aria-label="Update">
-                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                                </button>
+                                <!--<button type="button" class="btn btn-default" aria-label="Update">-->
+                                    <!--<span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>-->
+                                <!--</button>-->
                             </td>
                         </tr>
                         </tbody>
@@ -74,15 +74,15 @@
             </div>
 
             <div *ngIf="showProjectsFlag" class="container-fluid">
-                <div style="display: inline-block; margin-top:-8px; margin-left:-15px">
-                    <form class="navbar-form form-inline" role="search" [formGroup]="addProjectForm" (ngSubmit)="addNewProject(addProjectForm)">
-                        <div class="form-group">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="projectname" placeholder="Project Name">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="manager" placeholder="Manager">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="teamlead" placeholder="Teamlead">
-                            <input type="text" class="form-control" style="width: 24%" formControlName="reporter" placeholder="Reporter">
+                <div>
+                    <form class="navbar-form form-inline" role="search" [formGroup]="addProjectForm" (ngSubmit)="addNewProject(addProjectForm)" style="display:block; padding:0px 0px; margin-top: 0px">
+                        <div class="form-group" style="margin-bottom: 10px">
+                            <input type="text" class="form-control" style="width: 20%" formControlName="projectname" placeholder="Project Name">
+                            <input type="text" class="form-control" style="width: 26%" formControlName="manager" placeholder="Manager">
+                            <input type="text" class="form-control" style="width: 26%" formControlName="teamlead" placeholder="Teamlead">
+                            <input type="text" class="form-control" style="width: 26%" formControlName="reporter" placeholder="Reporter">
                         </div>
-                        <button type="submit" class="btn btn-default">
+                        <button type="submit" class="btn btn-default" style="margin-top: 5px">
                             <span class="glyphicon glyphicon-plus" style="color:#63B175; margin-right:5px" aria-hidden="true"></span>Add Project
                         </button>
                     </form>
@@ -112,14 +112,14 @@
                             <td>{{project.teamLeader.fullName}}</td>
                             <td>{{project.reporter.fullName}}</td>
                             <td>{{project.state}}</td>
-                            <td>{{project.stateDate}}</td>
+                            <td>{{project.stateDate | date:'fullDate'}}</td>
                             <td>
                                 <button type="button" class="btn btn-default" aria-label="alert" (click)="onRemoveProject(project.projectId)">
                                     <span style="color:red" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </button>
-                                <button type="button" class="btn btn-default" aria-label="Update">
-                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                                </button>
+                                <!--<button type="button" class="btn btn-default" aria-label="Update">-->
+                                    <!--<span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>-->
+                                <!--</button>-->
                             </td>
                         </tr>
                         </tbody>

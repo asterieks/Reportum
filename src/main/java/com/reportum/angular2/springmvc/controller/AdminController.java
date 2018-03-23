@@ -56,7 +56,7 @@ public class AdminController {
         userService.deleteUser(userId);
     }
 
-    @DeleteMapping("/projects/{projectId:.+}")
+    @DeleteMapping("/projects/{projectId}")
     public void deleteUser(@PathVariable long projectId) {
         projectService.deleteProject(projectId);
     }
