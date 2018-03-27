@@ -1,8 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Project} from "../common/project/project.model";
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from "ng2-toasty";
 import {AdminService} from "../service/admin.service";
+import {RoleValidator} from "../validators/RoleValidator";
+import {EmailValidator} from "../validators/EmailValidator";
 
 export class PropertyHolder {
     auth:string;
@@ -53,9 +55,9 @@ export class AdminComponent implements OnInit {
                 private toastyConfig: ToastyConfig){
         this.toastyConfig.theme = 'bootstrap';
         this.addUserForm = fb.group({
-            useremeil: ['', Validators.required],
+            useremeil: ['', Validators.required,EmailValidator.invalidEmail],
             username: ['', Validators.required],
-            userrole: ['', Validators.required],
+            userrole: ['', Validators.required, RoleValidator.invalidRole],
             userpassword: ['', Validators.required]
         });
     }
@@ -71,9 +73,9 @@ export class AdminComponent implements OnInit {
         } else if("Projects"==tabName) {
             this.addProjectForm = this.fb.group({
                 projectname: ['', Validators.required],
-                manager: ['', Validators.required],
-                teamlead: ['', Validators.required],
-                reporter: ['', Validators.required]
+                manager: ['', Validators.required,EmailValidator.invalidEmail],
+                teamlead: ['', Validators.required,EmailValidator.invalidEmail],
+                reporter: ['', Validators.required,EmailValidator.invalidEmail]
             });
             this.getProjects();
         } else if("Properties"==tabName) {
@@ -240,5 +242,17 @@ export class AdminComponent implements OnInit {
         };
         this.toastyService.error(toastOptions);
     }
+}
+
+function isEmailValid(control) {
+    return control => {
+        var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return regex.test(control.value) ? null : { invalidEmail: true };
+    }
+}
+
+function isRoleValid(control) {
+    let role = control.value;
+    return role === 'ADMIN' || role === 'MANAGER' || role === 'REPORTER' || role === 'LEAD' ? null : { userrole: true };
 }
 
