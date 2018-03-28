@@ -43,10 +43,6 @@ export class HmacHttpClient extends HttpClient {
             }
             options.headers = options.headers.set(AppUtils.HEADER_X_ONCE, date);
 
-            // console.log('url',url);
-            // console.log('message',message);
-            // console.log('secret',secret);
-            // console.log('hmac message',options.headers.get(AppUtils.HEADER_X_DIGEST));
         }
 
     }
@@ -121,6 +117,23 @@ export class HmacHttpClient extends HttpClient {
                     error=>{
                         this.handleErrorResponse(error,observer);
                     });
+        });
+    }
+
+    delete(url: string, options?:any): Observable<any> {
+        options = this.setOptions(options);
+        this.addSecurityHeader(url,'DELETE',options, null);
+
+        return Observable.create(observer => {
+            super.delete(url, options)
+                .subscribe(
+                    data=>{
+                        this.mapResponse(data,observer);
+                    },
+                    error=>{
+                        this.handleErrorResponse(error,observer);
+                    }
+                );
         });
     }
 }

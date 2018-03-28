@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Project} from "../common/project/project.model";
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from "ng2-toasty";
 import {AdminService} from "../service/admin.service";
-import {RoleValidator} from "../validators/RoleValidator";
 import {EmailValidator} from "../validators/EmailValidator";
 import {Observable} from "rxjs/Rx";
 
@@ -61,7 +60,7 @@ export class AdminComponent implements OnInit {
         this.addUserForm = fb.group({
             useremeil: ['', Validators.required,EmailValidator.invalidEmail],
             username: ['', Validators.required],
-            userrole: ['', Validators.required, RoleValidator.invalidRole],
+            userrole: ['', Validators.required],
             userpassword: ['', Validators.required]
         });
     }
@@ -268,17 +267,5 @@ export class AdminComponent implements OnInit {
             .map(user => this.managersEmails.push(user.id))
             .subscribe();
     }
-}
-
-function isEmailValid(control) {
-    return control => {
-        var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        return regex.test(control.value) ? null : { invalidEmail: true };
-    }
-}
-
-function isRoleValid(control) {
-    let role = control.value;
-    return role === 'ADMIN' || role === 'MANAGER' || role === 'REPORTER' || role === 'LEAD' ? null : { userrole: true };
 }
 
