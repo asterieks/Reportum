@@ -29,13 +29,19 @@
                 <div>
                     <form class="navbar-form form-inline" [formGroup]="addUserForm" (ngSubmit)="addNewUser(addUserForm)" style="display:block; padding:0px 0px; margin-top: 0px">
                         <div class="form-group" style="margin-bottom: 10px">
-                            <input type="text" class="form-control" style="width: 34%" formControlName="useremeil" placeholder="user@comp.com">
+                            <input type="text" class="form-control" style="width: 34%;font-style:normal" formControlName="useremeil" placeholder="user@comp.com">
 
-                            <input type="text" class="form-control" style="width: 28%" formControlName="username" placeholder="Full Name">
+                            <input type="text" class="form-control" style="width: 28%;font-style:normal" formControlName="username" placeholder="Full Name">
 
-                            <input type="text" class="form-control" style="width: 20%" formControlName="userrole" placeholder="ROLE">
+                            <select class="form-control" style="width: 20%; font-family: 'Raleway'!important" formControlName="userrole">
+                                <option value="" disabled selected>Role</option>
+                                <option>ADMIN</option>
+                                <option>LEAD</option>
+                                <option>MANAGER</option>
+                                <option>REPORTER</option>
+                            </select>
 
-                            <input type="text" class="form-control" style="width: 16%" formControlName="userpassword" placeholder="Password">
+                            <input type="text" class="form-control" style="width: 16%;font-style:normal" formControlName="userpassword" placeholder="Password" >
 
                         </div>
                         <div class="text-danger" style="height:20px">
@@ -53,7 +59,6 @@
                             <div style="display: inline-block; width:20%">
                             <div *ngIf="addUserForm.controls['userrole'].touched && !addUserForm.controls['userrole'].valid">
                                 <span *ngIf="addUserForm.controls['userrole'].hasError('required')">Role is required</span>
-                                <span *ngIf="addUserForm.controls['userrole'].hasError('invalidRole')">Role is invalid</span>
                             </div>
                             </div>
                             <div style="display: inline-block; width:16%">
@@ -105,10 +110,19 @@
                 <div>
                     <form class="navbar-form form-inline" role="search" [formGroup]="addProjectForm" (ngSubmit)="addNewProject(addProjectForm)" style="display:block; padding:0px 0px; margin-top: 0px">
                         <div class="form-group" style="margin-bottom: 10px">
-                            <input type="text" class="form-control" style="width: 20%" formControlName="projectname" placeholder="Project Name">
-                            <input type="text" class="form-control" style="width: 26%" formControlName="manager" placeholder="Manager">
-                            <input type="text" class="form-control" style="width: 26%" formControlName="teamlead" placeholder="Teamlead">
-                            <input type="text" class="form-control" style="width: 26%" formControlName="reporter" placeholder="Reporter">
+                            <input type="text" class="form-control" style="width: 20%;font-style:normal" formControlName="projectname" placeholder="Project Name">
+                            <select type="text" class="form-control" style="width: 26%;font-family:'Raleway'!important" formControlName="manager">
+                                <option value="" disabled selected>Manager</option>
+                                <option *ngFor="let managerEmail of managersEmails">{{managerEmail}}</option>
+                            </select>
+                            <select type="text" class="form-control" style="width: 26%;font-family:'Raleway'!important" formControlName="teamlead">
+                                <option value="" disabled selected>Teamlead</option>
+                                <option *ngFor="let leadEmail of leadsEmails">{{leadEmail}}</option>
+                            </select>
+                            <select type="text" class="form-control" style="width: 26%;font-family:'Raleway'!important" formControlName="reporter">
+                                <option value="" disabled selected>Reporter</option>
+                                <option *ngFor="let reporterEmail of reportersEmails">{{reporterEmail}}</option>
+                            </select>
                         </div>
                         <div class="text-danger" style="height:20px">
                             <div style="display: inline-block; width:20%">
@@ -119,19 +133,16 @@
                             <div style="display: inline-block; width:26%">
                                 <div *ngIf="addProjectForm.controls['manager'].touched && !addProjectForm.controls['manager'].valid">
                                     <span *ngIf="addProjectForm.controls['manager'].hasError('required') ">Manager is required</span>
-                                    <span *ngIf="addProjectForm.controls['manager'].hasError('invalidEmail')">Email is invalid</span>
                                 </div>
                             </div>
                             <div style="display: inline-block; width:26%">
                                 <div *ngIf="addProjectForm.controls['teamlead'].touched && !addProjectForm.controls['teamlead'].valid">
                                     <span *ngIf="addProjectForm.controls['teamlead'].hasError('required')">Teamlead is required</span>
-                                    <span *ngIf="addProjectForm.controls['teamlead'].hasError('invalidEmail')">Email is invalid</span>
                                 </div>
                             </div>
                             <div style="display: inline-block; width:26%">
                                 <div *ngIf="addProjectForm.controls['reporter'].touched && !addProjectForm.controls['reporter'].valid">
                                     <span *ngIf="addProjectForm.controls['reporter'].hasError('required') ">Reporter is required</span>
-                                    <span *ngIf="addProjectForm.controls['reporter'].hasError('invalidEmail')">Email is invalid</span>
                                 </div>
                             </div>
                         </div>

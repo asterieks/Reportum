@@ -5,6 +5,7 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from "ng2-toasty";
 import {AdminService} from "../service/admin.service";
 import {RoleValidator} from "../validators/RoleValidator";
 import {EmailValidator} from "../validators/EmailValidator";
+import {Observable} from "rxjs/Rx";
 
 export class PropertyHolder {
     auth:string;
@@ -48,6 +49,9 @@ export class AdminComponent implements OnInit {
     addUserForm:FormGroup;
     addProjectForm:FormGroup;
     selectedTab: string;
+    managersEmails: string[] = [];
+    leadsEmails: string[] = [];
+    reportersEmails: string[] = [];
 
     constructor(private fb: FormBuilder,
                 private adminService: AdminService,
@@ -73,18 +77,21 @@ export class AdminComponent implements OnInit {
         } else if("Projects"==tabName) {
             this.addProjectForm = this.fb.group({
                 projectname: ['', Validators.required],
-                manager: ['', Validators.required,EmailValidator.invalidEmail],
-                teamlead: ['', Validators.required,EmailValidator.invalidEmail],
-                reporter: ['', Validators.required,EmailValidator.invalidEmail]
+                manager: ['', Validators.required],
+                teamlead: ['', Validators.required],
+                reporter: ['', Validators.required]
             });
             this.getProjects();
+            this.addUserForm.reset();
         } else if("Properties"==tabName) {
             this.getProperties();
+            this.addUserForm.reset();
         } else if("Logs"==tabName) {
             this.showLogsFlag = true;
             this.showPropsFlag = false;
             this.showUsersFlag = false;
             this.showProjectsFlag = false;
+            this.addUserForm.reset();
         } else {
             console.log("Error on admin page!");
         }
@@ -186,6 +193,7 @@ export class AdminComponent implements OnInit {
                     this.showProjectsFlag = false;
                     this.showPropsFlag = false;
                     this.showLogsFlag = false;
+                    this.segregateUsersByRole(data);
                 }
             }
         )
@@ -241,6 +249,24 @@ export class AdminComponent implements OnInit {
             onRemove: function(toast:ToastData) {}
         };
         this.toastyService.error(toastOptions);
+    }
+
+    private segregateUsersByRole(users : User[]) {
+        this.reportersEmails = [];
+        this.leadsEmails = [];
+        this.managersEmails = [];
+        Observable.from(users)
+            .filter(user => user.profile == 'REPORTER')
+            .map(user => this.reportersEmails.push(user.id))
+            .subscribe();
+        Observable.from(users)
+            .filter(user => user.profile == 'LEAD')
+            .map(user => this.leadsEmails.push(user.id))
+            .subscribe();
+        Observable.from(users)
+            .filter(user => user.profile == 'MANAGER')
+            .map(user => this.managersEmails.push(user.id))
+            .subscribe();
     }
 }
 
