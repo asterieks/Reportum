@@ -57,21 +57,21 @@ export class AdminComponent implements OnInit {
                 private toastyService:ToastyService,
                 private toastyConfig: ToastyConfig){
         this.toastyConfig.theme = 'bootstrap';
-        this.addUserForm = fb.group({
-            useremeil: ['', Validators.required,EmailValidator.invalidEmail],
-            username: ['', Validators.required],
-            userrole: ['', Validators.required],
-            userpassword: ['', Validators.required]
-        });
     }
 
     ngOnInit() {
         this.selectedTab = this.configTabs[0];
-        this.getUsers();
+        this.onTabSelect("Users");
     }
 
     onTabSelect(tabName: string) {
         if("Users"==tabName){
+            this.addUserForm = this.fb.group({
+                useremeil: ['', Validators.required,EmailValidator.invalidEmail],
+                username: ['', Validators.required],
+                userrole: ['', Validators.required],
+                userpassword: ['', Validators.required]
+            });
             this.getUsers();
         } else if("Projects"==tabName) {
             this.addProjectForm = this.fb.group({
@@ -81,16 +81,16 @@ export class AdminComponent implements OnInit {
                 reporter: ['', Validators.required]
             });
             this.getProjects();
-            this.addUserForm.reset();
+           // this.addUserForm.reset();
         } else if("Properties"==tabName) {
             this.getProperties();
-            this.addUserForm.reset();
+           // this.addUserForm.reset();
         } else if("Logs"==tabName) {
             this.showLogsFlag = true;
             this.showPropsFlag = false;
             this.showUsersFlag = false;
             this.showProjectsFlag = false;
-            this.addUserForm.reset();
+           // this.addUserForm.reset();
         } else {
             console.log("Error on admin page!");
         }
