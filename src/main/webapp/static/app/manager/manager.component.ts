@@ -60,6 +60,8 @@ export class ManagerComponent implements OnInit {
         ],
         removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
         enterMode: 3,
+        font_defaultLabel: "Calibri/Calibri",
+        fontSize_defaultLabel : '11px',
         font_names :
         'Arial/Arial, Helvetica, sans-serif;' +
         'Comic Sans MS/Comic Sans MS, cursive;' +
@@ -94,6 +96,8 @@ export class ManagerComponent implements OnInit {
         ],
         removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
         enterMode: 3,
+        font_defaultLabel: "Calibri/Calibri",
+        fontSize_defaultLabel : '11px',
         font_names :
         'Arial/Arial, Helvetica, sans-serif;' +
         'Comic Sans MS/Comic Sans MS, cursive;' +
