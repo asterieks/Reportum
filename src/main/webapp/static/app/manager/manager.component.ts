@@ -53,27 +53,12 @@ export class ManagerComponent implements OnInit {
         resize_enabled: false,
         scayt_autoStartup: false,
         toolbarGroups: [
-            { name: 'basicstyles', groups: [ 'basicstyles' ] },
-            { name: 'paragraph', element: 'div', groups: [ 'list', 'indent'] },
-            { name: 'editing',     groups: [ 'selection', 'spellchecker' ]},
-            { name: 'styles', groups: [ 'styles' ] }
+            { name: 'basicstyles', groups: [ 'basicstyles' ,'cleanup'] },
+            { name: 'paragraph', element: 'div', groups: [ 'list'] },
+            { name: 'editing',     groups: [ 'selection', 'spellchecker' ]}
         ],
-        removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
+        removeButtons: 'Language,CopyFormatting,Subscript,Superscript,Strike,Styles,Format,NumberedList',
         enterMode: 3,
-        font_defaultLabel: "Calibri/Calibri",
-        fontSize_defaultLabel : '11px',
-        font_names :
-        'Arial/Arial, Helvetica, sans-serif;' +
-        'Comic Sans MS/Comic Sans MS, cursive;' +
-        'Courier New/Courier New, Courier, monospace;' +
-        'Georgia/Georgia, serif;' +
-        'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
-        'Tahoma/Tahoma, Geneva, sans-serif;' +
-        'Times New Roman/Times New Roman, Times, serif;' +
-        'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
-        'Calibri/Calibri, Verdana, Geneva, sans-serif;' +
-        'Verdana/Verdana, Geneva, sans-serif'
-        //line_height:"1em;1.1em;1.2em;1.3em;1.4em;1.5em"
 };
 
     aggregated_ckeditorConfig = {
@@ -89,27 +74,13 @@ export class ManagerComponent implements OnInit {
         resize_enabled: false,
         scayt_autoStartup: false,
         toolbarGroups: [
-            { name: 'basicstyles', groups: [ 'basicstyles' ] },
-            { name: 'paragraph', element: 'div', groups: [ 'list', 'indent'] },
-            { name: 'editing',     groups: [ 'selection', 'spellchecker' ]},
-            { name: 'styles', groups: [ 'styles' ] }
+            { name: 'basicstyles', groups: [ 'basicstyles','cleanup' ] },
+            { name: 'paragraph', element: 'div', groups: [ 'list'] },
+            { name: 'editing',     groups: [ 'selection', 'spellchecker' ]}
         ],
-        removeButtons: 'Language,RemoveFormat,CopyFormatting,Subscript,Superscript,Strike',
+        extraAllowedContent : '*{*}',
+        removeButtons: 'Language,CopyFormatting,Subscript,Superscript,Strike,Styles,Format,NumberedList',
         enterMode: 3,
-        font_defaultLabel: "Calibri/Calibri",
-        fontSize_defaultLabel : '11px',
-        font_names :
-        'Arial/Arial, Helvetica, sans-serif;' +
-        'Comic Sans MS/Comic Sans MS, cursive;' +
-        'Courier New/Courier New, Courier, monospace;' +
-        'Georgia/Georgia, serif;' +
-        'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
-        'Tahoma/Tahoma, Geneva, sans-serif;' +
-        'Times New Roman/Times New Roman, Times, serif;' +
-        'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
-        'Calibri/Calibri, Verdana, Geneva, sans-serif;' +
-        'Verdana/Verdana, Geneva, sans-serif'
-        //line_height:"1em;1.1em;1.2em;1.3em;1.4em;1.5em"
 };
     spinnerFlag: boolean = true;
 
@@ -340,17 +311,21 @@ export class ManagerComponent implements OnInit {
     }
 
     private wrapEachReportInTags(report:any): string {
-        let reportContent = '<h4><strong>'+report.project.projectName+'</strong></h4>';
+        let reportContent = '<strong style="font-size:11pt;font-family:Calibri;">'+report.project.projectName+'</strong>';
         if(report.reviewPart){
-            reportContent += '<h4>Review:</h4>' + report.reviewPart;
+            reportContent += '<div style="font-size:11pt;font-family:Calibri;">Review:</div>' + this.addExtraStyle(report.reviewPart);
         }
         if(report.issuePart){
-            reportContent += '<h4>Issues:</h4>' + report.issuePart;
+            reportContent += '<div style="font-size:11pt;font-family:Calibri;">Issues:</div>' + this.addExtraStyle(report.issuePart);
         }
         if(report.planPart){
-            reportContent += '<h4>Plans:</h4>' + report.planPart;
+            reportContent += '<div style="font-size:11pt;font-family:Calibri;">Plans:</div>' + this.addExtraStyle(report.planPart);
         }
         return reportContent;
+    }
+
+    private addExtraStyle(reviewPart:string) {
+        return reviewPart.replace(/<li>/gi, "<li style='font-size:11pt;font-family:Calibri;'>");
     }
 
     private sortReports(reports:any[], templateForProjectSorting:number[]): any[] {
