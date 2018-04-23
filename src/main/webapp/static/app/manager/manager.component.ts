@@ -321,11 +321,23 @@ export class ManagerComponent implements OnInit {
         if(report.planPart){
             reportContent += '<div style="font-size:11pt;font-family:Calibri;">Plans:</div>' + this.addExtraStyle(report.planPart);
         }
-        return reportContent;
+        return reportContent+"<br>";
     }
 
     private addExtraStyle(reviewPart:string) {
-        return reviewPart.replace(/<li>/gi, "<li style='font-size:11pt;font-family:Calibri;'>");
+        let temp = reviewPart.replace(/<li>/gi, "<li style='font-size:11pt;font-family:Calibri;'>")
+        if(temp.includes("<ul>")){
+            temp =  this.ulMagic(temp);
+        }
+        return temp;
+    }
+
+    private ulMagic(temp:string): string {
+        let firsLiIndex = temp.indexOf("<li");
+        temp = temp.substring(0,firsLiIndex+11) + "margin-top:-14.67px;" + temp.substring(firsLiIndex+11);
+        let lastLiIndex = temp.lastIndexOf("<li");
+        temp = temp.substring(0,lastLiIndex+11) + "margin-bottom:-14.67px;" + temp.substring(lastLiIndex+11)
+        return temp;
     }
 
     private sortReports(reports:any[], templateForProjectSorting:number[]): any[] {
