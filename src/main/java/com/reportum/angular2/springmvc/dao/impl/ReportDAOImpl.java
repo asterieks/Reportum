@@ -15,9 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
@@ -104,6 +102,19 @@ public class ReportDAOImpl implements IReportDAO {
 
         List<Report> reports = em.createQuery(criteria).getResultList();
         return !isEmpty(reports)? reports.get(0) : null;
+    }
+
+    @Override
+    public List<Report> findAll(Long projectId) {
+        CriteriaQuery<Report> criteria=getCriteriaBuilder().createQuery(Report.class);
+        Root<Report> root=criteria.from(Report.class);
+
+        List<Predicate> predicates=new ArrayList<>();
+        addProjectIdPredicate(predicates, root, projectId);
+
+        criteria.select(root)
+                .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
+        return em.createQuery(criteria).getResultList();
     }
 
 

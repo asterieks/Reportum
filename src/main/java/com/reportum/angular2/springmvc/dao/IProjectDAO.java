@@ -19,4 +19,6 @@ public interface IProjectDAO {
     void saveProjects(List<Project> projects);
 
     void deleteProject(Long id);
+
+    List<Project> findAllActiveProjects();
 }

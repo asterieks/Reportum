@@ -37,6 +37,9 @@ public class Project implements Serializable{
     @Column(name = "state_date")
     private Date stateDate;
 
+    @Column(name = "actual")
+    private boolean isActual;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
     private List<Report> projectList = new ArrayList<>();
 
@@ -102,5 +105,13 @@ public class Project implements Serializable{
 
     public void setStateDate(Date stateDate) {
         this.stateDate = stateDate;
+    }
+
+    public boolean isActual() {
+        return isActual;
+    }
+
+    public void setActual(boolean actual) {
+        isActual = actual;
     }
 }

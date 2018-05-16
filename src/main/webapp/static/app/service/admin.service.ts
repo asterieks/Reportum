@@ -63,4 +63,12 @@ export class AdminService{
             .map((res:HttpResponse<any>) => res.status)
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
+
+    updateProject(project: Project): Observable<any>{
+        let url =  AppUtils.BACKEND_API_ROOT_URL + AppUtils.BACKEND_ADMIN_PATH + `/projects`;
+        let body = JSON.stringify(project);
+        return this.http.put(url, body, {headers: headers, observe: 'response'})
+            .map((res:HttpResponse<any>) => res.status)
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
 }

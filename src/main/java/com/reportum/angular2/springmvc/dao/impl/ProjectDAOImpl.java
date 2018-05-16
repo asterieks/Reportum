@@ -36,6 +36,7 @@ public class ProjectDAOImpl implements IProjectDAO{
                             break;
                   default : addManagerPredicate(predicates, root, user);
         }
+        addActiveProjectPredicate(predicates, root);
         criteria.select(root)
                 .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
         return em.createQuery(criteria).getResultList();
@@ -51,13 +52,21 @@ public class ProjectDAOImpl implements IProjectDAO{
         em.merge(project);
     }
 
-
-
     @Override
     public List<Project> findAllProjects() {
         CriteriaQuery<Project> criteria=getCriteriaBuilder().createQuery(Project.class);
         Root<Project> root=criteria.from(Project.class);
         criteria.select(root);
+        return em.createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public List<Project> findAllActiveProjects() {
+        CriteriaQuery<Project> criteria=getCriteriaBuilder().createQuery(Project.class);
+        Root<Project> root=criteria.from(Project.class);
+        List<Predicate> predicates=new ArrayList<>();
+        addActiveProjectPredicate(predicates, root);
+        criteria.select(root).where(getCriteriaBuilder().and(predicates.toArray(new Predicate[] {})));
         return em.createQuery(criteria).getResultList();
     }
 
@@ -82,6 +91,11 @@ public class ProjectDAOImpl implements IProjectDAO{
 
     private void addManagerPredicate(List<Predicate> predicates, Root<Project> root, User user) {
         Predicate predicate=getCriteriaBuilder().equal(root.get(Project_.manager),user);
+        predicates.add(predicate);
+    }
+
+    private void addActiveProjectPredicate(List<Predicate> predicates, Root<Project> root) {
+        Predicate predicate=getCriteriaBuilder().equal(root.get(Project_.isActual),true);
         predicates.add(predicate);
     }
 

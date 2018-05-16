@@ -103,9 +103,23 @@ export class AdminComponent implements OnInit {
             console.log("Status " + data);
             if(data===200){
                 this.getProjects();
-                this.showSuccessToast("The project is removed.");
+                this.showSuccessToast("The project is removed or deactivated.");
             } else {
                 this.showErrorToast("The error is ocured while project removing!");
+            }
+        });
+    }
+
+    onActivateProject(project){
+        console.log(project);
+        project.actual = true;
+        this.adminService.updateProject(project).subscribe(data => {
+            console.log("Status " + data);
+            if(data===200){
+                this.getProjects();
+                this.showSuccessToast("The project is activated.");
+            } else {
+                this.showErrorToast("The error is occured while project activating!");
             }
         });
     }
@@ -169,7 +183,8 @@ export class AdminComponent implements OnInit {
             teamLeader:  teamLead,
             manager: manager,
             state: null,
-            stateDate: null
+            stateDate: null,
+            actual:true
         };
         this.adminService.addProject(project).subscribe(data => {
             console.log("Status " + data);

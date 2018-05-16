@@ -57,7 +57,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/projects/{projectId}")
-    public void deleteUser(@PathVariable long projectId) {
+    public void hideProject(@PathVariable long projectId) {
         projectService.deleteProject(projectId);
     }
 

@@ -107,6 +107,7 @@ public class ReportController {
             project.setState(State.REVIEWED.getValue());
         }
         project.setStateDate(new Date());
+        project.setActual(true);
         return project;
     }
 

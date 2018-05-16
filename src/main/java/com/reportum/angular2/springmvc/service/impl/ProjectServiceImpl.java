@@ -2,17 +2,21 @@ package com.reportum.angular2.springmvc.service.impl;
 
 import com.reportum.angular2.springmvc.dao.IProjectDAO;
 import com.reportum.angular2.springmvc.persistence.entities.Project;
+import com.reportum.angular2.springmvc.persistence.entities.Report;
 import com.reportum.angular2.springmvc.persistence.entities.User;
 import com.reportum.angular2.springmvc.service.IEmailService;
 import com.reportum.angular2.springmvc.service.IProjectService;
+import com.reportum.angular2.springmvc.service.IReportService;
 import com.reportum.angular2.springmvc.service.IUserService;
 import com.reportum.angular2.springmvc.utils.enums.State;
+import org.apache.commons.collections.FastArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +32,9 @@ public class ProjectServiceImpl implements IProjectService{
 
     @Autowired
     private IEmailService emailService;
+
+    @Autowired
+    private IReportService reportService;
 
     @Value("${manager.receiver.email}")
     private String managerEmail;
@@ -48,14 +55,14 @@ public class ProjectServiceImpl implements IProjectService{
     @Override
     public void saveProject(Project project) {
         projectDAO.saveProject(project);
-        if(State.REVIEWED.getValue().equals(project.getState())){
-            try {
-                emailService.sendSimpleMessage(managerEmail, subject, project.getProjectName() + " report is done.");
-            } catch (Exception e){
-                DEBUG_LOG.debug("ProjectServiceImpl.saveProject(): failed while mail sending" + e.toString());
-                e.printStackTrace();
-            }
-        }
+//        if(State.REVIEWED.getValue().equals(project.getState())){
+//            try {
+//                emailService.sendSimpleMessage(managerEmail, subject, project.getProjectName() + " report is done.");
+//            } catch (Exception e){
+//                DEBUG_LOG.debug("ProjectServiceImpl.saveProject(): failed while mail sending" + e.toString());
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -69,8 +76,20 @@ public class ProjectServiceImpl implements IProjectService{
     }
 
     @Override
+    public List<Project> findAllActiveProjects() {
+        return projectDAO.findAllActiveProjects();
+    }
+
+    @Override
     public void deleteProject(Long id) {
-        projectDAO.deleteProject(id);
+        List<Report> reports = reportService.findAll(id);
+        if(!reports.isEmpty()){
+            Project project = projectDAO.findProject(id);
+            project.setActual(false);
+            projectDAO.saveProject(project);
+        } else {
+            projectDAO.deleteProject(id);
+        }
     }
 
     @Override

@@ -7,4 +7,5 @@ export class Project{
     manager: User;
     state: string;
     stateDate: Date;
+    actual: boolean;
 }
