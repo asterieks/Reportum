@@ -11,8 +11,8 @@
 
 .container {
   width:100%;
-  padding-left:  calc(50vw - 600px)!important;
-  padding-right: calc(50vw - 600px)!important;
+  /*padding-left:  calc(50vw - 600px)!important;*/
+  /*padding-right: calc(50vw - 600px)!important;*/
   padding-top: 70px;
 }
 

@@ -28,7 +28,7 @@
             <div *ngIf="showUsersFlag" class="container-fluid">
                 <div>
                     <form class="navbar-form form-inline" [formGroup]="addUserForm" (ngSubmit)="addNewUser(addUserForm)" style="display:block; padding:0px 0px; margin-top: 0px">
-                        <div class="form-group" style="margin-bottom: 10px">
+                        <div class="form-group" style="margin-bottom: 10px; width: -webkit-fill-available;">
                             <input type="text" class="form-control" style="width: 34%;font-style:normal" formControlName="useremeil" placeholder="user@comp.com">
 
                             <input type="text" class="form-control" style="width: 28%;font-style:normal" formControlName="username" placeholder="Full Name">
@@ -96,9 +96,9 @@
                                 <button type="button" class="btn btn-default" aria-label="Remove" (click)="onRemoveUser(user.id)">
                                     <span style="color:red" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </button>
-                                <!--<button type="button" class="btn btn-default" aria-label="Update">-->
-                                    <!--<span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>-->
-                                <!--</button>-->
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
                             </td>
                         </tr>
                         </tbody>
@@ -109,7 +109,7 @@
             <div *ngIf="showProjectsFlag" class="container-fluid">
                 <div>
                     <form class="navbar-form form-inline" role="search" [formGroup]="addProjectForm" (ngSubmit)="addNewProject(addProjectForm)" style="display:block; padding:0px 0px; margin-top: 0px">
-                        <div class="form-group" style="margin-bottom: 10px">
+                        <div class="form-group" style="margin-bottom: 10px; width: -webkit-fill-available;">
                             <input type="text" class="form-control" style="width: 20%;font-style:normal" formControlName="projectname" placeholder="Project Name">
                             <select type="text" class="form-control" style="width: 26%;font-family:'Raleway'!important" formControlName="manager">
                                 <option value="" disabled selected>Manager</option>
@@ -179,7 +179,10 @@
                             <td>{{project.state}}</td>
                             <td>{{project.stateDate | date:'fullDate'}}</td>
                             <td>{{project.actual}}</td>
-                            <td>
+                            <td style="display:inline-flex">
+                                <button type="button" class="btn btn-default" aria-label="Update">
+                                    <span style="color:grey" class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                </button>
                                 <button *ngIf="project.actual" type="button" class="btn btn-default" aria-label="alert" (click)="onRemoveProject(project.projectId)">
                                     <span style="color:red" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </button>
